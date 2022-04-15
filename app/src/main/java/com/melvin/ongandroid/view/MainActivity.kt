@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        binding.navView.setNavigationItemSelectedListener {itemMenu->
+        binding.navView.setNavigationItemSelectedListener { itemMenu ->
             navigationFragments(itemMenu)
             true
         }
