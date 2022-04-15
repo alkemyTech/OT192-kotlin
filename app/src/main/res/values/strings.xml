@@ -5,4 +5,6 @@
     <string name="inicio">Inicio</string>
     <string name="novedades">Novedades</string>
     <string name="contacto">Contacto</string>
+    <string name="open_drawer">Open Drawer</string>
+    <string name="close_drawer">Close Drawer</string>
 </resources>
