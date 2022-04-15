@@ -3,9 +3,22 @@
     <item
         android:id="@+id/inicio_menu"
         android:title="@string/inicio" />
+
+    <item
+        android:id="@+id/actividades_menu"
+        android:title="@string/actividades" />
     <item
         android:id="@+id/novedades_menu"
         android:title="@string/novedades"/>
+
+    <item
+        android:id="@+id/testimonios_menu"
+        android:title="@string/testimonios" />
+
+    <item
+        android:id="@+id/nosotros_menu"
+        android:title="@string/nosotros" />
+
     <item
         android:id="@+id/contacto_menu"
         android:title="@string/contacto"/>

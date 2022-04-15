@@ -1,7 +1,6 @@
 package com.melvin.ongandroid.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -12,8 +11,8 @@ import com.melvin.ongandroid.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var  actionBarDrawerToggle: ActionBarDrawerToggle
-    private lateinit var navView : NavigationView
+    private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
+    private lateinit var navView: NavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,20 +35,8 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        binding.navView.setNavigationItemSelectedListener {
-            when(it.itemId){
-                R.id.inicio_menu -> {
-                    Toast.makeText(applicationContext, "Inicio", Toast.LENGTH_SHORT).show()
-                }
-
-                R.id.novedades_menu -> {
-                    Toast.makeText(applicationContext, "Novedades", Toast.LENGTH_SHORT).show()
-                }
-
-                R.id.contacto_menu -> {
-                    Toast.makeText(applicationContext, "Contacto", Toast.LENGTH_SHORT).show()
-                }
-            }
+        binding.navView.setNavigationItemSelectedListener {itemMenu->
+            navigationFragments(itemMenu)
             true
         }
 
@@ -57,9 +44,51 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (actionBarDrawerToggle.onOptionsItemSelected(item)){
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun navigationFragments(item: MenuItem) {
+        when (item.itemId) {
+            R.id.inicio_menu -> {
+                Toast.makeText(applicationContext, getString(R.string.inicio), Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+            R.id.actividades_menu -> {
+                Toast.makeText(
+                    applicationContext,
+                    getString(R.string.actividades),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            R.id.novedades_menu -> {
+                Toast.makeText(
+                    applicationContext,
+                    getString(R.string.novedades),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            R.id.testimonios_menu -> {
+                Toast.makeText(
+                    applicationContext,
+                    getString(R.string.testimonios),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            R.id.nosotros_menu -> {
+                Toast.makeText(applicationContext, getString(R.string.nosotros), Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+            R.id.contacto_menu -> {
+                Toast.makeText(applicationContext, getString(R.string.contacto), Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
     }
 }
