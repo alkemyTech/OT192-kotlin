@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "182394965765",
+    "project_id": "ongsomosmas-android",
+    "storage_bucket": "ongsomosmas-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:182394965765:android:b283eb9ab5335d1455f16c",
+        "android_client_info": {
+          "package_name": "com.melvin.ongandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "182394965765-drufb7ip3d98vsq5pktd5nmbdvn9m58p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkEGI-0pUTWa8Z-fmVxr5b0Bxiu4w5SdY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "182394965765-drufb7ip3d98vsq5pktd5nmbdvn9m58p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
