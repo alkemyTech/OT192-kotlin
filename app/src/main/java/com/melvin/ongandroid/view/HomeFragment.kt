@@ -31,7 +31,7 @@ class HomeFragment : Fragment() {
         val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
         actionBar?.title = getString(R.string.inicio)
 
-        binding.textViewNovedadesHome.text = getString(R.string.novedades)
+        binding.textViewNovedadesHome.text = getString(R.string.novedades_titulo_home)
 
         recyclerViewNovedades = binding.recyclerNovedadesHome
 
@@ -59,10 +59,15 @@ class HomeFragment : Fragment() {
                 image = "https://603200.smushcdn.com/1038623/wp-content/uploads/2019/08/IMG_9691-1080x675.jpg?lossy=1&strip=1&webp=1",
                 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
                         " Donec condimentum ex ut varius interdum"
+            ),
+            Novedades(
+                image = "https://603200.smushcdn.com/1038623/wp-content/uploads/2019/08/IMG_9691-1080x675.jpg?lossy=1&strip=1&webp=1",
+                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                        " Donec condimentum ex ut varius interdum"
             )
         ).toMutableList()
 
-        adapter.submitList(listaNovedades)
+        adapter.submitList(listaNovedades.take(5))
 
         return binding.root
     }
