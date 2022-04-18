@@ -15,4 +15,6 @@
     <string name="fragment_home_title_welcome">Bienvenidos</string>
     <string name="item_welcome_default_title">Título</string>
     <string name="item_welcome_default_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean diam felis, aliquet ut lectus at, mollis ultricies elit. Proin consequat magna non lacinia viverra. Vivamus nec ligula eu massa ullamcorper tempor.</string>
+    <string name="novedades_titulo_home">Últimas Novedades</string>
+
 </resources>
