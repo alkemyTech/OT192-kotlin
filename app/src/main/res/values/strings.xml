@@ -10,4 +10,9 @@
     <string name="actividades">Actividades</string>
     <string name="testimonios">Testimonios</string>
     <string name="nosotros">Nosotros</string>
+
+    <!-- Fragment layout texts - Home -->
+    <string name="fragment_home_title_welcome">Bienvenidos</string>
+    <string name="item_welcome_default_title">Título</string>
+    <string name="item_welcome_default_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean diam felis, aliquet ut lectus at, mollis ultricies elit. Proin consequat magna non lacinia viverra. Vivamus nec ligula eu massa ullamcorper tempor.</string>
 </resources>
