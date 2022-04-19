@@ -110,7 +110,7 @@ class HomeTestimonialsItemAdapter() :
                 //Load the image url and set it on this ImageView
                 imgTestimonials.load(value.imgUrl)
                 //Hide Arrow Resource
-                trwMoreArrow.visibility = View.INVISIBLE
+                imgMoreTestimonials.visibility = View.GONE
 
                 cvTestimonials.setOnClickListener {
                     listener?.invoke(value)
@@ -140,9 +140,9 @@ class HomeTestimonialsItemAdapter() :
         ) {
             with(binding) {
                 //Hide RecyclerView fields
-                trwCard.visibility = View.INVISIBLE
+                lytCardView.visibility = View.GONE
                 //Show Arrow resource
-                trwMoreArrow.isVisible = true
+                imgMoreTestimonials.isVisible = true
 
                 cvTestimonials.setOnClickListener {
                     listener?.invoke(value)

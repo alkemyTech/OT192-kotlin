@@ -13,21 +13,21 @@
     app:cardElevation="6dp">
 
     <TableLayout
+        android:id="@+id/tly_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TableRow
             android:id="@+id/trw_card"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:shrinkColumns="*"
-            android:stretchColumns="*"
-            android:weightSum="1">
+            android:shrinkColumns="1"
+            android:stretchColumns="0"
+            android:weightSum="0">
 
             <LinearLayout
                 android:id="@+id/lyt_card_view"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
@@ -54,25 +54,18 @@
 
             </LinearLayout>
 
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/trw_more_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:visibility="gone">
-
             <ImageButton
                 android:id="@+id/img_more_testimonials"
-                android:layout_width="128dp"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 android:layout_gravity="center"
-                android:layout_weight="7"
+                android:layout_weight="1"
                 android:background="@null"
                 android:contentDescription="@string/fragment_home_title_testimonials"
+                android:scaleType="fitXY"
+                android:visibility="gone"
                 app:srcCompat="@drawable/ic_baseline_arrow_forward_24" />
+
         </TableRow>
 
     </TableLayout>
