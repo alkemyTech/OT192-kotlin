@@ -12,7 +12,9 @@ import com.melvin.ongandroid.databinding.FragmentHomeBinding
 import com.melvin.ongandroid.model.HomeWelcome
 import com.melvin.ongandroid.view.adapters.HomeWelcomeItemAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.melvin.ongandroid.model.HomeTestimonials
 import com.melvin.ongandroid.model.Novedades
+import com.melvin.ongandroid.view.adapters.HomeTestimonialsItemAdapter
 import com.melvin.ongandroid.view.adapters.NovedadesAdapter
 
 
@@ -20,6 +22,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private val adapterWelcome = HomeWelcomeItemAdapter()
+    private val adapterTestimonials = HomeTestimonialsItemAdapter()
 
     private lateinit var recyclerViewNovedades: RecyclerView
     private val adapter by lazy { NovedadesAdapter() }
@@ -76,6 +79,10 @@ class HomeFragment : Fragment() {
         binding.incSectionWelcome.tvTitleWelcome.text = getString(R.string.fragment_home_title_welcome)
         setupRecyclerViewSliderWelcome()
 
+        //Configuration of Testimonials section
+        binding.incSectionTestimonials.tvTitleTestimonials.text = getString(R.string.fragment_home_title_testimonials)
+        setupRecyclerViewSilderTestimonials()
+
         return binding.root
     }
 
@@ -103,6 +110,31 @@ class HomeFragment : Fragment() {
             incSectionWelcome.rvSliderWelcome.setHasFixedSize(true)
             incSectionWelcome.rvSliderWelcome.layoutManager = layoutManager
             incSectionWelcome.rvSliderWelcome.adapter = adapterWelcome
+        }
+    }
+
+    /**
+     * Setup recycler view slider testimonials
+     */
+    private fun setupRecyclerViewSilderTestimonials() {
+        //TODO: Harcoded random list
+        val listHomeTestimonials = MutableList(15) {
+            HomeTestimonials(
+                imgUrl = "https://picsum.photos/200/300?random=${(1..100).random()}",
+                heading = "Descripción ${(1..100).random()}\n" +
+                        "Descripción ${(1..100).random()}\n" +
+                        "Descripción ${(1..100).random()}"
+            )
+        }
+
+        adapterTestimonials.submitList(listHomeTestimonials.take(4).toMutableList())
+        adapterTestimonials.onItemClicked = { }
+        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        with(binding) {
+            incSectionTestimonials.rvSliderTestimonials.setHasFixedSize(true)
+            incSectionTestimonials.rvSliderTestimonials.layoutManager = layoutManager
+            incSectionTestimonials.rvSliderTestimonials.adapter = adapterTestimonials
         }
     }
 

@@ -109,6 +109,8 @@ class HomeTestimonialsItemAdapter() :
                 tvTestimonialsHeading.text = value.heading
                 //Load the image url and set it on this ImageView
                 imgTestimonials.load(value.imgUrl)
+                //Hide Arrow Resource
+                trwMoreArrow.visibility = View.INVISIBLE
 
                 cvTestimonials.setOnClickListener {
                     listener?.invoke(value)

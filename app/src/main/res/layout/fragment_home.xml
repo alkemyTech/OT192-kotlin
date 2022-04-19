@@ -47,7 +47,8 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/inc_section_welcome" />
+                app:layout_constraintTop_toBottomOf="@id/inc_section_welcome"
+                app:layout_constraintBottom_toTopOf="@id/recycler_novedades_home"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_novedades_home"
@@ -60,8 +61,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView_novedades_home"
+                app:layout_constraintBottom_toTopOf="@id/inc_section_testimonials"
                 tools:itemCount="2"
                 tools:listitem="@layout/novedades_item" />
+
+            <!-- Sección Testimonios -->
+            <include
+                android:id="@+id/inc_section_testimonials"
+                layout="@layout/section_testimonials"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recycler_novedades_home" />
+            <!-- Fin Sección Testimonios -->
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
