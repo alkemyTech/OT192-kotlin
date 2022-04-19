@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentHomeBinding
+import com.melvin.ongandroid.model.HomeWelcome
+import com.melvin.ongandroid.view.adapters.HomeWelcomeItemAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.melvin.ongandroid.model.Novedades
 import com.melvin.ongandroid.view.adapters.NovedadesAdapter
 
@@ -17,6 +19,7 @@ import com.melvin.ongandroid.view.adapters.NovedadesAdapter
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
+    private val adapterWelcome = HomeWelcomeItemAdapter()
 
     private lateinit var recyclerViewNovedades: RecyclerView
     private val adapter by lazy { NovedadesAdapter() }
@@ -69,8 +72,38 @@ class HomeFragment : Fragment() {
 
         adapter.submitList(listaNovedades.take(5))
 
+        //Configuration of Welcome section
+        binding.incSectionWelcome.tvTitleWelcome.text = getString(R.string.fragment_home_title_welcome)
+        setupRecyclerViewSliderWelcome()
+
         return binding.root
     }
 
+    /**
+     * Setup recycler view slider welcome
+     */
+    private fun setupRecyclerViewSliderWelcome() {
+        //TODO: Harcoded random list
+        val listHomeWelcome = MutableList(15) {
+            HomeWelcome(
+                title = "Actividad ${(1..100).random()}",
+                imgUrl = "https://picsum.photos/200/300?random=${(1..100).random()}",
+                description = "Descripción ${(1..100).random()}\n" +
+                        "Descripción ${(1..100).random()}\n" +
+                        "Descripción ${(1..100).random()}\n" +
+                        "Descripción ${(1..100).random()}"
+            )
+        }
+
+        adapterWelcome.submitList(listHomeWelcome)
+        adapterWelcome.onItemClicked = { }
+        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        with(binding) {
+            incSectionWelcome.rvSliderWelcome.setHasFixedSize(true)
+            incSectionWelcome.rvSliderWelcome.layoutManager = layoutManager
+            incSectionWelcome.rvSliderWelcome.adapter = adapterWelcome
+        }
+    }
 
 }
