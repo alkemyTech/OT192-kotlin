@@ -2,6 +2,8 @@ package com.melvin.ongandroid.view.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.melvin.ongandroid.databinding.ItemRecyclerHomeWelcomeBinding
@@ -13,8 +15,8 @@ import kotlin.properties.Delegates
  *
  * @constructor Create empty Home welcome item adapter
  */
-class HomeWelcomeItemAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    var items: List<HomeWelcome> by Delegates.observable(emptyList()) { _, _, _ -> notifyDataSetChanged() }
+class HomeWelcomeItemAdapter() :
+    ListAdapter<HomeWelcome, RecyclerView.ViewHolder>(DiffUtilCallback()) {
     var onItemClicked: ((HomeWelcome) -> Unit)? = null
 
     /**
@@ -42,25 +44,8 @@ class HomeWelcomeItemAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>()
      */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewHolder: ViewHolder = holder as ViewHolder
-        viewHolder.bind(items[position], onItemClicked)
+        viewHolder.bind(getItem(position), onItemClicked)
     }
-
-    /**
-     * Set data
-     * To store a mutable list in the adapter
-     *
-     * @param data is a mutable list of HomeWelcome object
-     */
-    fun setData(data: MutableList<HomeWelcome>) {
-        this.items = data
-    }
-
-    /**
-     * Get item count
-     *
-     * @return the size of the list of items
-     */
-    override fun getItemCount(): Int = items.size
 
     /**
      * View holder
@@ -94,5 +79,14 @@ class HomeWelcomeItemAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>()
                 }
             }
         }
+    }
+
+    class DiffUtilCallback : DiffUtil.ItemCallback<HomeWelcome>() {
+        override fun areItemsTheSame(oldItem: HomeWelcome, newItem: HomeWelcome): Boolean =
+            oldItem.title == newItem.title
+
+        override fun areContentsTheSame(oldItem: HomeWelcome, newItem: HomeWelcome): Boolean =
+            oldItem == newItem
+
     }
 }

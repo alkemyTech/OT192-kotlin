@@ -95,7 +95,7 @@ class HomeFragment : Fragment() {
             )
         }
 
-        adapterWelcome.setData(listHomeWelcome)
+        adapterWelcome.submitList(listHomeWelcome)
         adapterWelcome.onItemClicked = { }
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
