@@ -83,15 +83,15 @@ class HomeFragment : Fragment() {
      * Setup recycler view slider welcome
      */
     private fun setupRecyclerViewSliderWelcome() {
-        //TODO: Harcoded list
+        //TODO: Harcoded random list
         val listHomeWelcome = MutableList(15) {
             HomeWelcome(
                 title = "Actividad ${(1..100).random()}",
-                imgUrl = "https://picsum.photos/${(1..100).random()}",
-                description = "Descripción ${(1..100).random()} \n" +
-                        "Descripción ${(1..100).random()} \n" +
-                        "Descripción ${(1..100).random()} \n" +
-                        "Descripción ${(1..100).random()} \n"
+                imgUrl = "https://picsum.photos/200/300?random=${(1..100).random()}",
+                description = "Descripción ${(1..100).random()}\n" +
+                        "Descripción ${(1..100).random()}\n" +
+                        "Descripción ${(1..100).random()}\n" +
+                        "Descripción ${(1..100).random()}"
             )
         }
 

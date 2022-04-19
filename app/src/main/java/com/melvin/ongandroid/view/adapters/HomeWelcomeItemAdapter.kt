@@ -1,4 +1,4 @@
-package com.melvin.ongandroid.view.adapter
+package com.melvin.ongandroid.view.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
