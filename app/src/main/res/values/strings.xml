@@ -10,5 +10,9 @@
     <string name="actividades">Actividades</string>
     <string name="testimonios">Testimonios</string>
     <string name="nosotros">Nosotros</string>
+
+    <!-- Fragment layout texts - Home -->
+    <string name="fragment_home_title_testimonials">Testimonios</string>
+    <string name="item_testimonials_default_heading">Epígrafe</string>
     <string name="novedades_titulo_home">Últimas Novedades</string>
 </resources>
