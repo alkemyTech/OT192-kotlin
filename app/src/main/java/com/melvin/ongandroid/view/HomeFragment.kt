@@ -31,7 +31,7 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerViewNovedades: RecyclerView
     private val adapter by lazy { NovedadesAdapter() }
 
-    private val homeViewModel:HomeViewModel by activityViewModels()
+    private val homeViewModel: HomeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,25 +47,44 @@ class HomeFragment : Fragment() {
 
         recyclerViewNovedades = binding.recyclerNovedadesHome
 
-        recyclerViewNovedades.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        recyclerViewNovedades.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         recyclerViewNovedades.adapter = adapter
 
 
-        // Observe Changes in HomeViewModel for latest News
-        // and show only 4 elemtns
-        homeViewModel.newsResponse.observe(viewLifecycleOwner){
-            adapter.submitList(it.novedades.take(5))
+        /*  Observe Changes in HomeViewModel for latest News
+           When news is empty hide Section. When Not, set adapter
+           and show only 4 elemtns*/
+        homeViewModel.newsResponse.observe(viewLifecycleOwner) { newsResponse ->
+            binding.apply {
+                when (newsResponse.novedades.isNotEmpty()) {
+                    true -> {
+                        adapter.submitList(newsResponse.novedades.take(5))
+                        textViewNovedadesHome.visibility = View.VISIBLE
+                        recyclerNovedadesHome.visibility = View.VISIBLE
+                    }
+                    false -> {
+
+                        textViewNovedadesHome.visibility = View.GONE
+                        recyclerNovedadesHome.visibility = View.GONE
+
+                    }
+                }
+            }
+
+
         }
 
 
-
         //Configuration of Welcome section
-        binding.incSectionWelcome.tvTitleWelcome.text = getString(R.string.fragment_home_title_welcome)
+        binding.incSectionWelcome.tvTitleWelcome.text =
+            getString(R.string.fragment_home_title_welcome)
         setupRecyclerViewSliderWelcome()
 
         //Configuration of Testimonials section
-        binding.incSectionTestimonials.tvTitleTestimonials.text = getString(R.string.fragment_home_title_testimonials)
+        binding.incSectionTestimonials.tvTitleTestimonials.text =
+            getString(R.string.fragment_home_title_testimonials)
         setupRecyclerViewSilderTestimonials()
 
         return binding.root
