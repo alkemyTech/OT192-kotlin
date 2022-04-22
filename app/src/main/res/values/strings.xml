@@ -19,4 +19,7 @@
     <string name="fragment_home_title_testimonials">Testimonios</string>
     <string name="item_testimonials_default_heading">Epígrafe</string>
 
+    <!-- Image content description in layouts -->
+    <string name="content_description_loading">Cargando</string>
+
 </resources>

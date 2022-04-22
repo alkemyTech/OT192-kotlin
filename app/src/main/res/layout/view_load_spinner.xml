@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+Usage:
+In a view add the following lines (inside a Constraint Layout):
+
+    <include
+        android:id="@+id/progress_loader"
+        layout="@layout/view_load_spinner" />
+
+Then in a fragment, put the following line to make it
+visible/invisible according to Loading state
+
+    binding.progressLoader.root.visibility = View.GONE
+
+    binding.progressLoader.root.visibility = View.VISIBLE
+
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Back gray image to avoid clicking while user is waiting -->
+    <ImageView
+        android:id="@+id/gray_back"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#8D615D5D"
+        android:clickable="true"
+        android:contentDescription="@string/content_description_loading"
+        android:elevation="20dp"
+        android:focusable="true"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <!-- indicator that an action is being performed  -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="25dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
