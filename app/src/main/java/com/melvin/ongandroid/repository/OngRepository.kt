@@ -9,6 +9,9 @@ import javax.inject.Inject
 
 class OngRepository @Inject constructor(private val apiService: OngApiService) {
 
+    /*
+    Function that emits a NewsResponse, containing list Of News
+     */
     suspend fun fetchLatestNews(): Flow<NewsResponse> = flow {
         emit(apiService.fetchLatestNews())
     }
