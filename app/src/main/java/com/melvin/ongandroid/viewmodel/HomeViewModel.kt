@@ -7,9 +7,11 @@ import com.melvin.ongandroid.model.NewsResponse
 import com.melvin.ongandroid.repository.OngRepository
 import javax.inject.Inject
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
+@HiltViewModel
 class HomeViewModel @Inject constructor(private val repo: OngRepository): ViewModel() {
 
     private val _newsResponse: MutableLiveData<NewsResponse> = MutableLiveData(NewsResponse())
