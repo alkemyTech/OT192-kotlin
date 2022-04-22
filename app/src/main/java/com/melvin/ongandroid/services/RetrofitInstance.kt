@@ -13,7 +13,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RetrofitInstance {
-    private const val BASE_URL = "http://ongapi.alkemy.org/"
+    private const val BASE_URL = "http://ongapi.alkemy.org/api/"
 
     @Singleton
     @Provides
