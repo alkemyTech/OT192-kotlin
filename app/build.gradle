@@ -63,7 +63,7 @@ dependencies {
     //Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
 
-    
+
     def nav_version = "2.4.2"
 
     // Navigation
