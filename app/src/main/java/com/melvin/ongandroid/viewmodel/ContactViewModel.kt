@@ -27,7 +27,7 @@ class ContactViewModel @Inject constructor(repo: OngRepository) : ViewModel() {
      * Function that checks if all parameters from Consulta are valid.
      * When Valid, [_isButtonEnabled] changes to true, enabling button.
      */
-    fun checkContactForm() {
+    fun checkContactFormViewModel() {
         val condition =
             firstName.value.toString().checkFirstOrLastName()
                     && lastName.value.toString().checkFirstOrLastName()
