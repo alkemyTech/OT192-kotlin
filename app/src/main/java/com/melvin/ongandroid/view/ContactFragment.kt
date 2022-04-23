@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.melvin.ongandroid.databinding.FragmentContactBinding
 import com.melvin.ongandroid.viewmodel.ContactViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ContactFragment : Fragment() {
 
     // Properties
