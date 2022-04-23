@@ -21,7 +21,7 @@ class ContactViewModel @Inject constructor(repo: OngRepository) : ViewModel() {
     val firstName = MutableLiveData<String>("")
     val lastName = MutableLiveData<String>("")
     val email = MutableLiveData<String>("")
-    val conctactMessage = MutableLiveData<String>("")
+    val contactMessage = MutableLiveData<String>("")
 
     /**
      * Function that checks if all parameters from Consulta are valid.
@@ -32,7 +32,7 @@ class ContactViewModel @Inject constructor(repo: OngRepository) : ViewModel() {
             firstName.value.toString().checkFirstOrLastName()
                     && lastName.value.toString().checkFirstOrLastName()
                     && email.value.toString().isEmailValid()
-                    && conctactMessage.value.toString().checkContactMessage()
+                    && contactMessage.value.toString().checkContactMessage()
         _isButtonEnabled.postValue(condition)
     }
 }
