@@ -12,8 +12,8 @@ import com.google.gson.annotations.SerializedName
  * @constructor Create empty Home testimonials
  */
 data class HomeTestimonials(
-    @SerializedName("id") val id: Int,
-    @SerializedName("name") val name: String,
-    @SerializedName("image") val imgUrl: String,
-    @SerializedName("description") val description: String
+    @SerializedName("id") val id: Int = 0,
+    @SerializedName("name") val name: String = "",
+    @SerializedName("image") val imgUrl: String = "",
+    @SerializedName("description") val description: String = ""
 )

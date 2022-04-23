@@ -1,25 +1,32 @@
 package com.melvin.ongandroid.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.melvin.ongandroid.model.HomeTestimonials
-import com.melvin.ongandroid.model.NewsResponse
-import com.melvin.ongandroid.repository.Repository
+import com.melvin.ongandroid.model.GenericResponse
+import javax.inject.Inject
+import androidx.lifecycle.viewModelScope
+import com.melvin.ongandroid.repository.OngRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 
-class HomeViewModel: ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewModel() {
 
-    val testimonials = MutableLiveData<NewsResponse<MutableList<HomeTestimonials>>>()
+    private val _testimonials = MutableLiveData<GenericResponse<MutableList<HomeTestimonials>>>()
+    val testimonials: LiveData<GenericResponse<MutableList<HomeTestimonials>>> = _testimonials
 
-    var repository = Repository()
+    init {
+        getTestimonials()
+    }
 
-        fun onCreate() {
-        viewModelScope.launch {
-            val result = repository.getTestimonials()
-
-            if (!result.data.isNullOrEmpty()) {
-                testimonials.postValue(result)
+    // Function that gets the testimonials and post it in the _testimonials MutableLiveData
+    private fun getTestimonials() {
+        viewModelScope.launch(IO) {
+            repo.getTestimonials().collect{ testimonialsResponse ->
+                _testimonials.postValue(testimonialsResponse)
             }
         }
     }

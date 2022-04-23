@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentHomeBinding
@@ -18,8 +17,9 @@ import com.melvin.ongandroid.model.Novedades
 import com.melvin.ongandroid.view.adapters.HomeTestimonialsItemAdapter
 import com.melvin.ongandroid.view.adapters.NovedadesAdapter
 import com.melvin.ongandroid.viewmodel.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     // Properties
@@ -85,7 +85,6 @@ class HomeFragment : Fragment() {
 
         //Configuration of Testimonials section
         binding.incSectionTestimonials.tvTitleTestimonials.text = getString(R.string.fragment_home_title_testimonials)
-        homeViewModel.onCreate()
         setupRecyclerViewSilderTestimonials()
 
         return binding.root
@@ -121,22 +120,31 @@ class HomeFragment : Fragment() {
 
     /**
      * Setup recycler view slider testimonials
+     * Observe changes in HomeViewModel for testimonials.
+     * When testimonials is empty hide section, but when not, show section with only 4 elements
      */
     private fun setupRecyclerViewSilderTestimonials() {
-        //TODO: Harcoded random list
 
-        homeViewModel.testimonials.observe(viewLifecycleOwner, Observer {
-            adapterTestimonials.submitList(it.data.take(4).toMutableList())
-            //mutableListOf(HomeTestimonials(2,"ed","https://d2gg9evh47fn9z.cloudfront.net/1600px_COLOURBOX32490000.jpg","sa"))
-            adapterTestimonials.onItemClicked = { }
-            val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        homeViewModel.testimonials.observe(viewLifecycleOwner){response ->
+            binding.apply {
+                when (!response.data.isNullOrEmpty()){
+                    true -> {
+                        adapterTestimonials.submitList(response.data.take(4).toMutableList())
 
-            with(binding) {
-                incSectionTestimonials.rvSliderTestimonials.setHasFixedSize(true)
-                incSectionTestimonials.rvSliderTestimonials.layoutManager = layoutManager
-                incSectionTestimonials.rvSliderTestimonials.adapter = adapterTestimonials
+                        adapterTestimonials.onItemClicked = { }
+                        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+                        incSectionTestimonials.rvSliderTestimonials.setHasFixedSize(true)
+                        incSectionTestimonials.rvSliderTestimonials.layoutManager = layoutManager
+                        incSectionTestimonials.rvSliderTestimonials.adapter = adapterTestimonials
+                    }
+                    false -> {
+                        incSectionTestimonials.tvTitleTestimonials.visibility = View.GONE
+                        incSectionTestimonials.rvSliderTestimonials.visibility = View.GONE
+                    }
+                }
             }
-        })
+        }
 
 
     }

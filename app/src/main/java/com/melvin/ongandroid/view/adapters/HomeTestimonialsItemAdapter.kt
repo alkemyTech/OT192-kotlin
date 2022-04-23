@@ -11,10 +11,10 @@ import coil.load
 import com.melvin.ongandroid.databinding.ItemRecyclerHomeTestimonialsBinding
 import com.melvin.ongandroid.model.HomeTestimonials
 
-class HomeTestimonialsItemAdapter() :
+class HomeTestimonialsItemAdapter :
     ListAdapter<HomeTestimonials, RecyclerView.ViewHolder>(DiffUtilCallback()) {
     var onItemClicked: ((HomeTestimonials) -> Unit)? = null
-    var onMoreItemClicked: ((HomeTestimonials) -> Unit)? = null
+    private var onMoreItemClicked: ((HomeTestimonials) -> Unit)? = null
 
     /**
      * On create view holder
@@ -79,7 +79,7 @@ class HomeTestimonialsItemAdapter() :
             copy.addAll(list)
         }
         //Agrego un elemento (el último será distinto) para la flecha
-        copy.add(HomeTestimonials(1,"s","d","x"))
+        copy.add(HomeTestimonials())
         super.submitList(copy)
     }
 
@@ -105,6 +105,8 @@ class HomeTestimonialsItemAdapter() :
             listener: ((HomeTestimonials) -> Unit)?,
         ) {
             with(binding) {
+                //Set Name
+                tvTestimonialsName.text = value.name
                 //Set texts
                 tvTestimonialsHeading.text = value.description
                 //Load the image url and set it on this ImageView

@@ -18,5 +18,6 @@
     <string name="novedades_titulo_home">Últimas Novedades</string>
     <string name="fragment_home_title_testimonials">Testimonios</string>
     <string name="item_testimonials_default_heading">Epígrafe</string>
+    <string name="item_testimonials_default_name">Nombre</string>
 
 </resources>
