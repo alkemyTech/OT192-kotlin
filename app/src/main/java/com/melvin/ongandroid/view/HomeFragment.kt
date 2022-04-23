@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentHomeBinding
@@ -16,8 +17,11 @@ import com.melvin.ongandroid.model.HomeTestimonials
 import com.melvin.ongandroid.model.Novedades
 import com.melvin.ongandroid.view.adapters.HomeTestimonialsItemAdapter
 import com.melvin.ongandroid.view.adapters.NovedadesAdapter
+import com.melvin.ongandroid.viewmodel.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
@@ -26,6 +30,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var recyclerViewNovedades: RecyclerView
     private val adapter by lazy { NovedadesAdapter() }
+
+    private val homeViewModel: HomeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,46 +47,44 @@ class HomeFragment : Fragment() {
 
         recyclerViewNovedades = binding.recyclerNovedadesHome
 
-        recyclerViewNovedades.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        recyclerViewNovedades.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         recyclerViewNovedades.adapter = adapter
 
-        val listaNovedades = listOf(
-            Novedades(
-                image = "https://d2gg9evh47fn9z.cloudfront.net/1600px_COLOURBOX32490000.jpg",
-                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                        " Donec condimentum ex ut varius interdum"
-            ),
-            Novedades(
-                image = "https://molpsg.com/wp-content/uploads/2016/07/chairty.jpg",
-                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                        " Donec condimentum ex ut varius interdum"
-            ),
-            Novedades(
-                image ="https://media.bizj.us/view/img/10273770/howtovounteer.jpg",
-                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                        " Donec condimentum ex ut varius interdum"
-            ),
-            Novedades(
-                image = "https://603200.smushcdn.com/1038623/wp-content/uploads/2019/08/IMG_9691-1080x675.jpg?lossy=1&strip=1&webp=1",
-                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                        " Donec condimentum ex ut varius interdum"
-            ),
-            Novedades(
-                image = "https://603200.smushcdn.com/1038623/wp-content/uploads/2019/08/IMG_9691-1080x675.jpg?lossy=1&strip=1&webp=1",
-                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-                        " Donec condimentum ex ut varius interdum"
-            )
-        ).toMutableList()
 
-        adapter.submitList(listaNovedades.take(5))
+        /*  Observe Changes in HomeViewModel for latest News
+           When news is empty hide Section. When Not, set adapter
+           and show only 4 elemtns*/
+        homeViewModel.newsResponse.observe(viewLifecycleOwner) { newsResponse ->
+            binding.apply {
+                when (newsResponse.novedades.isNotEmpty()) {
+                    true -> {
+                        adapter.submitList(newsResponse.novedades.take(5))
+                        textViewNovedadesHome.visibility = View.VISIBLE
+                        recyclerNovedadesHome.visibility = View.VISIBLE
+                    }
+                    false -> {
+
+                        textViewNovedadesHome.visibility = View.GONE
+                        recyclerNovedadesHome.visibility = View.GONE
+
+                    }
+                }
+            }
+
+
+        }
+
 
         //Configuration of Welcome section
-        binding.incSectionWelcome.tvTitleWelcome.text = getString(R.string.fragment_home_title_welcome)
+        binding.incSectionWelcome.tvTitleWelcome.text =
+            getString(R.string.fragment_home_title_welcome)
         setupRecyclerViewSliderWelcome()
 
         //Configuration of Testimonials section
-        binding.incSectionTestimonials.tvTitleTestimonials.text = getString(R.string.fragment_home_title_testimonials)
+        binding.incSectionTestimonials.tvTitleTestimonials.text =
+            getString(R.string.fragment_home_title_testimonials)
         setupRecyclerViewSilderTestimonials()
 
         return binding.root
