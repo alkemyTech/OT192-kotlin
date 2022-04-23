@@ -79,7 +79,7 @@ class HomeTestimonialsItemAdapter() :
             copy.addAll(list)
         }
         //Agrego un elemento (el último será distinto) para la flecha
-        copy.add(HomeTestimonials())
+        copy.add(HomeTestimonials(1,"s","d","x"))
         super.submitList(copy)
     }
 
@@ -106,7 +106,7 @@ class HomeTestimonialsItemAdapter() :
         ) {
             with(binding) {
                 //Set texts
-                tvTestimonialsHeading.text = value.heading
+                tvTestimonialsHeading.text = value.description
                 //Load the image url and set it on this ImageView
                 imgTestimonials.load(value.imgUrl)
                 //Hide Arrow Resource
@@ -161,7 +161,7 @@ class HomeTestimonialsItemAdapter() :
             oldItem: HomeTestimonials,
             newItem: HomeTestimonials
         ): Boolean =
-            oldItem.heading == newItem.heading
+            oldItem.description == newItem.description
 
         override fun areContentsTheSame(
             oldItem: HomeTestimonials,
