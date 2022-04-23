@@ -11,7 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ContactViewModel @Inject constructor(repo: OngRepository) : ViewModel() {
+class ContactViewModel @Inject constructor(private val repo: OngRepository) : ViewModel() {
 
     // LiveData to disable/enable Button on ContactForm when is correct
     private val _isButtonEnabled = MutableLiveData<Boolean>(false)

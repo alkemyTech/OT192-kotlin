@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.melvin.ongandroid.databinding.FragmentContactBinding
 import com.melvin.ongandroid.viewmodel.ContactViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,7 +16,7 @@ class ContactFragment : Fragment() {
 
     // Properties
     private lateinit var binding: FragmentContactBinding
-    private lateinit var viewModel: ContactViewModel
+    private val contactViewModel: ContactViewModel by activityViewModels()
 
     // Initialization
     override fun onCreateView(
@@ -26,10 +27,6 @@ class ContactFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        // View Model
-        viewModel = ViewModelProvider(this)[ContactViewModel::class.java]
-    }
+
 
 }
