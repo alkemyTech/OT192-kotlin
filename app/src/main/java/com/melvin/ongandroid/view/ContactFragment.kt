@@ -24,6 +24,11 @@ class ContactFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentContactBinding.inflate(layoutInflater, container, false)
+
+        contactViewModel.isButtonEneabled.observe(viewLifecycleOwner){
+            binding.filledButton.isEnabled = it
+        }
+
         return binding.root
     }
 
