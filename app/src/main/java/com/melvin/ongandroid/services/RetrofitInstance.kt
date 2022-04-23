@@ -18,6 +18,7 @@ object RetrofitInstance {
     @Singleton
     @Provides
     fun getOkHttpClient():OkHttpClient{
+
         val loggingInterceptor = HttpLoggingInterceptor()
 
         if(BuildConfig.DEBUG){
