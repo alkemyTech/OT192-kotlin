@@ -1,6 +1,7 @@
 package com.melvin.ongandroid.repository
 
 
+import com.melvin.ongandroid.model.Contact
 import com.melvin.ongandroid.model.HomeTestimonials
 import com.melvin.ongandroid.model.GenericResponse
 import com.melvin.ongandroid.model.NewsResponse
@@ -22,5 +23,10 @@ class OngRepository @Inject constructor(private val apiService: OngApiService) {
      */
     suspend fun fetchLatestNews(): Flow<NewsResponse> = flow {
         emit(apiService.fetchLatestNews())
+    }
+
+    // Function that emits a GenericResponse, containing a contact response
+    suspend fun sendContact(contact:Contact): Flow<GenericResponse<List<Contact>>> = flow {
+        emit(apiService.sendContact(contact))
     }
 }

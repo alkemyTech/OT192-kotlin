@@ -5,9 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.melvin.ongandroid.databinding.FragmentContactBinding
+import com.melvin.ongandroid.model.Contact
 import com.melvin.ongandroid.utils.checkContactMessage
 import com.melvin.ongandroid.utils.checkFirstOrLastName
 import com.melvin.ongandroid.utils.isEmailValid
@@ -28,12 +31,24 @@ class ContactFragment : Fragment() {
     ): View {
         binding = FragmentContactBinding.inflate(layoutInflater, container, false)
 
+        binding.progressLoader.root.visibility = View.GONE
         checkContactFormFragment()
-
+        setupOnClickListener()
 
         /** Observe the state of button given [checkContactFormFragment]*/
         contactViewModel.isButtonEneabled.observe(viewLifecycleOwner){
             binding.filledButton.isEnabled = it
+        }
+
+        /* Observe the state of progress loader, if it's true, show the progress loader
+        * If it's false, hide the progress loader, show dialog and clean contact fields
+        * */
+        contactViewModel.isLoading.observe(viewLifecycleOwner){
+            binding.progressLoader.root.visibility = if(it) View.VISIBLE else View.GONE
+            if (it == false){
+                showDialog()
+                cleanContactForm()
+            }
         }
 
         return binding.root
@@ -82,6 +97,41 @@ class ContactFragment : Fragment() {
             contactViewModel.checkContactFormViewModel()
         }
 
+    }
+
+    /*
+    * Function that takes all the edit Text and send to [ContactViewModel] the information
+    * when the user click on the button "Enviar".
+     */
+    private fun setupOnClickListener(){
+        binding.filledButton.setOnClickListener {
+            val firstName = binding.fragmentContactFirstname.editText?.text.toString()
+            val lastName = binding.fragmentContactLastname.editText?.text.toString()
+            val email = binding.fragmentContactEmail.editText?.text.toString()
+            val message = binding.fragmentContactMessage.editText?.text.toString()
+            Toast.makeText(context, "Enviando...", Toast.LENGTH_SHORT).show()
+            contactViewModel.sendFormContact(
+                Contact(0, "$firstName $lastName", email, "", message)
+            )
+        }
+    }
+
+    // Function that clean all the edit text
+    private fun cleanContactForm(){
+        with (binding){
+            fragmentContactFirstname.editText?.text?.clear()
+            fragmentContactLastname.editText?.text?.clear()
+            fragmentContactEmail.editText?.text?.clear()
+            fragmentContactMessage.editText?.text?.clear()
+        }
+    }
+
+    // Function that show a simple dialog with a message of the successful process
+    private fun showDialog(){
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            dialog.setTitle("Enviado")
+            dialog.setMessage("Tu mensaje ha sido enviado con éxito.")
+            dialog.show()
     }
 
 }
