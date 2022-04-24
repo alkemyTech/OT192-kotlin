@@ -1,5 +1,8 @@
 package com.melvin.ongandroid.utils
 
+import android.text.Html
+import android.text.Spanned
+
 /*
 Function that Checks if a String is a valid form of email.
  */
@@ -19,3 +22,18 @@ fun String.checkFirstOrLastName() =
  */
 
 fun String.checkContactMessage(): Boolean = this.isNotEmpty() && this.length >= 30
+
+/**
+ * Convert HTML to string
+ * Return the displayable styled text from the provided HTML string
+ * created on 24 April 2022 by Leonel Gomez
+ *
+ */
+fun String.convertHtmlToString(): String {
+    //As fromHtml is deprecated, whe need to ask for Build version to includes the new int parameter
+    return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+        Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY).toString()
+    } else {
+        Html.fromHtml(this).toString()
+    }
+}
