@@ -178,7 +178,7 @@ class HomeFragment : Fragment() {
             .show()
     }
     
-    
+    /*
      * Show home welcome section
      * Show (or hide) home welcome section (title and recycler view)
      * created on 24 April 2022 by Leonel Gomez
