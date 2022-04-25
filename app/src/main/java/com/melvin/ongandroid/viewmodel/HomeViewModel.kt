@@ -7,6 +7,7 @@ import com.melvin.ongandroid.repository.OngRepository
 import com.melvin.ongandroid.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -28,11 +29,17 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
     private val _slideList = MutableLiveData<List<Slide>>()
     val slideList: LiveData<List<Slide>> = _slideList
 
+    /* LiveData that handles Massive Failure*/
+    private val _massiveFailure: MutableLiveData<Boolean> = MutableLiveData(false)
+    val massiveFailure: LiveData<Boolean> = _massiveFailure
+
+
     init {
         getTestimonials()
         fetchLatestNews()
         //get a list of slides on ViewModel init
         fetchSlides()
+        checkMassiveFailure()
     }
 
     // Function that gets the testimonials and post it in the _testimonials MutableLiveData
@@ -93,5 +100,32 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
                 }
             }
         }
+    }
+
+    /** Function that handle massive Error from API.
+     * Checks if all elements are not empty or null.
+     *
+     */
+
+    private fun checkMassiveFailure() {
+        viewModelScope.launch(IO) {
+            delay(5000)
+            _massiveFailure.postValue(
+                _newsState.value is Resource.Success &&
+                        !_slideList.value.isNullOrEmpty() &&
+                        !_testimonials.value?.data.isNullOrEmpty()
+            )
+        }
+    }
+
+    /**
+     * When Error in API Call, retry all request and checks again fi successful
+     */
+
+    fun retryApiCallsHome() {
+        fetchLatestNews()
+        fetchSlides()
+        getTestimonials()
+        checkMassiveFailure()
     }
 }
