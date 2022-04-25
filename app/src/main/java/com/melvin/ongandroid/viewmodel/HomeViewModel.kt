@@ -111,9 +111,9 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
         viewModelScope.launch(IO) {
             delay(5000)
             _massiveFailure.postValue(
-                _newsState.value is Resource.Success &&
-                        !_slideList.value.isNullOrEmpty() &&
-                        !_testimonials.value?.data.isNullOrEmpty()
+                _newsState.value?.data?.success == false &&
+                        _slideList.value?.isNotEmpty() == false &&
+                        _testimonials.value?.success == false
             )
         }
     }

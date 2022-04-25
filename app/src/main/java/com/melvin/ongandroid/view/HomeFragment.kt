@@ -1,6 +1,7 @@
 package com.melvin.ongandroid.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,16 +47,6 @@ class HomeFragment : Fragment() {
         binding.textViewNovedadesHome.text = getString(R.string.novedades_titulo_home)
 
 
-
-
-        /*  Observe Changes in HomeViewModel for latest News
-           When news is empty hide Section. When Not, set adapter
-           and show only 4 elemtns*/
-
-
-
-
-
         //Configuration of Welcome section
         binding.incSectionWelcome.tvTitleWelcome.text =
             getString(R.string.fragment_home_title_welcome)
@@ -68,10 +59,12 @@ class HomeFragment : Fragment() {
             getString(R.string.fragment_home_title_testimonials)
         setupRecyclerViewSilderTestimonials()
 
+        homeViewModel.massiveFailure.observe(viewLifecycleOwner) {
+            checkMassiveFailure(it)
+        }
+
         return binding.root
     }
-
-
 
 
     /**
@@ -112,10 +105,10 @@ class HomeFragment : Fragment() {
     /**
      * Set Up Recycler View News with States from ViewModel
      * When [Resource.Success] -> Make Visible Recycler
-     * Else -> Make Invisible Recyler
+     * Else -> Make Invisible RecylerView
      */
 
-    private fun setUpRecyclerViewNews(){
+    private fun setUpRecyclerViewNews() {
         recyclerViewNovedades = binding.recyclerNovedadesHome
 
         recyclerViewNovedades.layoutManager =
@@ -125,14 +118,13 @@ class HomeFragment : Fragment() {
 
         homeViewModel.newsState.observe(viewLifecycleOwner) { estadoNoticias ->
             binding.apply {
-                when(estadoNoticias){
-                    is Resource.Success ->{
+                when (estadoNoticias) {
+                    is Resource.Success -> {
                         adapter.submitList(estadoNoticias.data!!.novedades.take(5))
                         textViewNovedadesHome.visible()
                         recyclerNovedadesHome.visible()
                     }
-                    else ->{
-
+                    else -> {
                         textViewNovedadesHome.gone()
                         recyclerNovedadesHome.gone()
                     }
@@ -192,4 +184,30 @@ class HomeFragment : Fragment() {
         }
     }
 
+    /**
+     * When all api calls are unsuccesfull hide current view, and sow new view
+     * with Error Button to retry ApiCalls
+     */
+
+    private fun checkMassiveFailure(massiveFailure: Boolean = false) {
+        binding.apply {
+            when (massiveFailure) {
+                true -> {
+                    constraintLayoutError.visibility = View.VISIBLE
+                    scvHome.visibility = View.GONE
+
+                    buttonError.setOnClickListener {
+                        homeViewModel.retryApiCallsHome()
+                    }
+                }
+                false -> {
+                    constraintLayoutError.visibility = View.GONE
+                    scvHome.visibility = View.VISIBLE
+
+                }
+            }
+        }
+    }
+
 }
+
