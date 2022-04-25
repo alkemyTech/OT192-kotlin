@@ -13,6 +13,7 @@ import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentHomeBinding
 import com.melvin.ongandroid.view.adapters.HomeWelcomeItemAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.melvin.ongandroid.model.toUI
 import com.melvin.ongandroid.utils.Resource
 import com.melvin.ongandroid.utils.gone
@@ -34,6 +35,7 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerViewNovedades: RecyclerView
     private val adapter by lazy { NovedadesAdapter() }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,6 +47,16 @@ class HomeFragment : Fragment() {
         actionBar?.title = getString(R.string.inicio)
 
         binding.textViewNovedadesHome.text = getString(R.string.novedades_titulo_home)
+
+
+        /* Observe changes in the errorTestimonials. If there is an error, display a Snackbar
+        * indicating a problem with the query*/
+        homeViewModel.errorTestimonials.observe(viewLifecycleOwner) { error ->
+            if (error != "") {
+                showSnackbar("Ha ocurrido un error obteniendo la información")
+            }
+        }
+
 
 
         //Configuration of Welcome section
@@ -169,6 +181,20 @@ class HomeFragment : Fragment() {
     }
 
     /**
+     * Show snackbar with message and button "Reintentar" to retry to query.
+     */
+    private fun showSnackbar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_INDEFINITE)
+            .setAction("Reintentar") {
+                homeViewModel.getTestimonials()
+                if (homeViewModel.errorTestimonials.value != "") {
+                    showSnackbar("Ha ocurrido un error obteniendo la información")
+                }
+            }
+            .show()
+    }
+    
+    /*
      * Show home welcome section
      * Show (or hide) home welcome section (title and recycler view)
      * created on 24 April 2022 by Leonel Gomez

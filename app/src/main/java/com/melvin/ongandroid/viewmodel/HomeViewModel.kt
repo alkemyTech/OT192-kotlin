@@ -7,8 +7,9 @@ import com.melvin.ongandroid.repository.OngRepository
 import com.melvin.ongandroid.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewModel() {
@@ -22,6 +23,12 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
     val newsState: LiveData<Resource<NewsResponse>> = _newsState
 
 
+
+    // LiveData to catch the error from the getTestimonials() and control the UI
+    private val _errorTestimonials: MutableLiveData<String> = MutableLiveData()
+    val errorTestimonials: LiveData<String> = _errorTestimonials
+    
+
     /**
      * slide list of MutableLiveData type
      * created on 24 April 2022 by Leonel Gomez
@@ -29,10 +36,10 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
     private val _slideList = MutableLiveData<List<Slide>>()
     val slideList: LiveData<List<Slide>> = _slideList
 
+
     /* LiveData that handles Massive Failure*/
     private val _massiveFailure: MutableLiveData<Boolean> = MutableLiveData(false)
     val massiveFailure: LiveData<Boolean> = _massiveFailure
-
 
     init {
         getTestimonials()
@@ -42,13 +49,16 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
         checkMassiveFailure()
     }
 
-    // Function that gets the testimonials and post it in the _testimonials MutableLiveData
-    private fun getTestimonials() {
+    /*
+    * Function that gets the testimonials and post it in the _testimonials MutableLiveData
+    * In case the query fails, it will post the error in the _errorTestimonials MutableLiveData
+    */
+    fun getTestimonials() {
         viewModelScope.launch(IO) {
+
             repo.getTestimonials().collect { testimonialsResponse ->
                 _testimonials.postValue(testimonialsResponse)
-            }
-        }
+
     }
 
     /**
@@ -61,6 +71,7 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
      */
     private fun fetchLatestNews() {
         viewModelScope.launch(IO) {
+
             repo.fetchLatestNews().collect { resource ->
                 when (resource) {
                     is Resource.Success ->
@@ -76,6 +87,7 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
                         _newsState.postValue(Resource.loading())
 
                 }
+
             }
         }
     }
