@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.melvin.ongandroid.model.*
 import javax.inject.Inject
 import com.melvin.ongandroid.repository.OngRepository
+import com.melvin.ongandroid.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -13,9 +14,12 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
 
     private val _testimonials = MutableLiveData<GenericResponse<MutableList<HomeTestimonials>>>()
     val testimonials: LiveData<GenericResponse<MutableList<HomeTestimonials>>> = _testimonials
-    
-    private val _newsResponse: MutableLiveData<NewsResponse> = MutableLiveData(NewsResponse())
-    val newsResponse: LiveData<NewsResponse> = _newsResponse
+
+
+    private val _newsState: MutableLiveData<Resource<NewsResponse>> =
+        MutableLiveData(Resource.loading())
+    val newsState: LiveData<Resource<NewsResponse>> = _newsState
+
 
     /**
      * slide list of MutableLiveData type
@@ -34,20 +38,37 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
     // Function that gets the testimonials and post it in the _testimonials MutableLiveData
     private fun getTestimonials() {
         viewModelScope.launch(IO) {
-            repo.getTestimonials().collect{ testimonialsResponse ->
+            repo.getTestimonials().collect { testimonialsResponse ->
                 _testimonials.postValue(testimonialsResponse)
             }
-        }        
+        }
     }
 
     /**
      * Function that fetch latestNews and post it in a mutable LiveData.
-     * Uses Repository function with flow. When collected, posted values on[_newsResponse].
+     * Collects from Repository and handle diverse States of response.
+     * When
+     * [Resource.Success] -> Request From Api was Succesfull
+     * [Resource.ErrorApi] -> Request from Api had Errors
+     * [Resource.ErrorThrowable] -> Catch Exceptions
      */
-    private fun fetchLatestNews(){
+    private fun fetchLatestNews() {
         viewModelScope.launch(IO) {
-            repo.fetchLatestNews().collect{ newsResponse ->
-                _newsResponse.postValue(newsResponse)
+            repo.fetchLatestNews().collect { resource ->
+                when (resource) {
+                    is Resource.Success ->
+                        _newsState.postValue(Resource.success(resource.data!!))
+
+                    is Resource.ErrorApi ->
+                        _newsState.postValue(Resource.errorApi(resource.errorMessage!!))
+
+                    is Resource.ErrorThrowable ->
+                        _newsState.postValue(Resource.errorThrowable(resource.errorThrowable!!))
+
+                    is Resource.Loading ->
+                        _newsState.postValue(Resource.loading())
+
+                }
             }
         }
     }

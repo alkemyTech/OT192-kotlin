@@ -13,6 +13,9 @@ import com.melvin.ongandroid.databinding.FragmentHomeBinding
 import com.melvin.ongandroid.view.adapters.HomeWelcomeItemAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.melvin.ongandroid.model.toUI
+import com.melvin.ongandroid.utils.Resource
+import com.melvin.ongandroid.utils.gone
+import com.melvin.ongandroid.utils.visible
 import com.melvin.ongandroid.view.adapters.HomeTestimonialsItemAdapter
 import com.melvin.ongandroid.view.adapters.NovedadesAdapter
 import com.melvin.ongandroid.viewmodel.HomeViewModel
@@ -42,42 +45,23 @@ class HomeFragment : Fragment() {
 
         binding.textViewNovedadesHome.text = getString(R.string.novedades_titulo_home)
 
-        recyclerViewNovedades = binding.recyclerNovedadesHome
 
-        recyclerViewNovedades.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-        recyclerViewNovedades.adapter = adapter
 
 
         /*  Observe Changes in HomeViewModel for latest News
            When news is empty hide Section. When Not, set adapter
            and show only 4 elemtns*/
-        homeViewModel.newsResponse.observe(viewLifecycleOwner) { newsResponse ->
-            binding.apply {
-                when (newsResponse.novedades.isNotEmpty()) {
-                    true -> {
-                        adapter.submitList(newsResponse.novedades.take(5))
-                        textViewNovedadesHome.visibility = View.VISIBLE
-                        recyclerNovedadesHome.visibility = View.VISIBLE
-                    }
-                    false -> {
-
-                        textViewNovedadesHome.visibility = View.GONE
-                        recyclerNovedadesHome.visibility = View.GONE
-
-                    }
-                }
-            }
 
 
-        }
+
 
 
         //Configuration of Welcome section
         binding.incSectionWelcome.tvTitleWelcome.text =
             getString(R.string.fragment_home_title_welcome)
         setupRecyclerViewSliderWelcome()
+
+        setUpRecyclerViewNews()
 
         //Configuration of Testimonials section
         binding.incSectionTestimonials.tvTitleTestimonials.text =
@@ -86,6 +70,8 @@ class HomeFragment : Fragment() {
 
         return binding.root
     }
+
+
 
 
     /**
@@ -124,20 +110,56 @@ class HomeFragment : Fragment() {
     }
 
     /**
+     * Set Up Recycler View News with States from ViewModel
+     * When [Resource.Success] -> Make Visible Recycler
+     * Else -> Make Invisible Recyler
+     */
+
+    private fun setUpRecyclerViewNews(){
+        recyclerViewNovedades = binding.recyclerNovedadesHome
+
+        recyclerViewNovedades.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        recyclerViewNovedades.adapter = adapter
+
+        homeViewModel.newsState.observe(viewLifecycleOwner) { estadoNoticias ->
+            binding.apply {
+                when(estadoNoticias){
+                    is Resource.Success ->{
+                        adapter.submitList(estadoNoticias.data!!.novedades.take(5))
+                        textViewNovedadesHome.visible()
+                        recyclerNovedadesHome.visible()
+                    }
+                    else ->{
+
+                        textViewNovedadesHome.gone()
+                        recyclerNovedadesHome.gone()
+                    }
+
+
+                }
+            }
+        }
+    }
+
+
+    /**
      * Setup recycler view slider testimonials
      * Observe changes in HomeViewModel for testimonials.
      * When testimonials is empty hide section, but when not, show section with only 4 elements
      */
     private fun setupRecyclerViewSilderTestimonials() {
 
-        homeViewModel.testimonials.observe(viewLifecycleOwner){response ->
+        homeViewModel.testimonials.observe(viewLifecycleOwner) { response ->
             binding.apply {
-                when (!response.data.isNullOrEmpty()){
+                when (!response.data.isNullOrEmpty()) {
                     true -> {
                         adapterTestimonials.submitList(response.data.take(4).toMutableList())
 
                         adapterTestimonials.onItemClicked = { }
-                        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                        val layoutManager =
+                            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
                         incSectionTestimonials.rvSliderTestimonials.setHasFixedSize(true)
                         incSectionTestimonials.rvSliderTestimonials.layoutManager = layoutManager
