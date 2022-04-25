@@ -13,7 +13,7 @@ import com.melvin.ongandroid.databinding.FragmentHomeBinding
 import com.melvin.ongandroid.model.HomeWelcome
 import com.melvin.ongandroid.view.adapters.HomeWelcomeItemAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.melvin.ongandroid.model.Novedades
+import com.google.android.material.snackbar.Snackbar
 import com.melvin.ongandroid.view.adapters.HomeTestimonialsItemAdapter
 import com.melvin.ongandroid.view.adapters.NovedadesAdapter
 import com.melvin.ongandroid.viewmodel.HomeViewModel
@@ -31,7 +31,6 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerViewNovedades: RecyclerView
     private val adapter by lazy { NovedadesAdapter() }
 
-    private val homeViewModel: HomeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,6 +73,14 @@ class HomeFragment : Fragment() {
             }
 
 
+        }
+
+        /* Observe changes in the errorTestimonials. If there is an error, display a Snackbar
+        * indicating a problem with the query*/
+        homeViewModel.errorTestimonials.observe(viewLifecycleOwner) { error ->
+            if (error != "") {
+                showSnackbar("Ha ocurrido un error obteniendo la información")
+            }
         }
 
 
@@ -147,6 +154,20 @@ class HomeFragment : Fragment() {
         }
 
 
+    }
+
+    /**
+     * Show snackbar with message and button "Reintentar" to retry to query.
+     */
+    private fun showSnackbar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_INDEFINITE)
+            .setAction("Reintentar") {
+                homeViewModel.getTestimonials()
+                if (homeViewModel.errorTestimonials.value != "") {
+                    showSnackbar("Ha ocurrido un error obteniendo la información")
+                }
+            }
+            .show()
     }
 
 }

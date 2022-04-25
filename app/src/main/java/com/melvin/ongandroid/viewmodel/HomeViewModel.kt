@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.melvin.ongandroid.repository.OngRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -21,17 +22,27 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
     
     private val _newsResponse: MutableLiveData<NewsResponse> = MutableLiveData(NewsResponse())
     val newsResponse: LiveData<NewsResponse> = _newsResponse
+
+    // LiveData to catch the error from the getTestimonials() and control the UI
+    private val _errorTestimonials: MutableLiveData<String> = MutableLiveData()
+    val errorTestimonials: LiveData<String> = _errorTestimonials
     
     init {
         getTestimonials()
         fetchLatestNews()
     }
 
-    // Function that gets the testimonials and post it in the _testimonials MutableLiveData
-    private fun getTestimonials() {
+    /*
+    * Function that gets the testimonials and post it in the _testimonials MutableLiveData
+    * In case the query fails, it will post the error in the _errorTestimonials MutableLiveData
+    */
+    fun getTestimonials() {
         viewModelScope.launch(IO) {
-            repo.getTestimonials().collect{ testimonialsResponse ->
-                _testimonials.postValue(testimonialsResponse)
+            repo.getTestimonials()
+                .catch { throwable -> _errorTestimonials.postValue(throwable.message)  }
+                .collect{ testimonialsResponse ->
+                    _testimonials.postValue(testimonialsResponse)
+                    _errorTestimonials.postValue("")
             }
         }        
     }
@@ -42,8 +53,12 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
      */
     private fun fetchLatestNews(){
         viewModelScope.launch(IO) {
-            repo.fetchLatestNews().collect{ newsResponse ->
-                _newsResponse.postValue(newsResponse)
+            repo.fetchLatestNews()
+                    /*deje este catch porque se me crashea la app y no puedo comprobar
+                    * la captura de error de testimonials*/
+                .catch { throwable -> println("ESTE ES EL ERROR"+throwable.message) }
+                .collect{ newsResponse ->
+                    _newsResponse.postValue(newsResponse)
             }
         }
     }
