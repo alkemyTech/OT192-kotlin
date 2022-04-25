@@ -38,8 +38,8 @@ class ContactViewModel @Inject constructor(private val repo: OngRepository) : Vi
     val contactMessage = MutableLiveData<String>("")
 
     //Parameter to check State of response Contat post request
-    private val _contactResponse: MutableLiveData<Resource<MutableList<Contact>>> = MutableLiveData(Resource.loading())
-    val contactResponse : LiveData<Resource<MutableList<Contact>>> = _contactResponse
+    private val _contactResponseState: MutableLiveData<Resource<MutableList<Contact>>> = MutableLiveData(Resource.loading())
+    val contactResponseState : LiveData<Resource<MutableList<Contact>>> = _contactResponseState
 
 
 
@@ -66,11 +66,11 @@ class ContactViewModel @Inject constructor(private val repo: OngRepository) : Vi
             repo.sendContact(contact).collect(){ contactResponse ->
                 when(contactResponse.success){
                     true ->{
-                        _contactResponse.postValue(Resource.success(contactResponse.data.toMutableList()))
+                        _contactResponseState.postValue(Resource.success(contactResponse.data.toMutableList()))
                         _contacts.postValue(contactResponse)
                         _isLoading.postValue(false)
                     }
-                    false -> _contactResponse.postValue(Resource.errorApi("Error Api"))
+                    false -> _contactResponseState.postValue(Resource.errorApi("Error Api"))
                 }
             }
 /*
