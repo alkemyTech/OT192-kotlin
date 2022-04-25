@@ -1,6 +1,7 @@
 package com.melvin.ongandroid.repository
 
 
+import com.melvin.ongandroid.model.Contact
 import com.melvin.ongandroid.model.HomeTestimonials
 import com.melvin.ongandroid.model.GenericResponse
 import com.melvin.ongandroid.model.NewsResponse
@@ -25,6 +26,11 @@ class OngRepository @Inject constructor(private val apiService: OngApiService) {
         emit(apiService.fetchLatestNews())
     }
 
+
+    // Function that emits a GenericResponse, containing a contact response
+    suspend fun sendContact(contact:Contact): Flow<GenericResponse<List<Contact>>> = flow {
+        emit(apiService.sendContact(contact))
+    }
     /**
      * Get slides
      * Repository function that return the list of slides from the API
@@ -35,5 +41,6 @@ class OngRepository @Inject constructor(private val apiService: OngApiService) {
     suspend fun getSlides(): Flow<GenericResponse<List<Slide>>> = flow {
         //Collects the value emitted by the upstream
         emit(apiService.getSlides())
+
     }
 }

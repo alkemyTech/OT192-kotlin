@@ -5,8 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.ContactFragment"
-    android:layout_marginStart="20dp"
-    android:layout_marginEnd="20dp">
+    >
+
+    <include
+        android:id="@+id/progress_loader"
+        layout="@layout/view_load_spinner" />
 
 
     <ScrollView
@@ -15,7 +18,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
 
             <TextView
                 android:id="@+id/fragment_contact_title"

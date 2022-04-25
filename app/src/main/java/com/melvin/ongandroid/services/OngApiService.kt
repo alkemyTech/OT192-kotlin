@@ -1,11 +1,16 @@
 package com.melvin.ongandroid.services
 
+import com.melvin.ongandroid.model.Contact
 import com.melvin.ongandroid.model.HomeTestimonials
 import com.melvin.ongandroid.model.GenericResponse
 import com.melvin.ongandroid.model.NewsResponse
 import com.melvin.ongandroid.model.Slide
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Headers
+import retrofit2.http.POST
 import retrofit2.http.Query
+
 
 interface OngApiService {
 
@@ -15,6 +20,12 @@ interface OngApiService {
   
     @GET("news")
     suspend fun fetchLatestNews() : NewsResponse
+
+
+    // Post a new contact to the API
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("contacts")
+    suspend fun sendContact(@Body contact: Contact): GenericResponse<List<Contact>>
 
     /**
      * Get slides
@@ -32,5 +43,6 @@ interface OngApiService {
         @Query("skip") skip: Int? = null,
         @Query("limit") limit: Int? = null,
     ): GenericResponse<List<Slide>>
+
 
 }
