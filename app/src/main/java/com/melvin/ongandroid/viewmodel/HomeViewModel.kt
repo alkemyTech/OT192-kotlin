@@ -1,13 +1,8 @@
 package com.melvin.ongandroid.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.melvin.ongandroid.model.HomeTestimonials
-import com.melvin.ongandroid.model.GenericResponse
-import com.melvin.ongandroid.model.NewsResponse
+import androidx.lifecycle.*
+import com.melvin.ongandroid.model.*
 import javax.inject.Inject
-import androidx.lifecycle.viewModelScope
 import com.melvin.ongandroid.repository.OngRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
@@ -21,10 +16,19 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
     
     private val _newsResponse: MutableLiveData<NewsResponse> = MutableLiveData(NewsResponse())
     val newsResponse: LiveData<NewsResponse> = _newsResponse
-    
+
+    /**
+     * slide list of MutableLiveData type
+     * created on 24 April 2022 by Leonel Gomez
+     */
+    private val _slideList = MutableLiveData<List<Slide>>()
+    val slideList: LiveData<List<Slide>> = _slideList
+
     init {
         getTestimonials()
         fetchLatestNews()
+        //get a list of slides on ViewModel init
+        fetchSlides()
     }
 
     // Function that gets the testimonials and post it in the _testimonials MutableLiveData
@@ -44,6 +48,28 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
         viewModelScope.launch(IO) {
             repo.fetchLatestNews().collect{ newsResponse ->
                 _newsResponse.postValue(newsResponse)
+            }
+        }
+    }
+
+    /**
+     * Fetch slides
+     * from repository
+     * created on 24 April 2022 by Leonel Gomez
+     */
+    private fun fetchSlides() {
+        //coroutine to get the listing asynchronously
+        viewModelScope.launch(IO) {
+            repo.getSlides().collect { response ->
+                try {
+                    if (response.success)
+                        _slideList.postValue(response.data!!)
+                    else
+                        _slideList.postValue(listOf())
+
+                } catch (e: Exception) {
+                    _slideList.postValue(listOf())
+                }
             }
         }
     }

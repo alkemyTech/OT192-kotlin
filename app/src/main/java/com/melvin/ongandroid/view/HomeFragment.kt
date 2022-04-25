@@ -10,10 +10,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentHomeBinding
-import com.melvin.ongandroid.model.HomeWelcome
 import com.melvin.ongandroid.view.adapters.HomeWelcomeItemAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.melvin.ongandroid.model.Novedades
+import com.melvin.ongandroid.model.toUI
 import com.melvin.ongandroid.view.adapters.HomeTestimonialsItemAdapter
 import com.melvin.ongandroid.view.adapters.NovedadesAdapter
 import com.melvin.ongandroid.viewmodel.HomeViewModel
@@ -30,8 +29,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var recyclerViewNovedades: RecyclerView
     private val adapter by lazy { NovedadesAdapter() }
-
-    private val homeViewModel: HomeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -93,28 +90,36 @@ class HomeFragment : Fragment() {
 
     /**
      * Setup recycler view slider welcome
+     * created on 19 April 2022 by Leonel Gomez
+     * updated on 24 April 2022 by Leonel Gomez
      */
     private fun setupRecyclerViewSliderWelcome() {
-        //TODO: Harcoded random list
-        val listHomeWelcome = MutableList(15) {
-            HomeWelcome(
-                title = "Actividad ${(1..100).random()}",
-                imgUrl = "https://picsum.photos/200/300?random=${(1..100).random()}",
-                description = "Descripción ${(1..100).random()}\n" +
-                        "Descripción ${(1..100).random()}\n" +
-                        "Descripción ${(1..100).random()}\n" +
-                        "Descripción ${(1..100).random()}"
-            )
-        }
-
-        adapterWelcome.submitList(listHomeWelcome)
         adapterWelcome.onItemClicked = { }
+        //It is a horizontal recycler view
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
+        //Initial configuration of recycler view
         with(binding) {
             incSectionWelcome.rvSliderWelcome.setHasFixedSize(true)
             incSectionWelcome.rvSliderWelcome.layoutManager = layoutManager
             incSectionWelcome.rvSliderWelcome.adapter = adapterWelcome
+        }
+
+        //the list is populated from a repository asynchronously and updated in live data
+        homeViewModel.slideList.observe(viewLifecycleOwner) { result ->
+            if (!result.isNullOrEmpty()) {
+                //If data is obtained, it is loaded into the recycler adapter
+                //There is a conversion (mapping) of Slide object to HomeWelcome object
+                // (with enough attributes to display in the UI)
+                adapterWelcome.submitList(result.map { it.toUI() })
+                binding.incSectionWelcome.rvSliderWelcome.adapter = adapterWelcome
+
+                //The section is displayed
+                showHomeWelcomeSection()
+            } else {
+                //If the list is empty, this section is hidden
+                showHomeWelcomeSection(show = false)
+            }
         }
     }
 
@@ -147,6 +152,22 @@ class HomeFragment : Fragment() {
         }
 
 
+    }
+
+    /**
+     * Show home welcome section
+     * Show (or hide) home welcome section (title and recycler view)
+     * created on 24 April 2022 by Leonel Gomez
+     *
+     * @param show Boolean default true, to indicate the show or hide (false) action
+     */
+    private fun showHomeWelcomeSection(show: Boolean = true) {
+        with(binding) {
+            if (show)
+                incSectionWelcome.root.visibility = View.VISIBLE
+            else
+                incSectionWelcome.root.visibility = View.GONE
+        }
     }
 
 }
