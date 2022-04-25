@@ -31,5 +31,6 @@
 
     <!-- Image content description in layouts -->
     <string name="content_description_loading">Cargando</string>
+    <string name="error_message_contact">Ha ocurrido un error. Intente nuevamente mas tarde</string>
 
 </resources>
