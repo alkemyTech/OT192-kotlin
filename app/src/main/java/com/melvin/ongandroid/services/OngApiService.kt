@@ -5,6 +5,7 @@ import com.melvin.ongandroid.model.HomeTestimonials
 import com.melvin.ongandroid.model.GenericResponse
 import com.melvin.ongandroid.model.NewsResponse
 import com.melvin.ongandroid.model.Slide
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -19,7 +20,7 @@ interface OngApiService {
     suspend fun getTestimonials(): GenericResponse<MutableList<HomeTestimonials>>
   
     @GET("news")
-    suspend fun fetchLatestNews() : NewsResponse
+    suspend fun fetchLatestNews() : Response<NewsResponse>
 
 
     // Post a new contact to the API
