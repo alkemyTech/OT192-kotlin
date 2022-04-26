@@ -13,6 +13,7 @@ import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentHomeBinding
 import com.melvin.ongandroid.view.adapters.HomeWelcomeItemAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.melvin.ongandroid.model.toUI
 import com.melvin.ongandroid.utils.Resource
@@ -54,6 +55,19 @@ class HomeFragment : Fragment() {
         homeViewModel.errorTestimonials.observe(viewLifecycleOwner) { error ->
             if (error != "") {
                 showSnackbar("Ha ocurrido un error obteniendo la información")
+            }
+        }
+
+        /* Observe changes in the slideError. If there is an error, display a dialog
+        * with a retry button */
+        homeViewModel.slideError.observe(viewLifecycleOwner) { error ->
+            if (error != "") {
+                showDialog(
+                    title = getString(R.string.dialog_error),
+                    message = getString(R.string.dialog_error_getting_info),
+                    positive = getString(R.string.btn_retry),
+                    callback = { homeViewModel.fetchSlides() }
+                )
             }
         }
 
@@ -211,6 +225,31 @@ class HomeFragment : Fragment() {
     }
 
     /**
+     * Show dialog
+     * created on 25 April 2022 by Leonel Gomez
+     *
+     * @param title string title text
+     * @param message string message text
+     * @param negative string text in the negative button, default null (not showed)
+     * @param positive string text in the positive button, default null (not showed)
+     * @param callback function that is called when positive button is clicked, default null (no action)
+     */
+    private fun showDialog(
+        title: String,
+        message: String,
+        negative: String? = null,
+        positive: String? = null,
+        callback: (() -> Unit)? = null
+    ) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(title)
+            .setMessage(message)
+            .setNegativeButton(negative) { _, _ -> }
+            .setPositiveButton(positive) { _, _ -> callback?.invoke() }
+            .show()
+    }
+
+    /*
      * When all api calls are unsuccesfull hide current view, and sow new view
      * with Error Button to retry ApiCalls
      */

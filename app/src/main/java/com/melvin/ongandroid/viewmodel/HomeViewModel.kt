@@ -36,6 +36,14 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
     private val _slideList = MutableLiveData<List<Slide>>()
     val slideList: LiveData<List<Slide>> = _slideList
 
+    /**
+     * slide error of MutableLiveData String type
+     * to catch the error of the function of getting Slide
+     * created on 25 April 2022 by Leonel Gomez
+     */
+    private val _slideError: MutableLiveData<String> = MutableLiveData()
+    val slideError: LiveData<String> = _slideError
+  
 
     /* LiveData that handles Massive Failure*/
     private val _massiveFailure: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -59,6 +67,8 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
             repo.getTestimonials().collect { testimonialsResponse ->
                 _testimonials.postValue(testimonialsResponse)
 
+            }
+        }
     }
 
     /**
@@ -96,21 +106,25 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
      * Fetch slides
      * from repository
      * created on 24 April 2022 by Leonel Gomez
+     * updated on 25 April 2022 by Leonel Gomez
      */
-    private fun fetchSlides() {
+    fun fetchSlides() {
         //coroutine to get the listing asynchronously
         viewModelScope.launch(IO) {
-            repo.getSlides().collect { response ->
-                try {
-                    if (response.success)
-                        _slideList.postValue(response.data!!)
-                    else
+            repo.getSlides()
+                .catch { throwable -> _slideError.postValue(throwable.message) }
+                .collect { response ->
+                    try {
+                        if (response.success)
+                            _slideList.postValue(response.data!!)
+                        else
+                            _slideList.postValue(listOf())
+                        _slideError.postValue("")
+                    } catch (e: Exception) {
                         _slideList.postValue(listOf())
-
-                } catch (e: Exception) {
-                    _slideList.postValue(listOf())
+                        _slideError.postValue(e.message)
+                    }
                 }
-            }
         }
     }
 
