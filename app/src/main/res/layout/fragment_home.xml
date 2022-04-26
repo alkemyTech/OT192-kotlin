@@ -36,7 +36,7 @@
             android:layout_width="219dp"
             android:layout_height="97dp"
             android:layout_marginBottom="252dp"
-            android:text="@string/retry_button"
+            android:text="@string/btn_retry"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -123,5 +123,11 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <!-- include loading spinner -->
+    <include
+        android:id="@+id/progress_loader"
+        layout="@layout/view_load_spinner"
+        android:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
