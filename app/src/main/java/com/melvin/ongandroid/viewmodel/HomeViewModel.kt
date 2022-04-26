@@ -142,7 +142,10 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
                         _newsState.postValue(Resource.loading())
 
                 }
-
+                //Reset loading state when it is not loading
+                if(resource !is Resource.Loading) {
+                    isNewsLoading.postValue(false)
+                }
             }
         }
     }
