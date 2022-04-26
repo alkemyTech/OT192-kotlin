@@ -64,9 +64,11 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
     fun getTestimonials() {
         viewModelScope.launch(IO) {
 
-            repo.getTestimonials().collect { testimonialsResponse ->
+            repo.getTestimonials()
+                .catch { throwable -> _errorTestimonials.postValue(throwable.message) }
+                .collect { testimonialsResponse ->
                 _testimonials.postValue(testimonialsResponse)
-
+                _errorTestimonials.postValue("")
             }
         }
     }
@@ -82,7 +84,9 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
     private fun fetchLatestNews() {
         viewModelScope.launch(IO) {
 
-            repo.fetchLatestNews().collect { resource ->
+            repo.fetchLatestNews()
+                .catch { throwable -> println(throwable.message) }
+                .collect { resource ->
                 when (resource) {
                     is Resource.Success ->
                         _newsState.postValue(Resource.success(resource.data!!))

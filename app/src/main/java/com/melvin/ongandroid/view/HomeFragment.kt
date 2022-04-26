@@ -54,7 +54,12 @@ class HomeFragment : Fragment() {
         * indicating a problem with the query*/
         homeViewModel.errorTestimonials.observe(viewLifecycleOwner) { error ->
             if (error != "") {
-                showSnackbar("Ha ocurrido un error obteniendo la información")
+                showDialog(
+                    title = getString(R.string.dialog_error),
+                    message = getString(R.string.dialog_error_getting_info),
+                    positive = getString(R.string.btn_retry),
+                    callback = { homeViewModel.getTestimonials() }
+                )
             }
         }
 
