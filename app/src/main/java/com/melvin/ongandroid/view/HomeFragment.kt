@@ -83,6 +83,14 @@ class HomeFragment : Fragment() {
             }
         }
 
+        /* Observe if any of the three search is still in loading state
+        * The spinner is hidden when all three sections (welcome, latest news, and testimonials)
+        * have finished fetching their data. */
+        homeViewModel.isLoading.observe(viewLifecycleOwner) { loading ->
+            if(loading != null)
+                enableUI(!loading)
+        }
+
 
         //Configuration of Welcome section
         binding.incSectionWelcome.tvTitleWelcome.text =
@@ -192,6 +200,19 @@ class HomeFragment : Fragment() {
             else
                 incSectionWelcome.root.visibility = View.GONE
         }
+    }
+
+    /**
+     * Enable UI when loading data is finished
+     * created on 25 April 2022 by Leonel Gomez
+     *
+     * @param enable
+     */
+    private fun enableUI(enable : Boolean) {
+        if(enable)
+            binding.progressLoader.root.visibility = View.GONE
+        else
+            binding.progressLoader.root.visibility = View.VISIBLE
     }
 
 }
