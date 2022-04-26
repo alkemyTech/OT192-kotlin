@@ -4,19 +4,24 @@ import androidx.lifecycle.*
 import com.melvin.ongandroid.model.*
 import javax.inject.Inject
 import com.melvin.ongandroid.repository.OngRepository
+import com.melvin.ongandroid.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewModel() {
 
     private val _testimonials = MutableLiveData<GenericResponse<MutableList<HomeTestimonials>>>()
     val testimonials: LiveData<GenericResponse<MutableList<HomeTestimonials>>> = _testimonials
-    
-    private val _newsResponse: MutableLiveData<NewsResponse> = MutableLiveData(NewsResponse())
-    val newsResponse: LiveData<NewsResponse> = _newsResponse
+
+
+    private val _newsState: MutableLiveData<Resource<NewsResponse>> =
+        MutableLiveData(Resource.loading())
+    val newsState: LiveData<Resource<NewsResponse>> = _newsState
+
 
 
     // LiveData to catch the error from the getTestimonials() and control the UI
@@ -42,6 +47,19 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
     private var isNewsLoading = MutableLiveData(false)
     private var isTestimonialsLoading = MutableLiveData(false)
 
+    /**
+     * slide error of MutableLiveData String type
+     * to catch the error of the function of getting Slide
+     * created on 25 April 2022 by Leonel Gomez
+     */
+    private val _slideError: MutableLiveData<String> = MutableLiveData()
+    val slideError: LiveData<String> = _slideError
+  
+
+    /* LiveData that handles Massive Failure*/
+    private val _massiveFailure: MutableLiveData<Boolean> = MutableLiveData(false)
+    val massiveFailure: LiveData<Boolean> = _massiveFailure
+
     init {
         //Set loading state of all search
         isSlideLoading.postValue(true)
@@ -55,6 +73,7 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
         fetchLatestNews()
         //get a list of slides on ViewModel init
         fetchSlides()
+        checkMassiveFailure()
     }
 
     /**
@@ -94,23 +113,36 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
                     //Reset loading state
                     isTestimonialsLoading.postValue(false)
             }
-        }        
+        }
     }
 
     /**
      * Function that fetch latestNews and post it in a mutable LiveData.
-     * Uses Repository function with flow. When collected, posted values on[_newsResponse].
+     * Collects from Repository and handle diverse States of response.
+     * When
+     * [Resource.Success] -> Request From Api was Succesfull
+     * [Resource.ErrorApi] -> Request from Api had Errors
+     * [Resource.ErrorThrowable] -> Catch Exceptions
      */
-    private fun fetchLatestNews(){
+    private fun fetchLatestNews() {
         viewModelScope.launch(IO) {
-            repo.fetchLatestNews()
-                    /*deje este catch porque se me crashea la app y no puedo comprobar
-                    * la captura de error de testimonials*/
-                .catch { throwable -> println("ESTE ES EL ERROR"+throwable.message) }
-                .collect{ newsResponse ->
-                    _newsResponse.postValue(newsResponse)
-                    //Reset loading state
-                    isNewsLoading.postValue(false)
+
+            repo.fetchLatestNews().collect { resource ->
+                when (resource) {
+                    is Resource.Success ->
+                        _newsState.postValue(Resource.success(resource.data!!))
+
+                    is Resource.ErrorApi ->
+                        _newsState.postValue(Resource.errorApi(resource.errorMessage!!))
+
+                    is Resource.ErrorThrowable ->
+                        _newsState.postValue(Resource.errorThrowable(resource.errorThrowable!!))
+
+                    is Resource.Loading ->
+                        _newsState.postValue(Resource.loading())
+
+                }
+
             }
         }
     }
@@ -119,23 +151,54 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
      * Fetch slides
      * from repository
      * created on 24 April 2022 by Leonel Gomez
+     * updated on 25 April 2022 by Leonel Gomez
      */
-    private fun fetchSlides() {
+    fun fetchSlides() {
         //coroutine to get the listing asynchronously
         viewModelScope.launch(IO) {
-            repo.getSlides().collect { response ->
-                try {
-                    if (response.success)
-                        _slideList.postValue(response.data!!)
-                    else
+            repo.getSlides()
+                .catch { throwable -> _slideError.postValue(throwable.message) }
+                .collect { response ->
+                    try {
+                        if (response.success)
+                            _slideList.postValue(response.data!!)
+                        else
+                            _slideList.postValue(listOf())
+                        _slideError.postValue("")
+                    } catch (e: Exception) {
                         _slideList.postValue(listOf())
+                        _slideError.postValue(e.message)
+                    }
                     //Reset loading state
                     isSlideLoading.postValue(false)
-
-                } catch (e: Exception) {
-                    _slideList.postValue(listOf())
                 }
-            }
         }
+    }
+
+    /** Function that handle massive Error from API.
+     * Checks if all elements are not empty or null.
+     *
+     */
+
+    private fun checkMassiveFailure() {
+        viewModelScope.launch(IO) {
+            delay(5000)
+            _massiveFailure.postValue(
+                _newsState.value?.data?.success == false &&
+                        _slideList.value?.isNotEmpty() == false &&
+                        _testimonials.value?.success == false
+            )
+        }
+    }
+
+    /**
+     * When Error in API Call, retry all request and checks again fi successful
+     */
+
+    fun retryApiCallsHome() {
+        fetchLatestNews()
+        fetchSlides()
+        getTestimonials()
+        checkMassiveFailure()
     }
 }

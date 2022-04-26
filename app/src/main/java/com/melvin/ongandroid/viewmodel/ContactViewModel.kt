@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.melvin.ongandroid.model.Contact
 import com.melvin.ongandroid.model.GenericResponse
 import com.melvin.ongandroid.repository.OngRepository
+import com.melvin.ongandroid.utils.Resource
 import com.melvin.ongandroid.utils.checkContactMessage
 import com.melvin.ongandroid.utils.checkFirstOrLastName
 import com.melvin.ongandroid.utils.isEmailValid
@@ -36,6 +37,12 @@ class ContactViewModel @Inject constructor(private val repo: OngRepository) : Vi
     val email = MutableLiveData<String>("")
     val contactMessage = MutableLiveData<String>("")
 
+    //Parameter to check State of response Contat post request
+    private val _contactResponseState: MutableLiveData<Resource<MutableList<Contact>>> = MutableLiveData(Resource.loading())
+    val contactResponseState : LiveData<Resource<MutableList<Contact>>> = _contactResponseState
+
+
+
     /**
      * Function that checks if all parameters from Consulta are valid.
      * When Valid, [_isButtonEnabled] changes to true, enabling button.
@@ -57,10 +64,20 @@ class ContactViewModel @Inject constructor(private val repo: OngRepository) : Vi
         viewModelScope.launch(IO) {
             _isLoading.postValue(true)
             repo.sendContact(contact).collect(){ contactResponse ->
+                when(contactResponse.success){
+                    true ->{
+                        _contactResponseState.postValue(Resource.success(contactResponse.data.toMutableList()))
+                        _contacts.postValue(contactResponse)
+                        _isLoading.postValue(false)
+                    }
+                    false -> _contactResponseState.postValue(Resource.errorApi("Error Api"))
+                }
+            }
+/*
                 _contacts.postValue(contactResponse)
                 _isLoading.postValue(false)
-            }
-
+ */
         }
     }
+
 }
