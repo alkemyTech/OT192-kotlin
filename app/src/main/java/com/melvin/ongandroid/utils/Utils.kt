@@ -2,6 +2,7 @@ package com.melvin.ongandroid.utils
 
 import android.text.Html
 import android.text.Spanned
+import android.view.View
 
 /*
 Function that Checks if a String is a valid form of email.
@@ -36,4 +37,14 @@ fun String.convertHtmlToString(): String {
     } else {
         Html.fromHtml(this).toString()
     }
+}
+
+fun View.visible(): View {
+    this.visibility = View.VISIBLE
+    return this
+}
+
+fun View.gone(): View {
+    this.visibility = View.GONE
+    return this
 }
