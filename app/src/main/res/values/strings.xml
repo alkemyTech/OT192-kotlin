@@ -41,7 +41,6 @@
 
     <string name="error_message_contact">Ha ocurrido un error. Intente nuevamente mas tarde</string>
     <string name="massive_error">Error General</string>
-    <string name="retry_button">Reintentar</string>
 
 
 </resources>

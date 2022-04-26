@@ -36,7 +36,7 @@
             android:layout_width="219dp"
             android:layout_height="97dp"
             android:layout_marginBottom="252dp"
-            android:text="@string/retry_button"
+            android:text="@string/btn_retry"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
