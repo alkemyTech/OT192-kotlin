@@ -37,6 +37,17 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
     val slideList: LiveData<List<Slide>> = _slideList
 
     /**
+     * isLoading is a MediatorLiveData that contains three boolean MutableLiveData
+     * they indicate if one of the three fetching is still in loading state
+     * For each search, there is a MutableLiveData to indicate if the search is loading
+     * created on 25 April 2022 by Leonel Gomez
+     */
+    var isLoading = MediatorLiveData<Boolean>()
+    private var isSlideLoading = MutableLiveData(false)
+    private var isNewsLoading = MutableLiveData(false)
+    private var isTestimonialsLoading = MutableLiveData(false)
+
+    /**
      * slide error of MutableLiveData String type
      * to catch the error of the function of getting Slide
      * created on 25 April 2022 by Leonel Gomez
@@ -50,11 +61,42 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
     val massiveFailure: LiveData<Boolean> = _massiveFailure
 
     init {
+        //Set loading state of all search
+        isSlideLoading.postValue(true)
+        isNewsLoading.postValue(true)
+        isTestimonialsLoading.postValue(true)
+
+        //Configure sources of loading mediator
+        initLoadingMediatorConfigurator()
+
         getTestimonials()
         fetchLatestNews()
         //get a list of slides on ViewModel init
         fetchSlides()
         checkMassiveFailure()
+    }
+
+    /**
+     * Init loading mediator configurator
+     * Configure isLoading: a LiveData subclass which may observe other LiveData objects and
+     * will react on OnChanged events from them.
+     * created on 25 April 2022 by Leonel Gomez
+     */
+    private fun initLoadingMediatorConfigurator() {
+        with(isLoading) {
+            addSource(isSlideLoading) {
+                isLoading.value =
+                    it || isNewsLoading.value ?: false || isTestimonialsLoading.value ?: false
+            }
+            addSource(isNewsLoading) {
+                isLoading.value =
+                    it || isSlideLoading.value ?: false || isTestimonialsLoading.value ?: false
+            }
+            addSource(isTestimonialsLoading) {
+                isLoading.value =
+                    it || isNewsLoading.value ?: false || isSlideLoading.value ?: false
+            }
+        }
     }
 
     /*
@@ -63,10 +105,13 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
     */
     fun getTestimonials() {
         viewModelScope.launch(IO) {
-
-            repo.getTestimonials().collect { testimonialsResponse ->
-                _testimonials.postValue(testimonialsResponse)
-
+            repo.getTestimonials()
+                .catch { throwable -> _errorTestimonials.postValue(throwable.message)  }
+                .collect{ testimonialsResponse ->
+                    _testimonials.postValue(testimonialsResponse)
+                    _errorTestimonials.postValue("")
+                    //Reset loading state
+                    isTestimonialsLoading.postValue(false)
             }
         }
     }
@@ -97,7 +142,10 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
                         _newsState.postValue(Resource.loading())
 
                 }
-
+                //Reset loading state when it is not loading
+                if(resource !is Resource.Loading) {
+                    isNewsLoading.postValue(false)
+                }
             }
         }
     }
@@ -124,6 +172,8 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
                         _slideList.postValue(listOf())
                         _slideError.postValue(e.message)
                     }
+                    //Reset loading state
+                    isSlideLoading.postValue(false)
                 }
         }
     }
