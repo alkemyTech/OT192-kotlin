@@ -18,6 +18,7 @@ class NovedadesAdapter : ListAdapter<News, NovedadesHolder>(ComparadorNovedades(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NovedadesHolder {
         return NovedadesHolder.create(parent)
     }
+    var onClickArrow: (() -> Unit)? = null
 
     override fun onBindViewHolder(holder: NovedadesHolder, position: Int) {
         val novedad = getItem(position)
@@ -50,6 +51,11 @@ class NovedadesAdapter : ListAdapter<News, NovedadesHolder>(ComparadorNovedades(
                     250,
                     250
                 )
+
+                // add setOnClickListener to the arrow image
+                backImage.setOnClickListener{
+                    onClickArrow?.invoke()
+                }
                 constraintItemNovedades.addView(backImage)
 
 
