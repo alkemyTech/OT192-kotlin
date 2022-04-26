@@ -28,6 +28,13 @@
     <string name="fragment_contact_messageHint">Escribe tu consulta</string>
     <string name="fragment_contact_button">Enviar</string>
 
+    <!-- Button texts -->
+    <string name="btn_retry">Reintentar</string>
+
+    <!-- Dialog texts -->
+    <string name="dialog_error">Error</string>
+    <string name="dialog_error_getting_info">Ha ocurrido un error obteniendo la información</string>
+
 
     <!-- Image content description in layouts -->
     <string name="content_description_loading">Cargando</string>
