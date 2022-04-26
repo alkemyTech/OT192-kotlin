@@ -19,7 +19,7 @@
     <string name="fragment_home_title_testimonials">Testimonios</string>
     <string name="item_testimonials_default_name">Nombre</string>
     <string name="item_testimonials_default_heading">Epígrafe</string>
-  
+
     <!-- Fragment layout texts - Contact -->
     <string name="fragment_contact_title">Contactate con nosotros</string>
     <string name="fragment_contact_firstnameHint">Nombre</string>
@@ -27,6 +27,13 @@
     <string name="fragment_contact_emailHint">Email</string>
     <string name="fragment_contact_messageHint">Escribe tu consulta</string>
     <string name="fragment_contact_button">Enviar</string>
+
+    <!-- Button texts -->
+    <string name="btn_retry">Reintentar</string>
+
+    <!-- Dialog texts -->
+    <string name="dialog_error">Error</string>
+    <string name="dialog_error_getting_info">Ha ocurrido un error obteniendo la información</string>
 
 
     <!-- Image content description in layouts -->
