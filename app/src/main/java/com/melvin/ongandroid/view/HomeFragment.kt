@@ -249,7 +249,7 @@ class HomeFragment : Fragment() {
             .show()
     }
 
-}
+    /*
      * When all api calls are unsuccesfull hide current view, and sow new view
      * with Error Button to retry ApiCalls
      */

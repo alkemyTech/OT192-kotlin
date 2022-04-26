@@ -67,6 +67,8 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
             repo.getTestimonials().collect { testimonialsResponse ->
                 _testimonials.postValue(testimonialsResponse)
 
+            }
+        }
     }
 
     /**
