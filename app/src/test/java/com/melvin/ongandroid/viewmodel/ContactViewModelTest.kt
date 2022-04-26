@@ -134,4 +134,40 @@ class ContactViewModelTest {
         assertEquals(false, vm.isButtonEneabled.value)
     }
 
+    @Test
+    fun `check empty email`() = coroutinesTestRule.testDispatcher.runBlockingTest  {
+        vm.email.value = ""    //empty
+        vm.checkContactFormViewModel()
+        assertEquals(true, vm.isFirstNameValid)
+        assertEquals(true, vm.isLastNameValid)
+        assertEquals(true, vm.isContactMessageValid)
+
+        assertEquals(false, vm.isEmailValid)
+        assertEquals(false, vm.isButtonEneabled.value)
+    }
+
+    @Test
+    fun `check wrong email`() = coroutinesTestRule.testDispatcher.runBlockingTest  {
+        vm.email.value = "admin.com"    //wrong email, does not have @
+        vm.checkContactFormViewModel()
+        assertEquals(true, vm.isFirstNameValid)
+        assertEquals(true, vm.isLastNameValid)
+        assertEquals(true, vm.isContactMessageValid)
+
+        assertEquals(false, vm.isEmailValid)
+        assertEquals(false, vm.isButtonEneabled.value)
+    }
+
+    @Test
+    fun `check wrong email 2`() = coroutinesTestRule.testDispatcher.runBlockingTest  {
+        vm.email.value = "admin@alkemy"    //wrong email, does not have .com for example
+        vm.checkContactFormViewModel()
+        assertEquals(true, vm.isFirstNameValid)
+        assertEquals(true, vm.isLastNameValid)
+        assertEquals(true, vm.isContactMessageValid)
+
+        assertEquals(false, vm.isEmailValid)
+        assertEquals(false, vm.isButtonEneabled.value)
+    }
+
 }
