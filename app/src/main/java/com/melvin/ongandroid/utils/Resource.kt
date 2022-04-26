@@ -27,4 +27,3 @@ sealed class Resource<T>(
         fun <T> errorApi(errorMessage:String): Resource<T> = ErrorApi(errorMessage)
         fun <T> loading(): Resource<T> = Loading()
     }
-}

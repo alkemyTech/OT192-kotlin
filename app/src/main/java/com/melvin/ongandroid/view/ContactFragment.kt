@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.melvin.ongandroid.databinding.FragmentContactBinding
 import com.melvin.ongandroid.model.Contact
+import com.melvin.ongandroid.utils.Resource
 import com.melvin.ongandroid.utils.checkContactMessage
 import com.melvin.ongandroid.utils.checkFirstOrLastName
 import com.melvin.ongandroid.utils.isEmailValid
@@ -34,6 +35,7 @@ class ContactFragment : Fragment() {
         binding.progressLoader.root.visibility = View.GONE
         checkContactFormFragment()
         setupOnClickListener()
+        showErrorMesage()
 
         /** Observe the state of button given [checkContactFormFragment]*/
         contactViewModel.isButtonEneabled.observe(viewLifecycleOwner){
@@ -51,7 +53,21 @@ class ContactFragment : Fragment() {
             }
         }
 
+
+
         return binding.root
+    }
+
+    /**
+     * Function that shows error textView if API call fails.
+     */
+    private fun showErrorMesage(){
+        contactViewModel.contactResponseState.observe(viewLifecycleOwner){resource->
+            when(resource){
+                is Resource.ErrorApi -> binding.textViewError.visibility = View.VISIBLE
+                else ->Unit
+        }
+        }
     }
 
     /**
@@ -70,6 +86,7 @@ class ContactFragment : Fragment() {
             if (!it.toString().checkFirstOrLastName()){
                 firstNameEditText.error = "El nombre debe tener más de 3 letras"
             }
+            binding.textViewError.visibility = View.GONE
             contactViewModel.checkContactFormViewModel()
         }
 
@@ -78,6 +95,7 @@ class ContactFragment : Fragment() {
             if (!it.toString().checkFirstOrLastName()){
                 lastNameEditText.error = "El Apellido debe tener más de 3 letras"
             }
+            binding.textViewError.visibility = View.GONE
             contactViewModel.checkContactFormViewModel()
         }
 
@@ -86,6 +104,7 @@ class ContactFragment : Fragment() {
             if (!it.toString().isEmailValid()){
                 emailEditText.error = "E-mail incorrecto"
             }
+            binding.textViewError.visibility = View.GONE
             contactViewModel.checkContactFormViewModel()
         }
 
@@ -94,6 +113,7 @@ class ContactFragment : Fragment() {
             if (!it.toString().checkContactMessage()){
                 contactEditText.error = "La consulta debe tener al menos 30 carácteres."
             }
+            binding.textViewError.visibility = View.GONE
             contactViewModel.checkContactFormViewModel()
         }
 
