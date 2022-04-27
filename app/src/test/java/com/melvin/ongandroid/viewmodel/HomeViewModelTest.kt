@@ -7,6 +7,8 @@ import com.melvin.ongandroid.model.News
 import com.melvin.ongandroid.model.NewsResponse
 import com.melvin.ongandroid.repository.OngRepository
 import com.melvin.ongandroid.utils.Resource
+import com.squareup.okhttp.MediaType
+import com.squareup.okhttp.ResponseBody
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -14,9 +16,12 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import retrofit2.Response
 
 @ExperimentalCoroutinesApi
 class HomeViewModelTest {
@@ -63,12 +68,11 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `check if List of News in ViewModel is the same that repo `()= runTest {
+    fun `check if List of News in ViewModel is the same that repo `() = runTest {
 
         val response = NewsResponse(true, listOf(News(23)))
 
         //Define response for latest news Api Request
-
         coEvery { repository.fetchLatestNews() }.returns(flowOf(Resource.success(response)))
 
         //When
@@ -84,7 +88,31 @@ class HomeViewModelTest {
         assert(viewModel.newsState.getOrAwaitValue().data?.novedades?.firstOrNull() == response.novedades.first())
     }
 
+    @Test
+    fun `News States should be ErrorApi when there was an error in ApiRequest `() = runTest {
 
+        // Bad Response
+        val response = Response.error<NewsResponse>(
+            400,
+            "{\"key\":[\"somestuff\"]}".toResponseBody("application/json".toMediaTypeOrNull())
+        )
+
+        coEvery { repository.fetchLatestNews() }.returns(
+            flowOf(
+                Resource.errorApi(response.errorBody().toString())
+            )
+        )
+        //When
+        viewModel.retryApiCallsHome()
+
+        //Verify
+        coVerify {
+            repository.fetchLatestNews()
+        }
+
+        // This Shuold be True
+        assert(viewModel.newsState.getOrAwaitValue() is Resource.ErrorApi)
+    }
 
 
 }
