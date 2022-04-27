@@ -22,6 +22,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import retrofit2.Response
+import java.io.IOException
 
 @ExperimentalCoroutinesApi
 class HomeViewModelTest {
@@ -112,6 +113,26 @@ class HomeViewModelTest {
 
         // This Shuold be True
         assert(viewModel.newsState.getOrAwaitValue() is Resource.ErrorApi)
+    }
+
+    @Test
+    fun `NewsState should catch exceptions`() = runTest {
+        val exception = IOException()
+
+        coEvery { repository.fetchLatestNews() }.returns(flowOf(Resource.errorThrowable(exception)))
+
+        //When
+        viewModel.retryApiCallsHome()
+
+        //Verify
+        coVerify {
+            repository.fetchLatestNews()
+        }
+
+        assert(viewModel.newsState.getOrAwaitValue() is Resource.ErrorThrowable)
+
+
+
     }
 
 
