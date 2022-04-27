@@ -14,8 +14,6 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
-
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -62,6 +60,28 @@ class HomeViewModelTest {
 
         //This Should be True
         assert(viewModel.newsState.getOrAwaitValue() is Resource.Success)
+    }
+
+    @Test
+    fun `check if List of News in ViewModel is the same that repo `()= runTest {
+
+        val response = NewsResponse(true, listOf(News(23)))
+
+        //Define response for latest news Api Request
+
+        coEvery { repository.fetchLatestNews() }.returns(flowOf(Resource.success(response)))
+
+        //When
+        viewModel.retryApiCallsHome()
+
+        /**Verify tha [OngRepository.fetchLatestNews] is called.
+         */
+        coVerify {
+            repository.fetchLatestNews()
+        }
+
+        //This Should be True
+        assert(viewModel.newsState.getOrAwaitValue().data?.novedades?.firstOrNull() == response.novedades.first())
     }
 
 
