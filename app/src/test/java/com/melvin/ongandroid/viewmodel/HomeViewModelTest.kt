@@ -6,17 +6,18 @@ import com.melvin.ongandroid.getOrAwaitValue
 import com.melvin.ongandroid.model.*
 import com.melvin.ongandroid.repository.OngRepository
 import com.melvin.ongandroid.utils.Resource
-import com.squareup.okhttp.MediaType
-import com.squareup.okhttp.ResponseBody
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -148,7 +149,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `Test Handle error`() = runTest {
+    fun `Test Handle error for Slides`() = runTest {
         // Bad Response
         val badResponse = GenericResponse(false, data = listOf<Slide>())
 
@@ -177,9 +178,27 @@ class HomeViewModelTest {
         //Verify
         coVerify { repository.getTestimonials() }
 
+
+
         assert(viewModel.testimonials.getOrAwaitValue().data.isNotEmpty())
+        assert(viewModel.errorTestimonials.getOrAwaitValue().isEmpty())
 
     }
 
+
+    @Test
+    fun `Test Error for testimonails Slides`() = runTest {
+        val exception = IOException()
+
+        coEvery { repository.getTestimonials().catch {  } }.throws(exception)
+            .andThen( flowOf<GenericResponse<MutableList<HomeTestimonials>>>
+                (GenericResponse(true, mutableListOf())).catch {e->
+                exception.localizedMessage!! })
+
+        //When
+        viewModel.getTestimonials()
+        coVerify { repository.getTestimonials() }
+        assertEquals(viewModel.errorTestimonials.getOrAwaitValue(), "")
+    }
 
 }
