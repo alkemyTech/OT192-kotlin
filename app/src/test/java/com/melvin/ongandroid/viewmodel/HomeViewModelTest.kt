@@ -117,7 +117,7 @@ class HomeViewModelTest {
     @Test
     fun `NewsState should catch exceptions`() = runTest {
         val exception = IOException()
-
+        //Simulated Exceptions
         coEvery { repository.fetchLatestNews() }.returns(flowOf(Resource.errorThrowable(exception)))
 
         //When
