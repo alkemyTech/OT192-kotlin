@@ -3,10 +3,7 @@ package com.melvin.ongandroid.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.melvin.ongandroid.MainDispatcherRule
 import com.melvin.ongandroid.getOrAwaitValue
-import com.melvin.ongandroid.model.GenericResponse
-import com.melvin.ongandroid.model.News
-import com.melvin.ongandroid.model.NewsResponse
-import com.melvin.ongandroid.model.Slide
+import com.melvin.ongandroid.model.*
 import com.melvin.ongandroid.repository.OngRepository
 import com.melvin.ongandroid.utils.Resource
 import com.squareup.okhttp.MediaType
@@ -168,6 +165,21 @@ class HomeViewModelTest {
         assert(listStateEmpty.isEmpty())
     }
 
+    @Test
+    fun `Should be True when Response testimontial is successful`() = runTest {
+        val listTestimonial = mutableListOf(HomeTestimonials(1))
+        val responseTestimonial = GenericResponse(true, listTestimonial)
+
+        coEvery { repository.getTestimonials() }.returns(flowOf(responseTestimonial))
+        //When
+        viewModel.getTestimonials()
+
+        //Verify
+        coVerify { repository.getTestimonials() }
+
+        assert(viewModel.testimonials.getOrAwaitValue().data.isNotEmpty())
+
+    }
 
 
 }
