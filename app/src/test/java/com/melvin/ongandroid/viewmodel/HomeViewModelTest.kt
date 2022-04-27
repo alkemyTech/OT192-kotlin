@@ -17,7 +17,6 @@ import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -178,22 +177,21 @@ class HomeViewModelTest {
         //Verify
         coVerify { repository.getTestimonials() }
 
-
-
         assert(viewModel.testimonials.getOrAwaitValue().data.isNotEmpty())
         assert(viewModel.errorTestimonials.getOrAwaitValue().isEmpty())
 
     }
 
-
+    /**We should fix testimonials for testing. Probably, changing logic in repository.*/
     @Test
     fun `Test Error for testimonails Slides`() = runTest {
         val exception = IOException()
 
-        coEvery { repository.getTestimonials().catch {  } }.throws(exception)
-            .andThen( flowOf<GenericResponse<MutableList<HomeTestimonials>>>
-                (GenericResponse(true, mutableListOf())).catch {e->
-                exception.localizedMessage!! })
+        coEvery { repository.getTestimonials().catch { } }.throws(exception)
+            .andThen(flowOf<GenericResponse<MutableList<HomeTestimonials>>>
+                (GenericResponse(true, mutableListOf())).catch { e ->
+                exception.localizedMessage!!
+            })
 
         //When
         viewModel.getTestimonials()
