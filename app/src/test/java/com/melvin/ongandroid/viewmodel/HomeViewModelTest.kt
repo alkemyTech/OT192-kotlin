@@ -3,8 +3,10 @@ package com.melvin.ongandroid.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.melvin.ongandroid.MainDispatcherRule
 import com.melvin.ongandroid.getOrAwaitValue
+import com.melvin.ongandroid.model.GenericResponse
 import com.melvin.ongandroid.model.News
 import com.melvin.ongandroid.model.NewsResponse
+import com.melvin.ongandroid.model.Slide
 import com.melvin.ongandroid.repository.OngRepository
 import com.melvin.ongandroid.utils.Resource
 import com.squareup.okhttp.MediaType
@@ -130,9 +132,22 @@ class HomeViewModelTest {
         }
 
         assert(viewModel.newsState.getOrAwaitValue() is Resource.ErrorThrowable)
+    }
 
+    @Test
+    fun `Slides should not be empty when Request is successful`() = runTest {
+        val listSlide = listOf(Slide(1, "uno"), Slide(2, "Dos"))
+        val responseSlide = GenericResponse(true, data = listSlide)
 
+        coEvery { repository.getSlides() }.returns(flowOf(responseSlide))
 
+        //When
+        viewModel.retryApiCallsHome()
+
+        //Verify
+        coVerify { repository.getSlides() }
+
+        assert(viewModel.slideList.getOrAwaitValue().isNotEmpty())
     }
 
 
