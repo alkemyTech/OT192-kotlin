@@ -150,5 +150,24 @@ class HomeViewModelTest {
         assert(viewModel.slideList.getOrAwaitValue().isNotEmpty())
     }
 
+    @Test
+    fun `Test Handle error`() = runTest {
+        // Bad Response
+        val badResponse = GenericResponse(false, data = listOf<Slide>())
+
+        coEvery { repository.getSlides() }.returns(flowOf(badResponse))
+
+        //When
+        viewModel.retryApiCallsHome()
+
+        //Verify
+        coVerify { repository.getSlides() }
+
+        val listStateEmpty = viewModel.slideList.getOrAwaitValue()
+
+        assert(listStateEmpty.isEmpty())
+    }
+
+
 
 }
