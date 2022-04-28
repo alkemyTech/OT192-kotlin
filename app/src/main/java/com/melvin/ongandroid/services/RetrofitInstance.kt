@@ -19,12 +19,6 @@ object RetrofitInstance {
     @Provides
     fun getOkHttpClient():OkHttpClient{
 
-
-object RetrofitInstance {
-    private const val BASE_URL = "http://ongapi.alkemy.org/"
-
-    private fun getOkHttpClient():OkHttpClient{
-
         val loggingInterceptor = HttpLoggingInterceptor()
 
         if(BuildConfig.DEBUG){
@@ -38,7 +32,6 @@ object RetrofitInstance {
             .build()
     }
 
-
     @Singleton
     @Provides
     fun getRetrofit(): Retrofit {
@@ -48,7 +41,6 @@ object RetrofitInstance {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-
 
     @Singleton
     @Provides
