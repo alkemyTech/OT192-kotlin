@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun navigationFragments(item: MenuItem) {
         when (item.itemId) {
+            // navigate to the "HOME" view
             R.id.inicio_menu -> {
                 Toast.makeText(applicationContext, getString(R.string.inicio), Toast.LENGTH_SHORT)
                     .show()
@@ -65,33 +66,28 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.actividades_menu -> {
-                Toast.makeText(
-                    applicationContext,
-                    getString(R.string.actividades),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-            R.id.novedades_menu -> {
-                Toast.makeText(
-                    applicationContext,
-                    getString(R.string.novedades),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-            R.id.testimonios_menu -> {
-                Toast.makeText(
-                    applicationContext,
-                    getString(R.string.testimonios),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            R.id.nosotros_menu -> {
-                Toast.makeText(applicationContext, getString(R.string.nosotros), Toast.LENGTH_SHORT)
+                Toast.makeText(applicationContext, getString(R.string.actividades), Toast.LENGTH_SHORT)
                     .show()
             }
 
+            R.id.novedades_menu -> {
+                Toast.makeText(applicationContext, getString(R.string.novedades), Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+            R.id.testimonios_menu -> {
+                Toast.makeText(applicationContext, getString(R.string.testimonios), Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+            // navigate to the "ABOUT" view
+            R.id.nosotros_menu -> {
+                Toast.makeText(applicationContext, getString(R.string.nosotros), Toast.LENGTH_SHORT)
+                    .show()
+                changeFragment(AboutUsFragment())
+            }
+
+            // navigate to the "CONTACT" view
             R.id.contacto_menu -> {
                 Toast.makeText(applicationContext, getString(R.string.contacto), Toast.LENGTH_SHORT)
                     .show()
