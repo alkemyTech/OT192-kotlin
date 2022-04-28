@@ -11,8 +11,8 @@ import coil.load
 import com.melvin.ongandroid.databinding.ItemRecyclerHomeTestimonialsBinding
 import com.melvin.ongandroid.model.HomeTestimonials
 
-class HomeTestimonialsItemAdapter :
-    ListAdapter<HomeTestimonials, RecyclerView.ViewHolder>(DiffUtilCallback()) {
+
+class HomeTestimonialsItemAdapter : ListAdapter<HomeTestimonials, RecyclerView.ViewHolder>(DiffUtilCallback()) {
     var onItemClicked: ((HomeTestimonials) -> Unit)? = null
     var onMoreItemClicked: ((HomeTestimonials) -> Unit)? = null
 
@@ -105,10 +105,12 @@ class HomeTestimonialsItemAdapter :
             listener: ((HomeTestimonials) -> Unit)?,
         ) {
             with(binding) {
+
                 //Set Name
                 tvTestimonialsName.text = value.name
                 //Set texts
                 tvTestimonialsHeading.text = value.description
+
                 //Load the image url and set it on this ImageView
                 imgTestimonials.load(value.imgUrl)
                 //Hide Arrow Resource
@@ -163,7 +165,9 @@ class HomeTestimonialsItemAdapter :
             oldItem: HomeTestimonials,
             newItem: HomeTestimonials
         ): Boolean =
+
             oldItem.description == newItem.description
+
 
         override fun areContentsTheSame(
             oldItem: HomeTestimonials,

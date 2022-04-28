@@ -41,6 +41,7 @@
                     tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
                 <TextView
+
                     android:id="@+id/tv_testimonials_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -54,6 +55,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
+
                     android:id="@+id/tv_testimonials_heading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

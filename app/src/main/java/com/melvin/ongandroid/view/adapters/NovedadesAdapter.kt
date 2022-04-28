@@ -1,6 +1,8 @@
 package com.melvin.ongandroid.view.adapters
 
+
 import android.text.Html
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,6 +58,7 @@ class NovedadesAdapter : ListAdapter<News, NovedadesHolder>(ComparadorNovedades(
                 backImage.setOnClickListener{
                     onClickArrow?.invoke()
                 }
+
                 constraintItemNovedades.addView(backImage)
 
 
@@ -65,6 +68,7 @@ class NovedadesAdapter : ListAdapter<News, NovedadesHolder>(ComparadorNovedades(
             holder.binding.apply {
                 imageViewNovedades.load(novedad.image)
                 textViewNovedades.text = Html.fromHtml(novedad.content)
+
             }
         }
 
@@ -87,12 +91,14 @@ class NovedadesHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 }
 
+
 class ComparadorNovedades : DiffUtil.ItemCallback<News>() {
     override fun areItemsTheSame(oldItem: News, newItem: News): Boolean {
         return oldItem == newItem
     }
 
     override fun areContentsTheSame(oldItem: News, newItem: News): Boolean {
+
         return oldItem.image == newItem.image
     }
 
