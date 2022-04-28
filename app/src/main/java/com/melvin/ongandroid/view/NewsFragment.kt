@@ -11,7 +11,9 @@ import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentNewsBinding
 import com.melvin.ongandroid.viewmodel.HomeViewModel
 import com.melvin.ongandroid.viewmodel.NewsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NewsFragment : Fragment() {
 
     companion object {
