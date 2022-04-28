@@ -26,4 +26,5 @@
         android:name="com.melvin.ongandroid.view.NewsFragment"
         android:label="fragment_news"
         tools:layout="@layout/fragment_news" />
+
 </navigation>

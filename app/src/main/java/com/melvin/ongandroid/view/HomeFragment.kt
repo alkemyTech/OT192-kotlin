@@ -1,7 +1,6 @@
 package com.melvin.ongandroid.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.melvin.ongandroid.model.toUI
+import com.melvin.ongandroid.services.firebase.FirebaseEvent
 import com.melvin.ongandroid.utils.Resource
 import com.melvin.ongandroid.utils.gone
 import com.melvin.ongandroid.utils.visible
@@ -24,18 +24,18 @@ import com.melvin.ongandroid.view.adapters.NovedadesAdapter
 import com.melvin.ongandroid.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
+
+
+
 class HomeFragment : Fragment() {
 
-    // Properties
     private lateinit var binding: FragmentHomeBinding
-    private val homeViewModel: HomeViewModel by activityViewModels()
+
     private val adapterWelcome = HomeWelcomeItemAdapter()
     private val adapterTestimonials = HomeTestimonialsItemAdapter()
 
     private lateinit var recyclerViewNovedades: RecyclerView
     private val adapter by lazy { NovedadesAdapter() }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,7 +54,31 @@ class HomeFragment : Fragment() {
         * indicating a problem with the query*/
         homeViewModel.errorTestimonials.observe(viewLifecycleOwner) { error ->
             if (error != "") {
-                showSnackbar("Ha ocurrido un error obteniendo la información")
+                // This line, logs the "testimonies_retrieve_error" event when the query to the
+                // "api/testimonials" endpoint fails.
+                FirebaseEvent.setEvent(requireContext(),"testimonies_retrieve_error")
+                showDialog(
+                    title = getString(R.string.dialog_error),
+                    message = getString(R.string.dialog_error_getting_info),
+                    positive = getString(R.string.btn_retry),
+                    callback = { homeViewModel.getTestimonials() }
+                )
+            }
+        }
+
+        /* Observe changes in the slideError. If there is an error, display a dialog
+        * with a retry button */
+        homeViewModel.slideError.observe(viewLifecycleOwner) { error ->
+            if (error != "") {
+                // This line, logs the "slider_retrieve_error" event when the query to the
+                // "api/slides" endpoint fails.
+                FirebaseEvent.setEvent(requireContext(),"slider_retrieve_error")
+                showDialog(
+                    title = getString(R.string.dialog_error),
+                    message = getString(R.string.dialog_error_getting_info),
+                    positive = getString(R.string.btn_retry),
+                    callback = { homeViewModel.fetchSlides() }
+                )
             }
         }
 
@@ -112,6 +136,73 @@ class HomeFragment : Fragment() {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         //Initial configuration of recycler view
+
+        recyclerViewNovedades = binding.recyclerNovedadesHome
+
+        recyclerViewNovedades.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        recyclerViewNovedades.adapter = adapter
+
+        val listaNovedades = listOf(
+            Novedades(
+                image = "https://d2gg9evh47fn9z.cloudfront.net/1600px_COLOURBOX32490000.jpg",
+                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                        " Donec condimentum ex ut varius interdum"
+            ),
+            Novedades(
+                image = "https://molpsg.com/wp-content/uploads/2016/07/chairty.jpg",
+                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                        " Donec condimentum ex ut varius interdum"
+            ),
+            Novedades(
+                image ="https://media.bizj.us/view/img/10273770/howtovounteer.jpg",
+                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                        " Donec condimentum ex ut varius interdum"
+            ),
+            Novedades(
+                image = "https://603200.smushcdn.com/1038623/wp-content/uploads/2019/08/IMG_9691-1080x675.jpg?lossy=1&strip=1&webp=1",
+                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                        " Donec condimentum ex ut varius interdum"
+            ),
+            Novedades(
+                image = "https://603200.smushcdn.com/1038623/wp-content/uploads/2019/08/IMG_9691-1080x675.jpg?lossy=1&strip=1&webp=1",
+                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                        " Donec condimentum ex ut varius interdum"
+            )
+        ).toMutableList()
+
+        adapter.submitList(listaNovedades.take(5))
+
+        //Configuration of Welcome section
+        binding.incSectionWelcome.tvTitleWelcome.text = getString(R.string.fragment_home_title_welcome)
+        setupRecyclerViewSliderWelcome()
+
+        //Configuration of Testimonials section
+        binding.incSectionTestimonials.tvTitleTestimonials.text = getString(R.string.fragment_home_title_testimonials)
+        setupRecyclerViewSilderTestimonials()
+
+        return binding.root
+    }
+
+    /**
+     * Setup recycler view slider welcome
+     */
+    private fun setupRecyclerViewSliderWelcome() {
+        //TODO: Harcoded random list
+        val listHomeWelcome = MutableList(15) {
+            HomeWelcome(
+                title = "Actividad ${(1..100).random()}",
+                imgUrl = "https://picsum.photos/200/300?random=${(1..100).random()}",
+                description = "Descripción ${(1..100).random()}\n" +
+                        "Descripción ${(1..100).random()}\n" +
+                        "Descripción ${(1..100).random()}\n" +
+                        "Descripción ${(1..100).random()}"
+            )
+        }
+
+        adapterWelcome.submitList(listHomeWelcome)
+        adapterWelcome.onItemClicked = { }
+        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         with(binding) {
             incSectionWelcome.rvSliderWelcome.setHasFixedSize(true)
             incSectionWelcome.rvSliderWelcome.layoutManager = layoutManager
@@ -121,6 +212,9 @@ class HomeFragment : Fragment() {
         //the list is populated from a repository asynchronously and updated in live data
         homeViewModel.slideList.observe(viewLifecycleOwner) { result ->
             if (!result.isNullOrEmpty()) {
+                // This line, logs the "slider_retrieve_success" event when the query to the
+                    // "api/slides" endpoint is successful.
+                FirebaseEvent.setEvent(requireContext(),"slider_retrieve_success")
                 //If data is obtained, it is loaded into the recycler adapter
                 //There is a conversion (mapping) of Slide object to HomeWelcome object
                 // (with enough attributes to display in the UI)
@@ -154,11 +248,20 @@ class HomeFragment : Fragment() {
             binding.apply {
                 when (estadoNoticias) {
                     is Resource.Success -> {
+                        // This line, logs the "last_news_retrieve_success" event when the query to the
+                        // "api/news" endpoint is successful.
+                        FirebaseEvent.setEvent(requireContext(),"last_news_retrieve_success")
                         adapter.submitList(estadoNoticias.data!!.novedades.take(5))
+
+                        // This line, logs the "last_news_see_more_pressed" event when the arrow to see more news is clicked
+                        adapter.onClickArrow = { FirebaseEvent.setEvent(requireContext(),"last_news_see_more_pressed") }
                         textViewNovedadesHome.visible()
                         recyclerNovedadesHome.visible()
                     }
                     else -> {
+                        // This line, logs the "last_news_retrieve_error" event when the query to the
+                        // "api/news" endpoint fails.
+                        FirebaseEvent.setEvent(requireContext(),"last_news_retrieve_error")
                         textViewNovedadesHome.gone()
                         recyclerNovedadesHome.gone()
                     }
@@ -181,9 +284,13 @@ class HomeFragment : Fragment() {
             binding.apply {
                 when (!response.data.isNullOrEmpty()) {
                     true -> {
+                        // This line, logs the "testimonios_retrieve_success" event when the query to the
+                        // "api/testimonials" endpoint is successful.
+                        FirebaseEvent.setEvent(requireContext(), "testimonios_retrieve_success")
                         adapterTestimonials.submitList(response.data.take(4).toMutableList())
 
-                        adapterTestimonials.onItemClicked = { }
+                        // This line, logs the "testimonies_see_more_pressed" event when the arrow to see more testimonials is clicked
+                        adapterTestimonials.onMoreItemClicked = { FirebaseEvent.setEvent(requireContext(), "testimonies_see_more_pressed") }
                         val layoutManager =
                             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
@@ -215,7 +322,7 @@ class HomeFragment : Fragment() {
             }
             .show()
     }
-    
+
     /*
      * Show home welcome section
      * Show (or hide) home welcome section (title and recycler view)

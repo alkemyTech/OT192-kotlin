@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".view.HomeFragment">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout_error"
         android:layout_width="0dp"
@@ -104,6 +105,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView_novedades_home"
+
                 tools:itemCount="2"
                 tools:listitem="@layout/novedades_item" />
 

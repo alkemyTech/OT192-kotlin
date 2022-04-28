@@ -27,7 +27,7 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
     // LiveData to catch the error from the getTestimonials() and control the UI
     private val _errorTestimonials: MutableLiveData<String> = MutableLiveData()
     val errorTestimonials: LiveData<String> = _errorTestimonials
-    
+
 
     /**
      * slide list of MutableLiveData type
@@ -54,7 +54,6 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
      */
     private val _slideError: MutableLiveData<String> = MutableLiveData()
     val slideError: LiveData<String> = _slideError
-  
 
     /* LiveData that handles Massive Failure*/
     private val _massiveFailure: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -105,6 +104,7 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
     */
     fun getTestimonials() {
         viewModelScope.launch(IO) {
+
             repo.getTestimonials()
                 .catch { throwable -> _errorTestimonials.postValue(throwable.message)  }
                 .collect{ testimonialsResponse ->
@@ -127,7 +127,9 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
     private fun fetchLatestNews() {
         viewModelScope.launch(IO) {
 
-            repo.fetchLatestNews().collect { resource ->
+            repo.fetchLatestNews()
+                .catch { throwable -> println(throwable.message) }
+                .collect { resource ->
                 when (resource) {
                     is Resource.Success ->
                         _newsState.postValue(Resource.success(resource.data!!))
@@ -172,6 +174,7 @@ class HomeViewModel @Inject constructor(private val repo: OngRepository) : ViewM
                         _slideList.postValue(listOf())
                         _slideError.postValue(e.message)
                     }
+
                     //Reset loading state
                     isSlideLoading.postValue(false)
                 }

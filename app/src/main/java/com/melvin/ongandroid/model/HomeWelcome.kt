@@ -1,6 +1,6 @@
 package com.melvin.ongandroid.model
-
 import com.melvin.ongandroid.utils.convertHtmlToString
+
 
 /**
  * Home welcome
