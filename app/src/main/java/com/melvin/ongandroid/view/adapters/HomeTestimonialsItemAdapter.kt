@@ -14,7 +14,7 @@ import com.melvin.ongandroid.model.HomeTestimonials
 class HomeTestimonialsItemAdapter :
     ListAdapter<HomeTestimonials, RecyclerView.ViewHolder>(DiffUtilCallback()) {
     var onItemClicked: ((HomeTestimonials) -> Unit)? = null
-    private var onMoreItemClicked: ((HomeTestimonials) -> Unit)? = null
+    var onMoreItemClicked: ((HomeTestimonials) -> Unit)? = null
 
     /**
      * On create view holder
