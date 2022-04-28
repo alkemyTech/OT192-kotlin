@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
+import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentNewsBinding
 import com.melvin.ongandroid.viewmodel.HomeViewModel
 import com.melvin.ongandroid.viewmodel.NewsViewModel
@@ -26,6 +28,10 @@ class NewsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentNewsBinding.inflate(layoutInflater, container, false)
+
+        //News title in top bar
+        val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        actionBar?.title = getString(R.string.novedades)
 
         return binding.root
     }
