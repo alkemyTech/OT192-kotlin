@@ -42,6 +42,7 @@
             android:layout_gravity="center"
             android:gravity="top|center"
             android:padding="8dp"
+            android:singleLine="false"
             android:text="@string/item_welcome_default_description"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@android:color/black"
