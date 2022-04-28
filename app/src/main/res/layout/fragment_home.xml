@@ -6,52 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".view.HomeFragment">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout_error"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/textView_error_masivo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="228dp"
-            android:text="@string/massive_error"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/black"
-            android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@+id/buttonError"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <Button
-            android:id="@+id/buttonError"
-            android:layout_width="219dp"
-            android:layout_height="97dp"
-            android:layout_marginBottom="252dp"
-            android:text="@string/btn_retry"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.557"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <ScrollView
         android:id="@+id/scv_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/app_name"
         android:fillViewport="true"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +29,6 @@
                 layout="@layout/section_welcome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@id/textView_novedades_home"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -86,11 +45,10 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@id/recycler_novedades_home"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/inc_section_welcome" />
+                app:layout_constraintTop_toBottomOf="@id/inc_section_welcome"
+                app:layout_constraintBottom_toTopOf="@id/recycler_novedades_home"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_novedades_home"
@@ -100,12 +58,10 @@
                 android:layout_marginTop="56dp"
                 android:layout_marginEnd="20dp"
                 android:orientation="horizontal"
-                android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@id/inc_section_testimonials"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView_novedades_home"
-
+                app:layout_constraintBottom_toTopOf="@id/inc_section_testimonials"
                 tools:itemCount="2"
                 tools:listitem="@layout/novedades_item" />
 
@@ -115,21 +71,13 @@
                 layout="@layout/section_testimonials"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/recycler_novedades_home" />
-
             <!-- Fin Sección Testimonios -->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-    <!-- include loading spinner -->
-    <include
-        android:id="@+id/progress_loader"
-        layout="@layout/view_load_spinner"
-        android:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
