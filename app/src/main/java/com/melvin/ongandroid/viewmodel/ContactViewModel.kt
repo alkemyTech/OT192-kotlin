@@ -41,28 +41,18 @@ class ContactViewModel @Inject constructor(private val repo: OngRepository) : Vi
     private val _contactResponseState: MutableLiveData<Resource<MutableList<Contact>>> = MutableLiveData(Resource.loading())
     val contactResponseState : LiveData<Resource<MutableList<Contact>>> = _contactResponseState
 
-    //Split validation checks in order to facilitate tests
-    //created on 26 April 2022 by Leonel Gomez
-    var isFirstNameValid = false
-    var isLastNameValid = false
-    var isEmailValid = false
-    var isContactMessageValid = false
+
 
     /**
      * Function that checks if all parameters from Consulta are valid.
      * When Valid, [_isButtonEnabled] changes to true, enabling button.
      */
     fun checkContactFormViewModel() {
-        //Split validation checks in order to facilitate tests
-        //created on 26 April 2022 by Leonel Gomez
-        isFirstNameValid = firstName.value.toString().checkFirstOrLastName()
-        isLastNameValid = lastName.value.toString().checkFirstOrLastName()
-        isEmailValid = email.value.toString().isEmailValid()
-        isContactMessageValid = contactMessage.value.toString().checkContactMessage()
-        val condition = isFirstNameValid
-                && isLastNameValid
-                && isEmailValid
-                && isContactMessageValid
+        val condition =
+            firstName.value.toString().checkFirstOrLastName()
+                    && lastName.value.toString().checkFirstOrLastName()
+                    && email.value.toString().isEmailValid()
+                    && contactMessage.value.toString().checkContactMessage()
         _isButtonEnabled.postValue(condition)
     }
 
