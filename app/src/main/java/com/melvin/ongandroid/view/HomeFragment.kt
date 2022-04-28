@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentHomeBinding
@@ -155,6 +156,12 @@ class HomeFragment : Fragment() {
                 when (estadoNoticias) {
                     is Resource.Success -> {
                         adapter.submitList(estadoNoticias.data!!.novedades.take(5))
+
+                        adapter.onClickArrow = {
+                            //Navigation to News Fragment
+                            val action = HomeFragmentDirections.actionHomeFragmentToNewsFragment()
+                            findNavController().navigate(action)
+                        }
                         textViewNovedadesHome.visible()
                         recyclerNovedadesHome.visible()
                     }
