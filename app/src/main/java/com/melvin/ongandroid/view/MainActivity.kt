@@ -78,6 +78,7 @@ class MainActivity : AppCompatActivity() {
                     getString(R.string.novedades),
                     Toast.LENGTH_SHORT
                 ).show()
+                changeFragment(NewsFragment())
             }
 
             R.id.testimonios_menu -> {

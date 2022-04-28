@@ -42,5 +42,10 @@
     <string name="error_message_contact">Ha ocurrido un error. Intente nuevamente mas tarde</string>
     <string name="massive_error">Error General</string>
 
+    <!-- Fragment layout texts - News -->
+    <string name="fragment_news_name">Titulo Novedad</string>
+    <string name="fragment_news_description">Descripción</string>
+
+
 
 </resources>
