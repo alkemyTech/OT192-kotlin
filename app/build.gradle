@@ -63,6 +63,7 @@ dependencies {
     //Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
 
+
     def nav_version = "2.4.2"
 
     // Navigation
@@ -75,7 +76,7 @@ dependencies {
 
     //OkHttp
     implementation "com.squareup.okhttp3:okhttp"
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:29.3.0')

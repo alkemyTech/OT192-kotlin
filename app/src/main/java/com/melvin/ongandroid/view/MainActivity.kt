@@ -13,7 +13,6 @@ import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -27,10 +26,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-
         drawerLayout = binding.drawerLayout
-
-        val drawerLayout = binding.drawerLayout
         navView = binding.navView
 
         actionBarDrawerToggle = ActionBarDrawerToggle(
@@ -65,9 +61,7 @@ class MainActivity : AppCompatActivity() {
             R.id.inicio_menu -> {
                 Toast.makeText(applicationContext, getString(R.string.inicio), Toast.LENGTH_SHORT)
                     .show()
-
                 changeFragment(HomeFragment())
-
             }
 
             R.id.actividades_menu -> {
@@ -101,7 +95,6 @@ class MainActivity : AppCompatActivity() {
             R.id.contacto_menu -> {
                 Toast.makeText(applicationContext, getString(R.string.contacto), Toast.LENGTH_SHORT)
                     .show()
-
                 changeFragment(ContactFragment())
             }
 
@@ -113,9 +106,5 @@ class MainActivity : AppCompatActivity() {
     private fun changeFragment(frag: Fragment){
         val fragment = supportFragmentManager.beginTransaction()
         fragment.replace(R.id.fragmentContainerView,frag).commit()
-
-            }
-        }
-
     }
 }
