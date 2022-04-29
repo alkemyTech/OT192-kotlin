@@ -5,14 +5,20 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var navView: NavigationView
+    private lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        val drawerLayout = binding.drawerLayout
+        drawerLayout = binding.drawerLayout
         navView = binding.navView
 
         actionBarDrawerToggle = ActionBarDrawerToggle(
@@ -55,6 +61,7 @@ class MainActivity : AppCompatActivity() {
             R.id.inicio_menu -> {
                 Toast.makeText(applicationContext, getString(R.string.inicio), Toast.LENGTH_SHORT)
                     .show()
+                changeFragment(HomeFragment())
             }
 
             R.id.actividades_menu -> {
@@ -88,7 +95,16 @@ class MainActivity : AppCompatActivity() {
             R.id.contacto_menu -> {
                 Toast.makeText(applicationContext, getString(R.string.contacto), Toast.LENGTH_SHORT)
                     .show()
+                changeFragment(ContactFragment())
             }
+
         }
+        drawerLayout.closeDrawer(GravityCompat.START)
+    }
+
+    // Replace the fragment in the ContainerView
+    private fun changeFragment(frag: Fragment){
+        val fragment = supportFragmentManager.beginTransaction()
+        fragment.replace(R.id.fragmentContainerView,frag).commit()
     }
 }

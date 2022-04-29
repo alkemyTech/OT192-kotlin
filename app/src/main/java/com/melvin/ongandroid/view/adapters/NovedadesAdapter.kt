@@ -1,5 +1,6 @@
 package com.melvin.ongandroid.view.adapters
 
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +12,13 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.NovedadesItemBinding
-import com.melvin.ongandroid.model.Novedades
+import com.melvin.ongandroid.model.News
 
-class NovedadesAdapter : ListAdapter<Novedades, NovedadesHolder>(ComparadorNovedades()) {
+class NovedadesAdapter : ListAdapter<News, NovedadesHolder>(ComparadorNovedades()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NovedadesHolder {
         return NovedadesHolder.create(parent)
     }
+    var onClickArrow: (() -> Unit)? = null
 
     override fun onBindViewHolder(holder: NovedadesHolder, position: Int) {
         val novedad = getItem(position)
@@ -49,6 +51,11 @@ class NovedadesAdapter : ListAdapter<Novedades, NovedadesHolder>(ComparadorNoved
                     250,
                     250
                 )
+
+                // add setOnClickListener to the arrow image
+                backImage.setOnClickListener{
+                    onClickArrow?.invoke()
+                }
                 constraintItemNovedades.addView(backImage)
 
 
@@ -57,7 +64,7 @@ class NovedadesAdapter : ListAdapter<Novedades, NovedadesHolder>(ComparadorNoved
 
             holder.binding.apply {
                 imageViewNovedades.load(novedad.image)
-                textViewNovedades.text = novedad.text
+                textViewNovedades.text = Html.fromHtml(novedad.content)
             }
         }
 
@@ -80,12 +87,12 @@ class NovedadesHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 }
 
-class ComparadorNovedades : DiffUtil.ItemCallback<Novedades>() {
-    override fun areItemsTheSame(oldItem: Novedades, newItem: Novedades): Boolean {
+class ComparadorNovedades : DiffUtil.ItemCallback<News>() {
+    override fun areItemsTheSame(oldItem: News, newItem: News): Boolean {
         return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: Novedades, newItem: Novedades): Boolean {
+    override fun areContentsTheSame(oldItem: News, newItem: News): Boolean {
         return oldItem.image == newItem.image
     }
 
