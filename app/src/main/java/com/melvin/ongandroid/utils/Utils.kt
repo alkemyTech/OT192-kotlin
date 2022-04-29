@@ -3,12 +3,14 @@ package com.melvin.ongandroid.utils
 import android.text.Html
 import android.text.Spanned
 import android.view.View
+import androidx.core.util.PatternsCompat
 
 /*
 Function that Checks if a String is a valid form of email.
+It was changed to Jetpack PatternsCompat because of Patterns throws npe in tests
  */
 fun String.isEmailValid():Boolean =
-    android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
+    PatternsCompat.EMAIL_ADDRESS.matcher(this).matches()
 
 /**
  *Checks if a String is not empyt, and it length is greater or equal to 3(for names like Ana)
