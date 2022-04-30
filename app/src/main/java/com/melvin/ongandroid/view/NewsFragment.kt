@@ -12,11 +12,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.melvin.ongandroid.databinding.FragmentNewsBinding
 import com.melvin.ongandroid.model.News
 import com.melvin.ongandroid.view.adapters.NewsItemAdapter
+import androidx.appcompat.app.AppCompatActivity
+import com.melvin.ongandroid.R
 import com.melvin.ongandroid.viewmodel.NewsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class NewsFragment : Fragment() {
+
 
     // Properties
     private lateinit var binding: FragmentNewsBinding
@@ -30,6 +33,10 @@ class NewsFragment : Fragment() {
     ): View {
         binding = FragmentNewsBinding.inflate(layoutInflater, container, false)
 
+        //News title in top bar
+        val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        actionBar?.title = getString(R.string.novedades)
+        
         setupRecyclerView()
 
         return binding.root
