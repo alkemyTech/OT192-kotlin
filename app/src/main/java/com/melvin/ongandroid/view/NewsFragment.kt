@@ -7,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.melvin.ongandroid.databinding.FragmentNewsBinding
 import com.melvin.ongandroid.model.News
 import com.melvin.ongandroid.view.adapters.NewsItemAdapter
