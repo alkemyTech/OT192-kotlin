@@ -28,6 +28,13 @@
     <string name="fragment_contact_messageHint">Escribe tu consulta</string>
     <string name="fragment_contact_button">Enviar</string>
 
+    <!-- Fragment layout texts - About Us -->
+    <string name="fragment_about_us_title">Sobre Nosotros</string>
+    <string name="fragment_about_us_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</string>
+    <string name="fragment_about_us_members">Miembros</string>
+    <string name="item_about_us_default_name">Nombre</string>
+    <string name="item_about_us_default_description">Descripción</string>
+
     <!-- Button texts -->
     <string name="btn_retry">Reintentar</string>
 
