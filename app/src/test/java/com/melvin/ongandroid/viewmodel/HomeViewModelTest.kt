@@ -179,7 +179,6 @@ class HomeViewModelTest {
 
         assert(viewModel.testimonials.getOrAwaitValue().data.isNotEmpty())
         assert(viewModel.errorTestimonials.getOrAwaitValue().isEmpty())
-
     }
 
     /**We should fix testimonials for testing. Probably, changing logic in repository.*/
