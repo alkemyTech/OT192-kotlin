@@ -10,10 +10,4 @@
         android:name="com.melvin.ongandroid.view.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
-
-    <fragment
-        android:id="@+id/contactFragment"
-        android:name="com.melvin.ongandroid.view.HomeFragment"
-        android:label="fragment_contact"
-        tools:layout="@layout/fragment_contact" />
 </navigation>
