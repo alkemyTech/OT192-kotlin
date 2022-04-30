@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentContactBinding
 import com.melvin.ongandroid.model.Contact
 import com.melvin.ongandroid.utils.Resource
@@ -31,6 +33,10 @@ class ContactFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentContactBinding.inflate(layoutInflater, container, false)
+
+        // Change toolbar title
+        val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        actionBar?.title = getString(R.string.contacto)
 
         binding.progressLoader.root.visibility = View.GONE
         checkContactFormFragment()
