@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'com.google.gms.google-services'
+    //To use auto generation of directions in navigation
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {

@@ -11,6 +11,9 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
+            android:id="@+id/action_homeFragment_to_newsFragment"
+            app:destination="@id/newsFragment" />
+        <action
             android:id="@+id/action_homeFragment_to_aboutUsFragment"
             app:destination="@id/aboutUsFragment" />
         <action
@@ -23,7 +26,11 @@
         android:name="com.melvin.ongandroid.view.HomeFragment"
         android:label="fragment_contact"
         tools:layout="@layout/fragment_contact" />
-
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.melvin.ongandroid.view.NewsFragment"
+        android:label="@string/novedades"
+        tools:layout="@layout/fragment_news" />
     <fragment
         android:id="@+id/aboutUsFragment"
         android:name="com.melvin.ongandroid.view.AboutUsFragment"

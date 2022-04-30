@@ -62,6 +62,8 @@ class MainActivity : AppCompatActivity() {
             R.id.inicio_menu -> {
                 Toast.makeText(applicationContext, getString(R.string.inicio), Toast.LENGTH_SHORT)
                     .show()
+
+                //Navigation to Home fragment
                 changeFragment(HomeFragment())
             }
 
@@ -71,8 +73,14 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.novedades_menu -> {
-                Toast.makeText(applicationContext, getString(R.string.novedades), Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(
+                    applicationContext,
+                    getString(R.string.novedades),
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                //Navigation to News fragment
+                changeFragment(NewsFragment())
             }
 
             R.id.testimonios_menu -> {
