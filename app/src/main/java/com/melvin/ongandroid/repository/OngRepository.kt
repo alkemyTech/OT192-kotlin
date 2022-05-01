@@ -36,22 +36,21 @@ class OngRepository @Inject constructor(private val apiService: OngApiService) {
     }
 
 
+    // Function that emits a GenericResponse, containing a contact response
+    suspend fun sendContact(contact: Contact): Flow<GenericResponse<List<Contact>>> = flow {
+        emit(apiService.sendContact(contact))
+    }
 
-// Function that emits a GenericResponse, containing a contact response
-suspend fun sendContact(contact: Contact): Flow<GenericResponse<List<Contact>>> = flow {
-    emit(apiService.sendContact(contact))
-}
+    /**
+     * Get slides
+     * Repository function that return the list of slides from the API
+     * created on 24 April 2022 by Leonel Gomez
+     *
+     * @return the list of Slides emitted by upstream
+     */
+    suspend fun getSlides(): Flow<GenericResponse<List<Slide>>> = flow {
+        //Collects the value emitted by the upstream
+        emit(apiService.getSlides())
 
-/**
- * Get slides
- * Repository function that return the list of slides from the API
- * created on 24 April 2022 by Leonel Gomez
- *
- * @return the list of Slides emitted by upstream
- */
-suspend fun getSlides(): Flow<GenericResponse<List<Slide>>> = flow {
-    //Collects the value emitted by the upstream
-    emit(apiService.getSlides())
-
-}
+    }
 }
