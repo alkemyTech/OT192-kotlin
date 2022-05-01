@@ -56,7 +56,7 @@ class OngRepository @Inject constructor(private val apiService: OngApiService) {
      * [retrofit2.Response] is successfull and [GenericResponse] success is true -->
      * Emits [Resource.Success]
      *
-     * [retrofit2.Response] is not successfull or [GenericResponse] success false ->
+     * [retrofit2.Response] is not successfull and [GenericResponse] success false ->
      * emits [Resource.ErrorApi]
      *
      * Exceptions  are caught with flow API [catch]. --> Emits [Resource.ErrorThrowable]
@@ -66,8 +66,13 @@ class OngRepository @Inject constructor(private val apiService: OngApiService) {
         flow<Resource<GenericResponse<List<Members>>>> {
             val responseMembers = apiService.fetchMembers()
             when {
-                responseMembers.isSuccessful && responseMembers.body()!!.success ->
+                responseMembers.isSuccessful && responseMembers.body()!!.success -> {
                     emit(Resource.success(responseMembers.body()!!))
+                }
+
+                responseMembers.isSuccessful  && !responseMembers.body()!!.success->{
+                    emit(Resource.errorApi("Error from API"))
+                }
 
                 else -> emit(Resource.errorApi(responseMembers.errorBody().toString()))
             }
