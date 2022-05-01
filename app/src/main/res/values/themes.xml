@@ -13,4 +13,16 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <!-- To change the color of the organization header -->
+    <style name="headerStyle">
+        <item name="android:background">#CBD5E0</item>
+    </style>
+
+    <!-- To be able to make circular images -->
+    <style name="imageViewRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>
