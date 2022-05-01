@@ -1,11 +1,7 @@
 package com.melvin.ongandroid.repository
 
 
-import com.melvin.ongandroid.model.Contact
-import com.melvin.ongandroid.model.HomeTestimonials
-import com.melvin.ongandroid.model.GenericResponse
-import com.melvin.ongandroid.model.NewsResponse
-import com.melvin.ongandroid.model.Slide
+import com.melvin.ongandroid.model.*
 import com.melvin.ongandroid.services.OngApiService
 import com.melvin.ongandroid.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -54,4 +50,22 @@ suspend fun getSlides(): Flow<GenericResponse<List<Slide>>> = flow {
     emit(apiService.getSlides())
 
 }
+
+    /**
+     * Get activities
+     * created on 1 May 2022 by Leonel Gomez
+     *
+     * @return emits a Resource, containing list Of Activities
+     */
+    suspend fun getActivities(): Flow<Resource<GenericResponse<List<Activity>>?>> = flow {
+        val response = apiService.getActivities()
+
+        when (response.isSuccessful) {
+            true -> emit(Resource.Success(response.body()))
+            false -> emit(Resource.ErrorApi(response.errorBody().toString()))
+        }
+    }.catch { e: Throwable ->
+        emit(Resource.ErrorThrowable(e))
+    }
+
 }

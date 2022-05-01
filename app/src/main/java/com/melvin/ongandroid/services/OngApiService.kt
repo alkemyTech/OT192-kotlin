@@ -1,10 +1,6 @@
 package com.melvin.ongandroid.services
 
-import com.melvin.ongandroid.model.Contact
-import com.melvin.ongandroid.model.HomeTestimonials
-import com.melvin.ongandroid.model.GenericResponse
-import com.melvin.ongandroid.model.NewsResponse
-import com.melvin.ongandroid.model.Slide
+import com.melvin.ongandroid.model.*
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -45,5 +41,13 @@ interface OngApiService {
         @Query("limit") limit: Int? = null,
     ): GenericResponse<List<Slide>>
 
+    /**
+     * Get activities
+     * created on 1 May 2022 by Leonel Gomez
+     *
+     * @return a GenericResponse (success, data, message) where data is of type list of Activities
+     */
+    @GET("activities")
+    suspend fun getActivities(): Response<GenericResponse<List<Activity>>>
 
 }
