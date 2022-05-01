@@ -1,11 +1,7 @@
 package com.melvin.ongandroid.repository
 
 
-import com.melvin.ongandroid.model.Contact
-import com.melvin.ongandroid.model.HomeTestimonials
-import com.melvin.ongandroid.model.GenericResponse
-import com.melvin.ongandroid.model.NewsResponse
-import com.melvin.ongandroid.model.Slide
+import com.melvin.ongandroid.model.*
 import com.melvin.ongandroid.services.OngApiService
 import com.melvin.ongandroid.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -53,4 +49,28 @@ class OngRepository @Inject constructor(private val apiService: OngApiService) {
         emit(apiService.getSlides())
 
     }
+
+    /**
+     * Fetch Members from [https://ongapi.alkemy.org/api/members].
+     * When:
+     * [retrofit2.Response] is successfull and [GenericResponse] success is true -->
+     * Emits [Resource.Success]
+     *
+     * [retrofit2.Response] is not successfull or [GenericResponse] success false ->
+     * emits [Resource.ErrorApi]
+     *
+     * Exceptions  are caught with flow API [catch]. --> Emits [Resource.ErrorThrowable]
+     */
+
+    suspend fun fetchMembers() =
+        flow<Resource<GenericResponse<List<Members>>>> {
+            val responseMembers = apiService.fetchMembers()
+            when {
+                responseMembers.isSuccessful && responseMembers.body()!!.success ->
+                    emit(Resource.success(responseMembers.body()!!))
+
+                else -> emit(Resource.errorApi(responseMembers.errorBody().toString()))
+            }
+        }.catch { e -> emit(Resource.errorThrowable(e)) }
+
 }
