@@ -26,14 +26,17 @@
         android:name="com.melvin.ongandroid.view.HomeFragment"
         android:label="fragment_contact"
         tools:layout="@layout/fragment_contact" />
+
     <fragment
         android:id="@+id/newsFragment"
         android:name="com.melvin.ongandroid.view.NewsFragment"
-        android:label="@string/novedades"
+        android:label="fragment_news"
         tools:layout="@layout/fragment_news" />
+
     <fragment
         android:id="@+id/aboutUsFragment"
         android:name="com.melvin.ongandroid.view.AboutUsFragment"
         android:label="fragment_about_us"
         tools:layout="@layout/fragment_about_us" />
+
 </navigation>

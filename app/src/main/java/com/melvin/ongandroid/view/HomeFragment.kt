@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentHomeBinding
@@ -191,8 +190,9 @@ class HomeFragment : Fragment() {
                             // This line, logs the "last_news_see_more_pressed" event when the arrow to see more news is clicked
                             FirebaseEvent.setEvent(requireContext(), "last_news_see_more_pressed")
                             //Navigation to News Fragment
-                            val action = HomeFragmentDirections.actionHomeFragmentToNewsFragment()
-                            findNavController().navigate(action)
+                            parentFragmentManager.beginTransaction()
+                                .replace(R.id.fragmentContainerView, NewsFragment())
+                                .commit()
                         }
                         textViewNovedadesHome.visible()
                         recyclerNovedadesHome.visible()

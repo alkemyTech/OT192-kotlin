@@ -73,12 +73,9 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.novedades_menu -> {
-                Toast.makeText(
-                    applicationContext,
-                    getString(R.string.novedades),
-                    Toast.LENGTH_SHORT
-                ).show()
-
+                Toast.makeText(applicationContext, getString(R.string.novedades), Toast.LENGTH_SHORT)
+                .show()
+                
                 //Navigation to News fragment
                 changeFragment(NewsFragment())
             }
