@@ -9,8 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentAboutUsBinding
+import com.melvin.ongandroid.model.MemberUI
 import com.melvin.ongandroid.view.adapters.MemberItemAdapter
 import com.melvin.ongandroid.viewmodel.AboutUsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,7 +50,8 @@ class AboutUsFragment : Fragment() {
      * created on 30 April 2022 by Leonel Gomez
      */
     private fun setupRecyclerViewMembers() {
-        memberAdapter.onItemClicked = { }
+        // Show Dialog with member details
+        memberAdapter.onItemClicked = { showMemberDetails(it) }
         // Choose to show 3 or 2 columns depending on whether the screen was rotated
         val layoutManager =
             if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -74,5 +77,26 @@ class AboutUsFragment : Fragment() {
 
             }
         }
+    }
+
+    /**
+     * Show Member Details
+     *
+     * @param member is a object with data of the person of About Us
+     */
+    private fun showMemberDetails(member: MemberUI) {
+        // Update title of the section
+        val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        actionBar?.title = getString(R.string.details)
+
+        // Show dialog
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+        dialog.setTitle(member.name)
+        dialog.setMessage(member.description)
+        dialog.setOnCancelListener {
+            // Update title of the previous section
+            actionBar?.title = getString(R.string.nosotros)
+        }
+        dialog.show()
     }
 }
