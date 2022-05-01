@@ -11,7 +11,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentAboutUsBinding
+import com.melvin.ongandroid.utils.Resource
+import com.melvin.ongandroid.utils.gone
+import com.melvin.ongandroid.utils.visible
 import com.melvin.ongandroid.view.adapters.MemberItemAdapter
+import com.melvin.ongandroid.view.adapters.MemberListAdapter
 import com.melvin.ongandroid.viewmodel.AboutUsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,6 +29,7 @@ class AboutUsFragment : Fragment() {
 
     // Recycler View adapter
     private val memberAdapter = MemberItemAdapter()
+    private val memberListAdapter:MemberListAdapter by lazy{ MemberListAdapter() }
 
     // Initialization
     override fun onCreateView(
@@ -38,9 +43,59 @@ class AboutUsFragment : Fragment() {
         actionBar?.title = getString(R.string.nosotros)
 
         // Configuration of recycler view
-        setupRecyclerViewMembers()
+        initRecyclerView()
+        //setupRecyclerViewMembers()
+
 
         return binding.root
+    }
+
+    /**
+     * Initializes RecyclerView For Members.
+     * Sets Grid Layout According Orientation.
+     * Then, handles The State of the response showing or hiding elements.
+     * When:
+     * [Resource.Loading] -> Default behaviour. Hides Sections Abouts Us and shows progress Loader.
+     * [Resource.Success] -> Hides progress Loader, submit list to adapter and shows RecyclerView.
+     * [Resource.ErrorThrowable] -> Will be implemented in # 47
+     * [Resource.ErrorApi] ->  Will be implemented in # 47
+     */
+    private fun initRecyclerView(){
+        val layoutManager =
+            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                GridLayoutManager(context, 3)
+            } else {
+                GridLayoutManager(context, 2)
+            }
+
+        with(binding) {
+            sectionAboutUs.rvAboutUs.setHasFixedSize(true)
+            sectionAboutUs.rvAboutUs.layoutManager = layoutManager
+            sectionAboutUs.rvAboutUs.adapter = memberListAdapter
+
+            aboutUsViewModel.membersState.observe(viewLifecycleOwner){ resourceMembers->
+                when(resourceMembers){
+                    is Resource.Loading ->{
+                        scvAboutUs.gone()
+                        progressLoader.root.visible()
+                    }
+
+                    is Resource.Success ->{
+                        scvAboutUs.visible()
+                        progressLoader.root.gone()
+                        memberListAdapter.submitList(resourceMembers.data?.data?.toMutableList())
+                    }
+
+                    is Resource.ErrorApi ->{
+                        // Will be implemented in # 47
+                    }
+
+                    is Resource.ErrorThrowable ->{
+                        // Will be implemented in # 47
+                    }
+                }
+            }
+        }
     }
 
     /**
