@@ -89,6 +89,7 @@ class MainActivity : AppCompatActivity() {
             R.id.nosotros_menu -> {
                 Toast.makeText(applicationContext, getString(R.string.nosotros), Toast.LENGTH_SHORT)
                     .show()
+                //Navigation to About Us fragment
                 changeFragment(AboutUsFragment())
             }
 
