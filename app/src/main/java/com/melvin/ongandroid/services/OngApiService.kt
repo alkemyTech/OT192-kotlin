@@ -1,10 +1,6 @@
 package com.melvin.ongandroid.services
 
-import com.melvin.ongandroid.model.Contact
-import com.melvin.ongandroid.model.HomeTestimonials
-import com.melvin.ongandroid.model.GenericResponse
-import com.melvin.ongandroid.model.NewsResponse
-import com.melvin.ongandroid.model.Slide
+import com.melvin.ongandroid.model.*
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -44,6 +40,14 @@ interface OngApiService {
         @Query("skip") skip: Int? = null,
         @Query("limit") limit: Int? = null,
     ): GenericResponse<List<Slide>>
+
+    /** Fetch Members from
+     * [https://ongapi.alkemy.org/api/members]
+     * Returns a [Response] (RetroFit) of [GenericResponse] with
+     * a [List] of [Members]
+     */
+    @GET("members")
+    suspend fun fetchMembers(): Response<GenericResponse<List<Members>>>
 
 
 }

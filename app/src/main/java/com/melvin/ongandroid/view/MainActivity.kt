@@ -70,6 +70,9 @@ class MainActivity : AppCompatActivity() {
             R.id.actividades_menu -> {
                 Toast.makeText(applicationContext, getString(R.string.actividades), Toast.LENGTH_SHORT)
                     .show()
+
+                //Navigation to Activities fragment
+                changeFragment(ActivitiesFragment())
             }
 
             R.id.novedades_menu -> {

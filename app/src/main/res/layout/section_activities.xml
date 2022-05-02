@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+Layout to work with the section of Activities
+
+Usage:
+In a view add the following lines (inside a Constraint Layout):
+
+    <include
+        android:id="@+id/section_activities"
+        layout="@layout/section_activities" />
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ly_section_activities"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_activities"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="48dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="1"
+        tools:listitem="@layout/item_recycler_activities" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
