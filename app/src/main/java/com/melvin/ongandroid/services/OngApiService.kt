@@ -46,7 +46,7 @@ interface OngApiService {
      * [https://ongapi.alkemy.org/api/activities]
      * created on 1 May 2022 by Leonel Gomez
      *
-     * @return a GenericResponse (success, data, message) where data is of type list of Activities
+     * @return a [Response] (RetroFit) of [GenericResponse] with a [List] of [Activity]
      */
     @GET("activities")
     suspend fun getActivities(): Response<GenericResponse<List<Activity>>>
