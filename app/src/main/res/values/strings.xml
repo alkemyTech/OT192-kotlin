@@ -53,5 +53,7 @@
     <!-- Fragment layout texts - News -->
     <string name="fragment_news_name">Titulo Novedad</string>
     <string name="fragment_news_description">Descripción</string>
+    <string name="error_description_failure">Ha ocurrido un error obteniendo la información</string>
+    <string name="retry_button">Reintentar</string>
 
 </resources>
