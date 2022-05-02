@@ -10,6 +10,7 @@
     <string name="actividades">Actividades</string>
     <string name="testimonios">Testimonios</string>
     <string name="nosotros">Nosotros</string>
+    <string name="details">Detalle</string>
 
     <!-- Fragment layout texts - Home -->
     <string name="fragment_home_title_welcome">Bienvenidos</string>
