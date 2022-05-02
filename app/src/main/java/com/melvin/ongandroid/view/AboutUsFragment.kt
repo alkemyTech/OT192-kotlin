@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentAboutUsBinding
 import com.melvin.ongandroid.utils.convertHtmlToString
@@ -93,11 +94,23 @@ class AboutUsFragment : Fragment() {
                     }
 
                     is Resource.ErrorApi ->{
-                        // Will be implemented in # 47
+                        // Show Dialog with error message when the API returns an error
+                        showDialog(
+                            title = getString(R.string.dialog_error),
+                            message = getString(R.string.dialog_error_getting_info),
+                            positive = getString(R.string.btn_retry),
+                            callback = { aboutUsViewModel.fetchMembers() }
+                        )
                     }
 
                     is Resource.ErrorThrowable ->{
-                        // Will be implemented in # 47
+                        // Show Dialog with error message when an error occurs
+                        showDialog(
+                            title = getString(R.string.dialog_error),
+                            message = getString(R.string.dialog_error_getting_info),
+                            positive = getString(R.string.btn_retry),
+                            callback = { aboutUsViewModel.fetchMembers() }
+                        )
                     }
                 }
             }
@@ -134,6 +147,31 @@ class AboutUsFragment : Fragment() {
             actionBar?.title = getString(R.string.nosotros)
         }
         dialog.show()
+    }
+
+    /**
+     * Show dialog
+     * created on 1 may 2022 by Jonathan Rodriguez
+     *
+     * @param title string title text
+     * @param message string message text
+     * @param negative string text in the negative button, default null (not showed)
+     * @param positive string text in the positive button, default null (not showed)
+     * @param callback function that is called when positive button is clicked, default null (no action)
+     */
+    private fun showDialog(
+        title: String,
+        message: String,
+        negative: String? = null,
+        positive: String? = null,
+        callback: (() -> Unit)? = null
+    ) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(title)
+            .setMessage(message)
+            .setNegativeButton(negative) { _, _ -> }
+            .setPositiveButton(positive) { _, _ -> callback?.invoke() }
+            .show()
     }
 
 }
