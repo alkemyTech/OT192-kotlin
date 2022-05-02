@@ -49,6 +49,8 @@ class NewsFragment : Fragment() {
      * when:
      * [Resource.Success] -> Disable Spinner Loading, shows Recycler, submit list from API.
      * [Resource.Loading] -> Disable Recycler and Title, shows Spinner.
+     * [Resource.ErrorApi] and [Resource.ErrorThrowable] -> Shows layout for errors. And has a button
+     * listener that retry api request for news. If [Resource.Success], the same as before.
      */
 
     private fun initNewsRecyclerview() {
@@ -73,15 +75,32 @@ class NewsFragment : Fragment() {
                 }
 
                 is Resource.ErrorThrowable ->{
-                    // Implementation in ticket 57.
+                    binding.apply {
+                        progressLoader.root.gone()
+                        fragmentNewsTitle.gone()
+                        constraintError.root.visible()
+                        binding.constraintError.buttonErrorRetry.setOnClickListener {
+                            progressLoader.root.visible()
+                            newsViewModel.fetchLatestNews()
+                            constraintError.root.gone()
+                        }
+                    }
 
                 }
 
-                is Resource.ErrorApi ->{ 
-                    // Implementation in ticket 57.
+                is Resource.ErrorApi ->{
+                    binding.apply {
+                        progressLoader.root.gone()
+                        fragmentNewsTitle.gone()
+                        constraintError.root.visible()
+                        binding.constraintError.buttonErrorRetry.setOnClickListener {
+                            progressLoader.root.visible()
+                            newsViewModel.fetchLatestNews()
+                            constraintError.root.gone()
+                        }
+                    }
                 }
             }
-
         }
     }
 
