@@ -16,13 +16,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentAboutUsBinding
-import com.melvin.ongandroid.model.MemberUI
 import com.melvin.ongandroid.utils.convertHtmlToString
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.melvin.ongandroid.model.Members
 import com.melvin.ongandroid.utils.Resource
 import com.melvin.ongandroid.utils.gone
 import com.melvin.ongandroid.utils.visible
-import com.melvin.ongandroid.view.adapters.MemberItemAdapter
 import com.melvin.ongandroid.view.adapters.MemberListAdapter
 import com.melvin.ongandroid.viewmodel.AboutUsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,7 +34,6 @@ class AboutUsFragment : Fragment() {
     private val aboutUsViewModel: AboutUsViewModel by activityViewModels()
 
     // Recycler View adapter
-    private val memberAdapter = MemberItemAdapter()
     private val memberListAdapter:MemberListAdapter by lazy{ MemberListAdapter() }
 
     // Initialization
@@ -52,8 +49,6 @@ class AboutUsFragment : Fragment() {
 
         // Configuration of recycler view
         initRecyclerView()
-        //setupRecyclerViewMembers()
-
 
         return binding.root
     }
@@ -69,6 +64,9 @@ class AboutUsFragment : Fragment() {
      * [Resource.ErrorApi] ->  Will be implemented in # 47
      */
     private fun initRecyclerView(){
+        // Show Dialog with member details
+        memberListAdapter.onItemClicked = { showMemberDetails(it) }
+        // Choose to show 3 or 2 columns depending on whether the screen was rotated
         val layoutManager =
             if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 GridLayoutManager(context, 3)
@@ -107,46 +105,12 @@ class AboutUsFragment : Fragment() {
     }
 
     /**
-     * Setup recycler view Members
-     * created on 30 April 2022 by Leonel Gomez
-     */
-    private fun setupRecyclerViewMembers() {
-        // Show Dialog with member details
-        memberAdapter.onItemClicked = { showMemberDetails(it) }
-        // Choose to show 3 or 2 columns depending on whether the screen was rotated
-        val layoutManager =
-            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                GridLayoutManager(context, 3)
-            } else {
-                GridLayoutManager(context, 2)
-            }
-
-        // Initial configuration of recycler view
-        with(binding) {
-            sectionAboutUs.rvAboutUs.setHasFixedSize(true)
-            sectionAboutUs.rvAboutUs.layoutManager = layoutManager
-            sectionAboutUs.rvAboutUs.adapter = memberAdapter
-        }
-
-        // The list is populated from a repository asynchronously and updated in live data
-        aboutUsViewModel.memberList.observe(viewLifecycleOwner) { result ->
-            if (!result.isNullOrEmpty()) {
-
-                //If data is obtained, it is loaded into the recycler adapter
-                memberAdapter.submitList(result)
-                binding.sectionAboutUs.rvAboutUs.adapter = memberAdapter
-
-            }
-        }
-    }
-
-    /**
      * Show Member Details
      *
      * @param member is a object with data of the person of About Us
      */
     @SuppressLint("InflateParams")
-    private fun showMemberDetails(member: MemberUI) {
+    private fun showMemberDetails(member: Members) {
         // Update title of the section
         val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
         actionBar?.title = getString(R.string.details)
@@ -156,7 +120,7 @@ class AboutUsFragment : Fragment() {
         dialog.setContentView(layoutInflater.inflate(R.layout.dialog_member_detail, null))
         dialog.onBackPressed()
         val image = dialog.findViewById(R.id.member_detail_image) as ImageView
-        image.load(member.photo)
+        image.load(member.image)
         val name = dialog.findViewById(R.id.member_detail_name) as TextView
         name.text = member.name
         val description = dialog.findViewById(R.id.member_detail_description) as TextView
@@ -171,4 +135,5 @@ class AboutUsFragment : Fragment() {
         }
         dialog.show()
     }
+
 }

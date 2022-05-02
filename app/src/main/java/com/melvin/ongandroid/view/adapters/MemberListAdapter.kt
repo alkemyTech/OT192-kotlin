@@ -9,6 +9,7 @@ import coil.load
 import com.melvin.ongandroid.databinding.ItemRecyclerAboutUsBinding
 import com.melvin.ongandroid.model.MemberUI
 import com.melvin.ongandroid.model.Members
+import com.melvin.ongandroid.utils.convertHtmlToString
 
 /**
  * Class for ListAdapter that replaces [MemberItemAdapter].
@@ -72,7 +73,7 @@ class MemberListAdapter() :
             with(binding) {
                 //Set texts
                 tvName.text = value.name
-                tvDescription.text = value.description
+                tvDescription.text = value.description.convertHtmlToString().trim()
                 //Load the image url and set it on this ImageView
                 imgMember.load(value.image)
 
