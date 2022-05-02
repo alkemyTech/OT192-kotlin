@@ -10,6 +10,7 @@
     <string name="actividades">Actividades</string>
     <string name="testimonios">Testimonios</string>
     <string name="nosotros">Nosotros</string>
+    <string name="details">Detalle</string>
 
     <!-- Fragment layout texts - Home -->
     <string name="fragment_home_title_welcome">Bienvenidos</string>
@@ -35,6 +36,12 @@
     <string name="item_about_us_default_name">Nombre</string>
     <string name="item_about_us_default_description">Descripción</string>
 
+    <!-- Fragment layout texts - Activities -->
+    <string name="fragment_activities_title">Actividades</string>
+    <string name="fragment_activities_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</string>
+    <string name="item_activities_default_name">Actividad</string>
+    <string name="item_activities_default_description">Descripción</string>
+
     <!-- Button texts -->
     <string name="btn_retry">Reintentar</string>
 
@@ -45,6 +52,7 @@
 
     <!-- Image content description in layouts -->
     <string name="content_description_loading">Cargando</string>
+    <string name="content_description_activity">Actividad</string>
 
     <string name="error_message_contact">Ha ocurrido un error. Intente nuevamente mas tarde</string>
     <string name="massive_error">Error General</string>
@@ -53,5 +61,7 @@
     <!-- Fragment layout texts - News -->
     <string name="fragment_news_name">Titulo Novedad</string>
     <string name="fragment_news_description">Descripción</string>
+    <string name="error_description_failure">Ha ocurrido un error obteniendo la información</string>
+    <string name="retry_button">Reintentar</string>
 
 </resources>
