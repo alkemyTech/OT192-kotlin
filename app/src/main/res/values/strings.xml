@@ -10,6 +10,7 @@
     <string name="actividades">Actividades</string>
     <string name="testimonios">Testimonios</string>
     <string name="nosotros">Nosotros</string>
+    <string name="details">Detalle</string>
 
     <!-- Fragment layout texts - Home -->
     <string name="fragment_home_title_welcome">Bienvenidos</string>
@@ -60,5 +61,13 @@
     <!-- Fragment layout texts - News -->
     <string name="fragment_news_name">Titulo Novedad</string>
     <string name="fragment_news_description">Descripción</string>
+    <string name="error_description_failure">Ha ocurrido un error obteniendo la información</string>
+    <string name="retry_button">Reintentar</string>
+
+    <!-- Dialog layout text - Member Detail -->
+    <string name="member_detail_name">Nombre Detalle</string>
+    <string name="member_detail_description">Descripción Detalle</string>
+    <string name="logo">Logo</string>
+    <string name="member_detail_link">Link a la red social</string>
 
 </resources>

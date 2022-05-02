@@ -12,6 +12,9 @@ import com.melvin.ongandroid.model.News
 import com.melvin.ongandroid.view.adapters.NewsItemAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.melvin.ongandroid.R
+import com.melvin.ongandroid.utils.Resource
+import com.melvin.ongandroid.utils.gone
+import com.melvin.ongandroid.utils.visible
 import com.melvin.ongandroid.viewmodel.NewsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,10 +37,71 @@ class NewsFragment : Fragment() {
         //News title in top bar
         val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
         actionBar?.title = getString(R.string.novedades)
-        
-        setupRecyclerView()
+
+        //setupRecyclerView()
+        initNewsRecyclerview()
 
         return binding.root
+    }
+
+    /**
+     * Observes state in VM.
+     * when:
+     * [Resource.Success] -> Disable Spinner Loading, shows Recycler, submit list from API.
+     * [Resource.Loading] -> Disable Recycler and Title, shows Spinner.
+     * [Resource.ErrorApi] and [Resource.ErrorThrowable] -> Shows layout for errors. And has a button
+     * listener that retry api request for news. If [Resource.Success], the same as before.
+     */
+
+    private fun initNewsRecyclerview() {
+        newsViewModel.newsState.observe(viewLifecycleOwner) { resourceNews ->
+
+            when (resourceNews) {
+                is Resource.Success -> {
+                    binding.apply {
+                        rvNews.adapter = newsAdapter
+                        rvNews.layoutManager = GridLayoutManager(context, 2)
+                        newsAdapter.submitList(resourceNews.data?.novedades?.toMutableList())
+                        rvNews.visible()
+                        progressLoader.root.gone()
+
+                    }
+                }
+                is Resource.Loading -> {
+                    binding.apply {
+                        rvNews.gone()
+                        progressLoader.root.visible()
+                    }
+                }
+
+                is Resource.ErrorThrowable ->{
+                    binding.apply {
+                        progressLoader.root.gone()
+                        fragmentNewsTitle.gone()
+                        constraintError.root.visible()
+                        binding.constraintError.buttonErrorRetry.setOnClickListener {
+                            progressLoader.root.visible()
+                            newsViewModel.fetchLatestNews()
+                            constraintError.root.gone()
+                        }
+                    }
+
+                }
+
+                is Resource.ErrorApi ->{
+                    binding.apply {
+                        progressLoader.root.gone()
+                        fragmentNewsTitle.gone()
+                        constraintError.root.visible()
+                        binding.constraintError.buttonErrorRetry.setOnClickListener {
+                            progressLoader.root.visible()
+                            newsViewModel.fetchLatestNews()
+                            constraintError.root.gone()
+                        }
+                    }
+                }
+            }
+        }
     }
 
     // Setup RecyclerView and Adapter for News
