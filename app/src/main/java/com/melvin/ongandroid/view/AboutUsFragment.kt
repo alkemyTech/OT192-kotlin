@@ -19,6 +19,8 @@ import com.melvin.ongandroid.databinding.FragmentAboutUsBinding
 import com.melvin.ongandroid.model.MemberUI
 import com.melvin.ongandroid.utils.convertHtmlToString
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.melvin.ongandroid.model.Members
+import com.melvin.ongandroid.services.firebase.FirebaseEvent
 import com.melvin.ongandroid.utils.Resource
 import com.melvin.ongandroid.utils.gone
 import com.melvin.ongandroid.utils.visible
@@ -67,6 +69,7 @@ class AboutUsFragment : Fragment() {
      * [Resource.Success] -> Hides progress Loader, submit list to adapter and shows RecyclerView.
      * [Resource.ErrorThrowable] -> Will be implemented in # 47
      * [Resource.ErrorApi] ->  Will be implemented in # 47
+     * Logs eventes in case of Get request Success and Error.
      */
     private fun initRecyclerView(){
         val layoutManager =
@@ -86,19 +89,30 @@ class AboutUsFragment : Fragment() {
                     is Resource.Loading ->{
                         scvAboutUs.gone()
                         progressLoader.root.visible()
+                        //Logs Event For Success Get request
+                        FirebaseEvent.setEvent(requireContext(),"members_retrieve_success" )
                     }
 
                     is Resource.Success ->{
                         scvAboutUs.visible()
                         progressLoader.root.gone()
                         memberListAdapter.submitList(resourceMembers.data?.data?.toMutableList())
+
+                        //ClickListener Implemented in Recycler that logs member pressed.
+                        memberListAdapter.onItemClicked= {members: Members ->
+                            FirebaseEvent.setEvent(requireContext(), "member_pressed")
+                        }
                     }
 
                     is Resource.ErrorApi ->{
+                        //Logs Event in case of Error in Get request
+                        FirebaseEvent.setEvent(requireContext(), "members_retrieve_error")
                         // Will be implemented in # 47
                     }
 
                     is Resource.ErrorThrowable ->{
+                        //Logs Event in case of Error in Exception
+                        FirebaseEvent.setEvent(requireContext(), "members_retrieve_error")
                         // Will be implemented in # 47
                     }
                 }
