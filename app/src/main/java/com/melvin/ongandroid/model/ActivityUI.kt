@@ -22,10 +22,8 @@ data class ActivityUI(
  *
  * @return a Activity object with the attributes needed by the UI
  */
-/* TODO: Remove comments after implementing Activity (Domain) object
 fun Activity.toUI(): ActivityUI = ActivityUI(
-    name = name,
-    description = description,
-    image = image,
+    name = name ?: "",
+    description = description ?: "",
+    image = image ?: "",
 )
- */

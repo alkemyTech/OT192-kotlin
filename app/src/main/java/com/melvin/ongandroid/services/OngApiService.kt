@@ -41,6 +41,16 @@ interface OngApiService {
         @Query("limit") limit: Int? = null,
     ): GenericResponse<List<Slide>>
 
+    /**
+     * Get activities
+     * [https://ongapi.alkemy.org/api/activities]
+     * created on 1 May 2022 by Leonel Gomez
+     *
+     * @return a [Response] (RetroFit) of [GenericResponse] with a [List] of [Activity]
+     */
+    @GET("activities")
+    suspend fun getActivities(): Response<GenericResponse<List<Activity>>>
+
     /** Fetch Members from
      * [https://ongapi.alkemy.org/api/members]
      * Returns a [Response] (RetroFit) of [GenericResponse] with

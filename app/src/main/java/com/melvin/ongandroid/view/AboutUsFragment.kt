@@ -14,8 +14,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentAboutUsBinding
+import com.melvin.ongandroid.utils.convertHtmlToString
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.melvin.ongandroid.model.Members
+import com.melvin.ongandroid.services.firebase.FirebaseEvent
 import com.melvin.ongandroid.model.Members
 import com.melvin.ongandroid.utils.*
 import com.melvin.ongandroid.view.adapters.MemberListAdapter
@@ -59,6 +64,7 @@ class AboutUsFragment : Fragment() {
      * [Resource.Success] -> Hides progress Loader, submit list to adapter and shows RecyclerView.
      * [Resource.ErrorThrowable] -> Will be implemented in # 47
      * [Resource.ErrorApi] ->  Will be implemented in # 47
+     * Logs eventes in case of Get request Success and Error.
      */
     private fun initRecyclerView(){
         // Show Dialog with member details
@@ -81,21 +87,41 @@ class AboutUsFragment : Fragment() {
                     is Resource.Loading ->{
                         scvAboutUs.gone()
                         progressLoader.root.visible()
+                        //Logs Event For Success Get request
+                        FirebaseEvent.setEvent(requireContext(),"members_retrieve_success" )
                     }
 
                     is Resource.Success ->{
                         scvAboutUs.visible()
                         progressLoader.root.gone()
                         memberListAdapter.submitList(resourceMembers.data?.data?.toMutableList())
-                        memberListAdapter.onItemClicked = { showMemberDetails(it) }
+
+                        //ClickListener Implemented in Recycler that logs member pressed.
+                        memberListAdapter.onItemClicked= {members: Members ->
+                            showMemberDetails(members)
+                            FirebaseEvent.setEvent(requireContext(), "member_pressed")
+                        }
+
                     }
 
                     is Resource.ErrorApi ->{
+                        //Logs Event in case of Error in Get request
+                        FirebaseEvent.setEvent(requireContext(), "members_retrieve_error")
                         // Will be implemented in # 47
                     }
 
                     is Resource.ErrorThrowable ->{
+                        //Logs Event in case of Error in Exception
+                        FirebaseEvent.setEvent(requireContext(), "members_retrieve_error")
                         // Will be implemented in # 47
+
+                        // Show Dialog with error message when the API returns an error
+                        showDialog(
+                            title = getString(R.string.dialog_error),
+                            message = getString(R.string.dialog_error_getting_info),
+                            positive = getString(R.string.btn_retry),
+                            callback = { aboutUsViewModel.fetchMembers() }
+                        )
                     }
                 }
             }
@@ -143,6 +169,31 @@ class AboutUsFragment : Fragment() {
             actionBar?.title = getString(R.string.nosotros)
         }
         dialog.show()
+    }
+
+    /**
+     * Show dialog
+     * created on 1 may 2022 by Jonathan Rodriguez
+     *
+     * @param title string title text
+     * @param message string message text
+     * @param negative string text in the negative button, default null (not showed)
+     * @param positive string text in the positive button, default null (not showed)
+     * @param callback function that is called when positive button is clicked, default null (no action)
+     */
+    private fun showDialog(
+        title: String,
+        message: String,
+        negative: String? = null,
+        positive: String? = null,
+        callback: (() -> Unit)? = null
+    ) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(title)
+            .setMessage(message)
+            .setNegativeButton(negative) { _, _ -> }
+            .setPositiveButton(positive) { _, _ -> callback?.invoke() }
+            .show()
     }
 
 }
