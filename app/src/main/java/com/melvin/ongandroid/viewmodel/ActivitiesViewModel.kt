@@ -3,10 +3,15 @@ package com.melvin.ongandroid.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.melvin.ongandroid.model.ActivityUI
+import com.melvin.ongandroid.model.toUI
 import com.melvin.ongandroid.repository.OngRepository
 import com.melvin.ongandroid.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,18 +34,38 @@ class ActivitiesViewModel @Inject constructor(private val repo: OngRepository) :
 
     /**
      * Fetch activities
+     * created on 1 May 2022 by Leonel Gomez
      *
      */
-    private fun fetchActivities() {
-        //TODO: Hardcoded Activities list, replace with data from API
-        //TODO: After fetching data, map Activity to ActivityUI object -> map { it.toUI() }
-        _activitiesState.postValue(Resource.success(MutableList(12) {
-            ActivityUI(
-                image = "https://picsum.photos/200/300?random=${(1..100).random()}",
-                name = "Apoyo Escolar para el nivel Primario",
-                description = "<p>Es un programa destinado a jóvenes a partir del tercer año de secundaria, cuyo objetivo es garantizar su permanencia en el colegio y servir de guía y soporte.&nbsp;</p>",
-            )
-        }))
+    fun fetchActivities() {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            repo.getActivities()
+                .catch { throwable ->
+                    _activitiesState.postValue(
+                        Resource.errorThrowable(Exception(throwable.message))
+                    )
+                }
+                .collect { resource ->
+                    when (resource) {
+                        is Resource.Success -> try {
+                            if (resource.data != null) {
+                                val values = resource.data.data.map { it.toUI() }
+                                _activitiesState.postValue(Resource.success(values.toMutableList()))
+                            }
+                        } catch (e: Exception) {
+                            _activitiesState.postValue(Resource.errorThrowable(e))
+                        }
+                        is Resource.ErrorApi -> _activitiesState.postValue(
+                            Resource.errorApi(resource.errorMessage ?: "")
+                        )
+                        is Resource.ErrorThrowable -> _activitiesState.postValue(
+                            Resource.errorThrowable(resource.errorThrowable ?: Exception(""))
+                        )
+                        is Resource.Loading -> _activitiesState.postValue(Resource.loading())
+                    }
+                }
+        }
     }
 
 }

@@ -1,5 +1,8 @@
 package com.melvin.ongandroid.utils
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.text.Html
 import android.text.Spanned
 import android.view.View
@@ -49,4 +52,10 @@ fun View.visible(): View {
 fun View.gone(): View {
     this.visibility = View.GONE
     return this
+}
+
+fun openWebPage(url: String, context: Context) {
+    val webpage: Uri = Uri.parse(url)
+    val intent = Intent(Intent.ACTION_VIEW, webpage)
+    context.startActivity(intent)
 }
