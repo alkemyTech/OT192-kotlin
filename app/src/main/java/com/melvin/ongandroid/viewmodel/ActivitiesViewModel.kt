@@ -37,7 +37,7 @@ class ActivitiesViewModel @Inject constructor(private val repo: OngRepository) :
      * created on 1 May 2022 by Leonel Gomez
      *
      */
-    private fun fetchActivities() {
+    fun fetchActivities() {
         viewModelScope.launch(Dispatchers.IO) {
 
             repo.getActivities()
