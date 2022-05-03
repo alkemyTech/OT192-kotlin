@@ -78,4 +78,29 @@ class OngRepository @Inject constructor(private val apiService: OngApiService) {
             }
         }.catch { e -> emit(Resource.errorThrowable(e)) }
 
+    /**
+     * Get activities
+     * created on 1 May 2022 by Leonel Gomez
+     *
+     * @return emits a Resource, containing list Of Activities
+     */
+    suspend fun getActivities(): Flow<Resource<GenericResponse<List<Activity>>>> = flow {
+        val response = apiService.getActivities()
+
+        when (response.isSuccessful) {
+            true -> {
+                val body = response.body()
+                if (body != null) {
+                    if (body.success)
+                        emit(Resource.Success(body))
+                    else
+                        emit(Resource.errorApi("Error from API"))
+                }
+            }
+            false -> emit(Resource.ErrorApi(response.errorBody().toString()))
+        }
+    }.catch { e: Throwable ->
+        emit(Resource.ErrorThrowable(e))
+    }
+
 }
