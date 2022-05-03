@@ -80,6 +80,7 @@
                 tools:layout_editor_absoluteX="0dp">
 
                 <ImageView
+                    android:id="@+id/imageView_linkedin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/logo"
@@ -109,6 +110,7 @@
                 tools:layout_editor_absoluteX="0dp">
 
                 <ImageView
+                    android:id="@+id/imageView_facebook"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/logo"
