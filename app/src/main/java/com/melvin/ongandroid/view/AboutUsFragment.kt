@@ -16,11 +16,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentAboutUsBinding
-import com.melvin.ongandroid.utils.convertHtmlToString
 import com.melvin.ongandroid.model.Members
-import com.melvin.ongandroid.utils.Resource
-import com.melvin.ongandroid.utils.gone
-import com.melvin.ongandroid.utils.visible
+import com.melvin.ongandroid.utils.*
 import com.melvin.ongandroid.view.adapters.MemberListAdapter
 import com.melvin.ongandroid.viewmodel.AboutUsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -130,6 +127,17 @@ class AboutUsFragment : Fragment() {
         linkFacebook.text = member.facebookUrl
         val linkLinkedin = dialog.findViewById(R.id.member_detail_linkedin) as TextView
         linkLinkedin.text = member.linkedinUrl
+
+        val imageViewLnkd = dialog.findViewById<ImageView>(R.id.imageView_linkedin).also {
+            it.setOnClickListener {
+                openWebPage(member.linkedinUrl, requireContext())            }
+        }
+
+        val imageViewFb = dialog.findViewById<ImageView>(R.id.imageView_facebook)
+
+        imageViewFb.setOnClickListener {
+            openWebPage(member.facebookUrl, requireContext())
+        }
         dialog.setOnCancelListener{
             // Update title of the previous section
             actionBar?.title = getString(R.string.nosotros)
