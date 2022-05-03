@@ -90,6 +90,7 @@ class AboutUsFragment : Fragment() {
                         scvAboutUs.visible()
                         progressLoader.root.gone()
                         memberListAdapter.submitList(resourceMembers.data?.data?.toMutableList())
+                        memberListAdapter.onItemClicked = { showMemberDetails(it) }
                     }
 
                     is Resource.ErrorApi ->{
