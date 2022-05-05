@@ -5,11 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentLogInBinding
 import dagger.hilt.android.AndroidEntryPoint
+import com.melvin.ongandroid.R
+import androidx.navigation.findNavController
 
 @AndroidEntryPoint
 class LogInFragment : Fragment() {
