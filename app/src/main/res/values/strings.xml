@@ -73,4 +73,11 @@
     <string name="log_in">Iniciar Sesión</string>
     <string name="sign_up">Registrarse</string>
 
+    <!-- Fragment layout texts - SignUp -->
+    <string name="fragment_signUp_emailHint">Ingrese su email</string>
+    <string name="fragment_signUp_passwordHint">Ingrese su contraseña</string>
+    <string name="fragment_signUp_nameHint">Ingrese su nombre</string>
+    <string name="fragment_signUp_passwordConfirmHint">Confirme su contraseña</string>
+    <string name="fragment_sign_up_button">Registrarme</string>
+
 </resources>
