@@ -6,6 +6,7 @@ import android.net.Uri
 import android.text.Html
 import android.text.Spanned
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.core.util.PatternsCompat
 
 /*
@@ -69,4 +70,14 @@ fun openWebPage(url: String, context: Context) {
     val webpage: Uri = Uri.parse(url)
     val intent = Intent(Intent.ACTION_VIEW, webpage)
     context.startActivity(intent)
+}
+
+/**
+ * Hide keyboard
+ * created on 5 May 2022 by Leonel Gomez
+ *
+ */
+fun View.hideKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
 }

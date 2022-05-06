@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentLogInBinding
+import com.melvin.ongandroid.utils.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,8 +23,14 @@ class LogInFragment : Fragment() {
 
         binding = FragmentLogInBinding.inflate(layoutInflater, container, false)
 
+        setListeners()
+        
         return binding.root
     }
 
+    private fun setListeners() {
+        //To hide keyboard when click on screen
+        binding.frontLayout.setOnClickListener { it.hideKeyboard() }
+    }
 
 }
