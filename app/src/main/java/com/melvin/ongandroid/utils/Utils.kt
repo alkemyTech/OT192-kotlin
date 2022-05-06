@@ -6,6 +6,7 @@ import android.net.Uri
 import android.text.Html
 import android.text.Spanned
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.core.util.PatternsCompat
 
 /*
@@ -14,6 +15,17 @@ It was changed to Jetpack PatternsCompat because of Patterns throws npe in tests
  */
 fun String.isEmailValid():Boolean =
     PatternsCompat.EMAIL_ADDRESS.matcher(this).matches()
+
+/**
+ * Is password valid
+ * created on 5 May 2022 by Leonel Gomez
+ *
+ * @return true if password is valid
+ */
+fun String.isPasswordValid(): Boolean =
+    PatternsLogIn.PASSWORD
+        .matcher(this)
+        .matches()
 
 /**
  *Checks if a String is not empyt, and it length is greater or equal to 3(for names like Ana)
@@ -58,4 +70,14 @@ fun openWebPage(url: String, context: Context) {
     val webpage: Uri = Uri.parse(url)
     val intent = Intent(Intent.ACTION_VIEW, webpage)
     context.startActivity(intent)
+}
+
+/**
+ * Hide keyboard
+ * created on 5 May 2022 by Leonel Gomez
+ *
+ */
+fun View.hideKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
 }

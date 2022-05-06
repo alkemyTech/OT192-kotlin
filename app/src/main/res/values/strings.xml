@@ -80,4 +80,9 @@
     <string name="fragment_signUp_passwordConfirmHint">Confirme su contraseña</string>
     <string name="fragment_sign_up_button">Registrarme</string>
 
+    <!-- Validation texts - LogIn -->
+    <string name="validation_empty">Debe completar el campo</string>
+    <string name="validation_email">Debe completar un email válido</string>
+    <string name="validation_password">La contraseña es demasiado débil</string>
+
 </resources>
