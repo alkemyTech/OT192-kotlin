@@ -12,6 +12,7 @@ import com.melvin.ongandroid.databinding.FragmentLogInBinding
 import com.melvin.ongandroid.utils.hideKeyboard
 import com.melvin.ongandroid.viewmodel.login.LogInViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.navigation.findNavController
 
 @AndroidEntryPoint
 class LogInFragment : Fragment() {
@@ -39,6 +40,9 @@ class LogInFragment : Fragment() {
     private fun setListeners() {
         //To hide keyboard when click on screen
         binding.frontLayout.setOnClickListener { it.hideKeyboard() }
+
+        //Navigation to Sign Up fragment
+        irASignUp()
     }
 
     private fun setObservers() {
@@ -66,6 +70,16 @@ class LogInFragment : Fragment() {
             editText!!.doOnTextChanged { text, _, _, _ ->
                 error = logInViewModel.checkPassword(text)
             }
+        }
+    }
+
+    /**
+     * Navigates to [R.id.action_logInFragment_to_SignUpFragment]
+     * when user clicks on button SignUp
+     */
+    private fun irASignUp() {
+        binding.buttonSignUpLogin.setOnClickListener { view ->
+            view.findNavController().navigate(R.id.action_logInFragment_to_SignUpFragment)
         }
     }
 
