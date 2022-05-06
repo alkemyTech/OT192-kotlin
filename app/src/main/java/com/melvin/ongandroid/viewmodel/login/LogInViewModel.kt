@@ -90,6 +90,7 @@ class LogInViewModel @Inject constructor(
             null
     }
 
+    
     //Log In User with email and password and save the response in [_loginState]
     fun loginUser( email: String, password: String ) {
         viewModelScope.launch(Dispatchers.IO) {

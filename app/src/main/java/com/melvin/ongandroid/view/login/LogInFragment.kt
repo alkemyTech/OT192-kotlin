@@ -120,6 +120,7 @@ class LogInFragment : Fragment() {
         }
     }
 
+    
     // Log In user when user clicks on button Log In.
     private fun loginUser() {
         binding.buttonLogIn.setOnClickListener {
