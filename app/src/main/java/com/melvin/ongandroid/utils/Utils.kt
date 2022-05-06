@@ -16,6 +16,17 @@ fun String.isEmailValid():Boolean =
     PatternsCompat.EMAIL_ADDRESS.matcher(this).matches()
 
 /**
+ * Is password valid
+ * created on 5 May 2022 by Leonel Gomez
+ *
+ * @return true if password is valid
+ */
+fun String.isPasswordValid(): Boolean =
+    PatternsLogIn.PASSWORD
+        .matcher(this)
+        .matches()
+
+/**
  *Checks if a String is not empyt, and it length is greater or equal to 3(for names like Ana)
  * and all char are letters(This prevent numbers or other char)
  */
