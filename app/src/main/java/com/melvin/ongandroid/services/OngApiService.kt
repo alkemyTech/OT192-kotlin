@@ -1,12 +1,9 @@
 package com.melvin.ongandroid.services
 
 import com.melvin.ongandroid.model.*
+import com.melvin.ongandroid.model.login.DataUser
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 
 interface OngApiService {
@@ -14,7 +11,7 @@ interface OngApiService {
     // Get testimonials from the API
     @GET("testimonials")
     suspend fun getTestimonials(): GenericResponse<MutableList<HomeTestimonials>>
-  
+
     @GET("news")
     suspend fun fetchLatestNews() : Response<NewsResponse>
 
@@ -59,5 +56,12 @@ interface OngApiService {
     @GET("members")
     suspend fun fetchMembers(): Response<GenericResponse<List<Members>>>
 
+    // Login the user to the API
+    @FormUrlEncoded
+    @POST("login")
+    suspend fun login(
+        @Field("email") email: String,
+        @Field("password") password: String
+    ): Response<GenericResponse<DataUser>>
 
 }

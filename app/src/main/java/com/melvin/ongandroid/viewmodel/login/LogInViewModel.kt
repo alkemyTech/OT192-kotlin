@@ -3,17 +3,28 @@ package com.melvin.ongandroid.viewmodel.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.core.ResourcesProvider
+import com.melvin.ongandroid.model.login.DataUser
+import com.melvin.ongandroid.repository.OngRepository
+import com.melvin.ongandroid.utils.Resource
 import com.melvin.ongandroid.utils.isEmailValid
 import com.melvin.ongandroid.utils.isPasswordValid
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LogInViewModel @Inject constructor(
-    private val resourcesProvider: ResourcesProvider
+    private val resourcesProvider: ResourcesProvider,
+    private val repo: OngRepository
 ) : ViewModel() {
+
+    private val _loginState: MutableLiveData<Resource<DataUser>> = MutableLiveData()
+    val loginState: LiveData<Resource<DataUser>> = _loginState
 
     // LiveData to disable/enable Log In Button on Form when is correct
     private val _isLogInBtnEnabled = MutableLiveData(false)
@@ -77,6 +88,38 @@ class LogInViewModel @Inject constructor(
             resourcesProvider.getString(R.string.validation_password)
         else
             null
+    }
+
+    //Log In User with email and password and save the response in [_loginState]
+    fun loginUser( email: String, password: String ) {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            repo.login( email, password )
+                .catch { throwable ->
+                    _loginState.postValue(
+                        Resource.errorThrowable(Exception(throwable.message))
+                    )
+                }
+                .collect { resource ->
+                    when (resource) {
+                        is Resource.Success -> try {
+                            if (resource.data != null) {
+                                val values = resource.data.data
+                                _loginState.postValue(Resource.success(values))
+                            }
+                        } catch (e: Exception) {
+                            _loginState.postValue(Resource.errorThrowable(e))
+                        }
+                        is Resource.ErrorApi -> _loginState.postValue(
+                            Resource.errorApi(resource.errorMessage ?: "")
+                        )
+                        is Resource.ErrorThrowable -> _loginState.postValue(
+                            Resource.errorThrowable(resource.errorThrowable ?: Exception(""))
+                        )
+                        is Resource.Loading -> _loginState.postValue(Resource.loading())
+                    }
+                }
+        }
     }
 
 }
