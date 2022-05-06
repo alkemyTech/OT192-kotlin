@@ -3,13 +3,17 @@ package com.melvin.ongandroid.viewmodel.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.melvin.ongandroid.R
+import com.melvin.ongandroid.core.ResourcesProvider
 import com.melvin.ongandroid.utils.isEmailValid
 import com.melvin.ongandroid.utils.isPasswordValid
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class LogInViewModel @Inject constructor() : ViewModel() {
+class LogInViewModel @Inject constructor(
+    private val resourcesProvider: ResourcesProvider
+) : ViewModel() {
 
     // LiveData to disable/enable Log In Button on Form when is correct
     private val _isLogInBtnEnabled = MutableLiveData(false)
@@ -48,9 +52,9 @@ class LogInViewModel @Inject constructor() : ViewModel() {
         isEmailValid = email.value.toString().isEmailValid()
         checkFields()
         return if (text.toString().isBlank())
-            "Debe completar el campo"
+            resourcesProvider.getString(R.string.validation_empty)
         else if (!isEmailValid)
-            "Debe completar un email válido"
+            resourcesProvider.getString(R.string.validation_email)
         else
             null
     }
@@ -68,9 +72,9 @@ class LogInViewModel @Inject constructor() : ViewModel() {
         isPasswordValid = password.value.toString().isPasswordValid()
         checkFields()
         return if (text.toString().isBlank())
-            "Debe completar el campo"
+            resourcesProvider.getString(R.string.validation_empty)
         else if (!isPasswordValid)  //Password is too weak
-            "La contraseña es demasiado débil"
+            resourcesProvider.getString(R.string.validation_password)
         else
             null
     }
