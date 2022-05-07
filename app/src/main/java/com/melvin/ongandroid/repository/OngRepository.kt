@@ -2,6 +2,7 @@ package com.melvin.ongandroid.repository
 
 
 import com.melvin.ongandroid.model.*
+import com.melvin.ongandroid.model.login.DataUser
 import com.melvin.ongandroid.services.OngApiService
 import com.melvin.ongandroid.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -70,7 +71,7 @@ class OngRepository @Inject constructor(private val apiService: OngApiService) {
                     emit(Resource.success(responseMembers.body()!!))
                 }
 
-                responseMembers.isSuccessful  && !responseMembers.body()!!.success->{
+                responseMembers.isSuccessful && !responseMembers.body()!!.success -> {
                     emit(Resource.errorApi("Error from API"))
                 }
 
@@ -86,6 +87,29 @@ class OngRepository @Inject constructor(private val apiService: OngApiService) {
      */
     suspend fun getActivities(): Flow<Resource<GenericResponse<List<Activity>>>> = flow {
         val response = apiService.getActivities()
+
+        when (response.isSuccessful) {
+            true -> {
+                val body = response.body()
+                if (body != null) {
+                    if (body.success)
+                        emit(Resource.Success(body))
+                    else
+                        emit(Resource.errorApi("Error from API"))
+                }
+            }
+            false -> emit(Resource.ErrorApi(response.errorBody().toString()))
+        }
+    }.catch { e: Throwable ->
+        emit(Resource.ErrorThrowable(e))
+    }
+
+    // Function that emit a Resource, containing a user response when response is successfully received
+    suspend fun login(
+        email: String,
+        password: String
+    ): Flow<Resource<GenericResponse<DataUser>>> = flow {
+        val response = apiService.login(email, password)
 
         when (response.isSuccessful) {
             true -> {
