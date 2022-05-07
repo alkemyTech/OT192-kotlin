@@ -3,6 +3,7 @@ package com.melvin.ongandroid.repository
 
 import com.melvin.ongandroid.model.*
 import com.melvin.ongandroid.model.login.DataUser
+import com.melvin.ongandroid.model.login.RegisterUser
 import com.melvin.ongandroid.services.OngApiService
 import com.melvin.ongandroid.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -122,6 +123,31 @@ class OngRepository @Inject constructor(private val apiService: OngApiService) {
                 }
             }
             false -> emit(Resource.ErrorApi(response.errorBody().toString()))
+        }
+    }.catch { e: Throwable ->
+        emit(Resource.ErrorThrowable(e))
+    }
+
+    /**
+     * Post new User with[registerUser]  and handles Api Response and Exceptions
+     */
+
+    suspend fun signUpUser(registerUser: RegisterUser) = flow {
+        val response = apiService.postSignUp(registerUser)
+        when(response.isSuccessful){
+            true ->{
+                val responseBody = response.body()
+
+                if(responseBody != null){
+                    if (responseBody.success) emit(Resource.success(response.body()!!))
+                    else emit(Resource.errorApi("Emamil ya utilizado"))
+                }
+                else emit(Resource.errorApi("Error"))
+
+            }
+            false ->{
+              emit(Resource.ErrorApi(response.errorBody().toString()))
+            }
         }
     }.catch { e: Throwable ->
         emit(Resource.ErrorThrowable(e))
