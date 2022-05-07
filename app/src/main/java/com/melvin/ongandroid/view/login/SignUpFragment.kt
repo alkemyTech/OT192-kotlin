@@ -1,6 +1,7 @@
 package com.melvin.ongandroid.view.login
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import com.melvin.ongandroid.databinding.FragmentSignUpBinding
+import com.melvin.ongandroid.utils.Resource
 import com.melvin.ongandroid.utils.hideKeyboard
 import com.melvin.ongandroid.viewmodel.login.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +31,8 @@ class SignUpFragment : Fragment() {
         signUpViewModel.checkFields()
         setListeners()
         setObservers()
+
+        signUpNewUser()
 
         return binding.root
     }
@@ -78,6 +82,27 @@ class SignUpFragment : Fragment() {
         with(binding.fragmentSignUpPasswordConfirm) {
             editText!!.doOnTextChanged { text, _, _, _ ->
                 error = signUpViewModel.checkPasswordConfirm(text)
+            }
+        }
+    }
+
+    /**
+     *
+    When all fields are correct given signUpViewModel.checkFields() register new user.
+    Handle States when Success.
+    Error will be implemented in #24
+     */
+
+    private fun signUpNewUser() {
+        binding.fragmentSignUpButton.setOnClickListener {
+            signUpViewModel.signUpUser()
+
+            signUpViewModel.registerUserState.observe(viewLifecycleOwner) {
+                when (it) {
+                    is Resource.Success -> Unit
+
+                    else -> Unit // Implemented in #24
+                }
             }
         }
     }
