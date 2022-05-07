@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.melvin.ongandroid.databinding.FragmentSignUpBinding
 import com.melvin.ongandroid.utils.Resource
 import com.melvin.ongandroid.utils.hideKeyboard
@@ -95,15 +96,55 @@ class SignUpFragment : Fragment() {
 
     private fun signUpNewUser() {
         binding.fragmentSignUpButton.setOnClickListener {
-            signUpViewModel.signUpUser()
 
+            signUpViewModel.signUpUser()
             signUpViewModel.registerUserState.observe(viewLifecycleOwner) {
                 when (it) {
-                    is Resource.Success -> Unit
+                    is Resource.Success ->{
+                        showDialog()
+                    }
 
-                    else -> Unit // Implemented in #24
+                    is Resource.ErrorApi -> {
+
+                    }
+
+                    is Resource.ErrorThrowable ->{
+
+                    }
+
+                    is Resource.Loading ->{
+
+                    }
+
+
                 }
             }
+        }
+    }
+
+    /**
+     * Creates a [MaterialAlertDialogBuilder] to show case of success.
+     * Has a button that will navigate to main Activity.
+     * After Button has been clicked and User was registered, clears all fields
+     */
+
+    private fun showDialog(){
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+        dialog.setTitle("Usuario Registrado")
+        dialog.setMessage( "User was succesfully register")
+        dialog.setPositiveButton("Aceptar"){ dialogo, wich->
+        clearRegisterUser()
+
+        }
+        dialog.show()
+    }
+
+    private fun clearRegisterUser(){
+        binding.apply {
+            fragmentSignUpName.editText?.text?.clear()
+            fragmentSignUpEmail.editText?.text?.clear()
+            fragmentSignUpPassword.editText?.text?.clear()
+            fragmentSignUpPasswordConfirm.editText?.text?.clear()
         }
     }
 }
