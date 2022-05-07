@@ -5,13 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.activityViewModels
 import com.melvin.ongandroid.databinding.FragmentSignUpBinding
+import com.melvin.ongandroid.utils.hideKeyboard
+import com.melvin.ongandroid.viewmodel.login.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SignUpFragment : Fragment() {
 
     private lateinit var binding: FragmentSignUpBinding
+    private val signUpViewModel: SignUpViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -19,6 +24,61 @@ class SignUpFragment : Fragment() {
     ): View {
         binding = FragmentSignUpBinding.inflate(layoutInflater, container, false)
 
+        //Initial configuration
+        setEditTextSettings()
+        signUpViewModel.checkFields()
+        setListeners()
+        setObservers()
+
         return binding.root
+    }
+
+    private fun setListeners() {
+        //To hide keyboard when click on screen
+        binding.frontLayout.setOnClickListener { it.hideKeyboard() }
+    }
+
+    private fun setObservers() {
+        //Activation of Register button with an observer
+        signUpViewModel.isRegisterBtnEnabled.observe(viewLifecycleOwner) { enabled ->
+            binding.fragmentSignUpButton.isEnabled = enabled
+            binding.fragmentSignUpButton.alpha = if (enabled) 1.0F else 0.3F
+        }
+    }
+
+    /**
+     * Set edit text settings
+     * doOnTextChange action for name, email and passwords fields
+     * and modify the error field of the respective layouts
+     * created on 6 May 2022 by Leonel Gomez
+     *
+     */
+    private fun setEditTextSettings() {
+        with(binding.fragmentSignUpName) {
+            editText!!.doOnTextChanged { text, _, _, _ ->
+                error = signUpViewModel.checkName(text)
+            }
+        }
+        with(binding.fragmentSignUpEmail) {
+            editText!!.doOnTextChanged { text, _, _, _ ->
+                error = signUpViewModel.checkEmail(text)
+            }
+        }
+        with(binding.fragmentSignUpPassword) {
+            editText!!.doOnTextChanged { text, _, _, _ ->
+                error = signUpViewModel.checkPassword(text)
+                if (text != "") {
+                    //To reset error in case of password match
+                    binding.fragmentSignUpPasswordConfirm.apply {
+                        this.error = signUpViewModel.checkPasswordConfirm(this.editText!!.text)
+                    }
+                }
+            }
+        }
+        with(binding.fragmentSignUpPasswordConfirm) {
+            editText!!.doOnTextChanged { text, _, _, _ ->
+                error = signUpViewModel.checkPasswordConfirm(text)
+            }
+        }
     }
 }
