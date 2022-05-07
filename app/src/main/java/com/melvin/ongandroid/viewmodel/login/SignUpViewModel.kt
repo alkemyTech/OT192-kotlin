@@ -3,17 +3,27 @@ package com.melvin.ongandroid.viewmodel.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.core.ResourcesProvider
+import com.melvin.ongandroid.model.GenericResponse
+import com.melvin.ongandroid.model.login.DataUser
+import com.melvin.ongandroid.model.login.RegisterUser
+import com.melvin.ongandroid.repository.OngRepository
+import com.melvin.ongandroid.utils.Resource
 import com.melvin.ongandroid.utils.checkFirstOrLastName
 import com.melvin.ongandroid.utils.isEmailValid
 import com.melvin.ongandroid.utils.isPasswordValid
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val resourcesProvider: ResourcesProvider
+    private val resourcesProvider: ResourcesProvider,
+    private val repo: OngRepository
 ) : ViewModel() {
 
     // LiveData to disable/enable Register Button on Form when is correct
@@ -31,6 +41,11 @@ class SignUpViewModel @Inject constructor(
     var isEmailValid = false
     var isPasswordValid = false
     var isPasswordConfirmValid = false
+
+    private val _registerUserState: MutableLiveData<Resource<GenericResponse<DataUser>>> =
+        MutableLiveData(Resource.Loading())
+    val registerUserState: LiveData<Resource<GenericResponse<DataUser>>> = _registerUserState
+
 
     /**
      * Check fields
@@ -122,4 +137,30 @@ class SignUpViewModel @Inject constructor(
             null
     }
 
+    fun signUpUser() {
+        val condition = isNameValid && isEmailValid && isPasswordValid && isPasswordConfirmValid
+
+        if (condition) {
+            viewModelScope.launch(IO) {
+                val registerUser = RegisterUser(
+                    name = name.value!!, email = email.value!!, password = password.value!!
+                )
+
+                repo.signUpUser(registerUser)
+                    .catch { e-> _registerUserState.postValue(Resource.errorThrowable(e))}
+                    .collect{ resourceDataUser->
+                        when(resourceDataUser){
+                            is Resource.Success ->
+                                _registerUserState.postValue(Resource.success(resourceDataUser.data!!))
+
+                            is Resource.ErrorApi ->
+                                _registerUserState.postValue(Resource.errorApi(resourceDataUser.data!!.message))
+
+                            else -> Unit
+                        }
+
+                }
+            }
+        }
+    }
 }
