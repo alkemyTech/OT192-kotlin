@@ -19,5 +19,9 @@
         android:id="@+id/SignUpFragment"
         android:name="com.melvin.ongandroid.view.login.SignUpFragment"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_SignUpFragment_to_logInFragment"
+            app:destination="@id/logInFragment" />
+    </fragment>
 </navigation>
