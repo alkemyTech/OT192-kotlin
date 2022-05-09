@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentSignUpBinding
+import com.melvin.ongandroid.services.firebase.FirebaseEvent
 import com.melvin.ongandroid.utils.Resource
 import com.melvin.ongandroid.utils.hideKeyboard
 import com.melvin.ongandroid.viewmodel.login.SignUpViewModel
@@ -94,23 +95,33 @@ class SignUpFragment : Fragment() {
     When all fields are correct given signUpViewModel.checkFields() register new user.
     Handle States when Success.
     Error will be implemented in #24
-     */
+
+     Added FireBaseEventes.
+        When button is pressed.
+        SignUp Success.
+        SignUp Error.  
+        */
 
     private fun signUpNewUser() {
         binding.fragmentSignUpButton.setOnClickListener {
 
+            FirebaseEvent.setEvent(requireContext(),"register_pressed")
+            
             signUpViewModel.signUpUser()
             signUpViewModel.registerUserState.observe(viewLifecycleOwner) {
                 when (it) {
                     is Resource.Success -> {
                         showDialog()
+
+                        FirebaseEvent.setEvent(requireContext(),"sign_up_success")
                     }
 
                     is Resource.ErrorApi -> {
-
+                        FirebaseEvent.setEvent(requireContext(),"sign_up_error")
                     }
 
                     is Resource.ErrorThrowable -> {
+                        FirebaseEvent.setEvent(requireContext(),"sign_up_error")
 
                     }
 
