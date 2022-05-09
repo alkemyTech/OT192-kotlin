@@ -95,22 +95,24 @@ class SignUpFragment : Fragment() {
     When all fields are correct given signUpViewModel.checkFields() register new user.
     Handle States when Success.
     Error will be implemented in #24
+
      Added FireBaseEventes.
         When button is pressed.
         SignUp Success.
-        SignUp Error.
-
-     */
+        SignUp Error.  
+        */
 
     private fun signUpNewUser() {
         binding.fragmentSignUpButton.setOnClickListener {
-            FirebaseEvent.setEvent(requireContext(),"register_pressed")
 
+            FirebaseEvent.setEvent(requireContext(),"register_pressed")
+            
             signUpViewModel.signUpUser()
             signUpViewModel.registerUserState.observe(viewLifecycleOwner) {
                 when (it) {
                     is Resource.Success -> {
                         showDialog()
+
                         FirebaseEvent.setEvent(requireContext(),"sign_up_success")
                     }
 
@@ -120,6 +122,7 @@ class SignUpFragment : Fragment() {
 
                     is Resource.ErrorThrowable -> {
                         FirebaseEvent.setEvent(requireContext(),"sign_up_error")
+
                     }
 
                     is Resource.Loading -> {

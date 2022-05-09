@@ -87,4 +87,7 @@
     <string name="validation_password_match">Las contraseñas no coinciden</string>
     <string name="validation_name">El nombre no es válido</string>
 
+    <!-- Splash screen texts -->
+    <string name="splash_title">Splash Screen</string>
+
 </resources>
