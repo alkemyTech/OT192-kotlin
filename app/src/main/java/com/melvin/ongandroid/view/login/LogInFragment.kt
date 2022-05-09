@@ -1,5 +1,6 @@
 package com.melvin.ongandroid.view.login
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import androidx.navigation.findNavController
 import com.melvin.ongandroid.application.SomosMasApp.Companion.prefs
 import com.melvin.ongandroid.utils.Resource
+import com.melvin.ongandroid.view.MainActivity
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -65,9 +67,13 @@ class LogInFragment : Fragment() {
                 is Resource.Success -> {
                     // Hide Progress bar
                     enableUI(true)
+                    // Save token in shared preferences
                     lifecycleScope.launch {
                         prefs.saveUserToken(result.data?.token ?: "")
                     }
+                    //Navigate to Home fragment
+                    startActivity(Intent(requireContext(), MainActivity::class.java))
+                    requireActivity().finish()
                 }
                 is Resource.Loading -> {
                     // Show Progress bar
