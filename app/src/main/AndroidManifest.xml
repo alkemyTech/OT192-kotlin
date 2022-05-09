@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.melvin.ongandroid" >
+    package="com.melvin.ongandroid">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -14,13 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ONGAndroid"
         android:usesCleartextTraffic="true"
-        tools:targetApi="m" >
+        tools:targetApi="m">
+        <activity
+            android:name=".view.LogInActivity"
+            android:exported="false" />
         <activity
             android:name=".view.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".view.LogInActivity"
-            android:exported="true" >
+            android:name=".view.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

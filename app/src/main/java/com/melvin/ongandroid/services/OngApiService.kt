@@ -2,6 +2,7 @@ package com.melvin.ongandroid.services
 
 import com.melvin.ongandroid.model.*
 import com.melvin.ongandroid.model.login.DataUser
+import com.melvin.ongandroid.model.login.RegisterUser
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -63,5 +64,14 @@ interface OngApiService {
         @Field("email") email: String,
         @Field("password") password: String
     ): Response<GenericResponse<DataUser>>
+
+    /**
+     * Makes post Request with new User
+     */
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("register")
+    suspend fun postSignUp(@Body registerUser: RegisterUser): Response<GenericResponse<DataUser>>
+
 
 }
