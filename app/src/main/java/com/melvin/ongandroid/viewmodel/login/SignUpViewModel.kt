@@ -163,7 +163,18 @@ class SignUpViewModel @Inject constructor(
                                 _registerUserState.postValue(Resource.success(resourceDataUser.data!!))
 
                             is Resource.ErrorApi ->
-                                _registerUserState.postValue(Resource.errorApi(resourceDataUser.data!!.message))
+                                _registerUserState.postValue(
+                                    Resource.errorApi(
+                                        resourceDataUser.errorMessage ?: ""
+                                    )
+                                )
+
+                            is Resource.ErrorThrowable ->
+                                _registerUserState.postValue(
+                                    Resource.errorThrowable(
+                                        resourceDataUser.errorThrowable ?: Exception("")
+                                    )
+                                )
 
                             else -> Unit
                         }
