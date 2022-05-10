@@ -7,6 +7,7 @@ package com.melvin.ongandroid.utils
  * [ErrorThrowable] ==> Handles Exception like IO
  * [ErrorApi] ==> Handles unsuccessfully request to API
  * [Loading] ==> Handles the state of Loading
+ * [Idle] ==> Handles the state of Idle
  */
 sealed class Resource<T>(
     val data: T? = null,
@@ -19,6 +20,7 @@ sealed class Resource<T>(
 
     class ErrorApi<T>(errorMessage: String) : Resource<T>(errorMessage = errorMessage)
     class Loading<T>(data: T? = null) : Resource<T>(data)
+    class Idle<T> : Resource<T>()
 
     /**
      * This Companion Object simplifies the uses of states, especially to handle errors in flow.
@@ -30,5 +32,6 @@ sealed class Resource<T>(
 
         fun <T> errorApi(errorMessage: String): Resource<T> = ErrorApi(errorMessage)
         fun <T> loading(): Resource<T> = Loading()
+        fun <T> idle(): Resource<T> = Idle()
     }
 }

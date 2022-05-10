@@ -119,7 +119,7 @@ class OngRepository @Inject constructor(private val apiService: OngApiService) {
                     if (body.success)
                         emit(Resource.Success(body))
                     else
-                        emit(Resource.errorApi("Error from API"))
+                        emit(Resource.errorApi(body.error ?: "Error from API"))
                 }
             }
             false -> emit(Resource.ErrorApi(response.errorBody().toString()))
