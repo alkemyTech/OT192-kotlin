@@ -34,15 +34,15 @@ class SignUpViewModelTest {
     @RelaxedMockK
     private lateinit var resourcesProvider: ResourcesProvider
 
-    //@RelaxedMockK
-    //private lateinit var repo: OngRepository
+    @RelaxedMockK
+    private lateinit var repo: OngRepository
 
     private lateinit var vm: SignUpViewModel
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        vm = SignUpViewModel(resourcesProvider)
+        vm = SignUpViewModel(resourcesProvider, repo)
     }
 
     @After

@@ -5,6 +5,7 @@ import com.melvin.ongandroid.MainDispatcherRule
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.core.ResourcesProvider
 import com.melvin.ongandroid.getOrAwaitValue
+import com.melvin.ongandroid.repository.OngRepository
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,7 +29,10 @@ class LogInViewModelTest {
     @RelaxedMockK
     private lateinit var resourcesProvider: ResourcesProvider
 
-    private val viewModel: LogInViewModel  by lazy { LogInViewModel(resourcesProvider) }
+    @RelaxedMockK
+    private lateinit var repo: OngRepository
+
+    private val viewModel: LogInViewModel  by lazy { LogInViewModel(resourcesProvider, repo) }
 
 
     @Before
