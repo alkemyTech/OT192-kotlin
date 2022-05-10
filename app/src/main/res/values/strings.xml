@@ -48,6 +48,13 @@
     <!-- Dialog texts -->
     <string name="dialog_error">Error</string>
     <string name="dialog_error_getting_info">Ha ocurrido un error obteniendo la información</string>
+    <string name="dialog_error_bad_request">El servidor no pudo interpretar la solicitud</string>
+    <string name="dialog_error_resource_not_found">El servidor no pudo encontrar el contenido solicitado</string>
+    <string name="dialog_error_client_error">Error del cliente</string>
+    <string name="dialog_error_server_error">Error en servidor</string>
+    <string name="dialog_error_unknown_error">Error desconocido</string>
+    <string name="dialog_error_credentials">Error de credenciales</string>
+    <string name="dialog_error_connection">No se puede hacer una conexión</string>
 
 
     <!-- Image content description in layouts -->
