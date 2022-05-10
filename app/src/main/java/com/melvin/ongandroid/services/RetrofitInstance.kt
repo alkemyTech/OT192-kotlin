@@ -1,4 +1,6 @@
 package com.melvin.ongandroid.services
+
+import com.google.gson.GsonBuilder
 import com.melvin.ongandroid.BuildConfig
 import dagger.Module
 import dagger.Provides
@@ -38,7 +40,13 @@ object RetrofitInstance {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(getOkHttpClient())
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(
+                GsonConverterFactory.create(
+                    GsonBuilder()
+                        .setLenient()
+                        .create()
+                )
+            )
             .build()
     }
 

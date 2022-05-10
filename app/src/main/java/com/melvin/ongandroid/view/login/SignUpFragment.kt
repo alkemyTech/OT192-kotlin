@@ -103,12 +103,12 @@ class SignUpFragment : Fragment() {
             }
         }
         with(binding.fragmentSignUpPasswordConfirm) {
-            // Reset the error of all the fields
-            if(error == getString(R.string.dialog_error_register)) {
-                clearErrorFields()
-            }
-            // Check errors in this field
             editText!!.doOnTextChanged { text, _, _, _ ->
+                // Reset the error of all the fields
+                if(error == getString(R.string.dialog_error_register)) {
+                    clearErrorFields()
+                }
+                // Check errors in this field
                 error = signUpViewModel.checkPasswordConfirm(text)
             }
         }
@@ -148,6 +148,9 @@ class SignUpFragment : Fragment() {
 
                         // Reset error after being displayed
                         signUpViewModel.setIdle()
+
+                        //Show text error in fields
+                        showErrorInFields(getString(R.string.dialog_error_register))
                     }
 
                     is Resource.ErrorThrowable -> {
@@ -158,6 +161,9 @@ class SignUpFragment : Fragment() {
 
                         // Reset error after being displayed
                         signUpViewModel.setIdle()
+
+                        //Show text error in fields
+                        showErrorInFields(getString(R.string.dialog_error_register))
                     }
 
                     is Resource.Loading -> {
@@ -206,10 +212,10 @@ class SignUpFragment : Fragment() {
      */
     private fun clearErrorFields() {
         binding.apply {
-            fragmentSignUpName.error = ""
-            fragmentSignUpEmail.error = ""
-            fragmentSignUpPassword.error = ""
-            fragmentSignUpPasswordConfirm.error = ""
+            fragmentSignUpName.error = null
+            fragmentSignUpEmail.error = null
+            fragmentSignUpPassword.error = null
+            fragmentSignUpPasswordConfirm.error = null
         }
     }
 
@@ -238,8 +244,7 @@ class SignUpFragment : Fragment() {
         // Show a modal/dialog with the text of the error
         showDialog(
             title = getString(R.string.dialog_error),
-            message = errorMessage,
-            negativeCallback = { showErrorInFields(getString(R.string.dialog_error_register)) }
+            message = errorMessage
         )
     }
 
@@ -287,7 +292,8 @@ class SignUpFragment : Fragment() {
      * @param message string message text
      * @param negative string text in the negative button, default null (not showed)
      * @param positive string text in the positive button, default null (not showed)
-     * @param callback function that is called when positive button is clicked, default null (no action)
+     * @param negativeCallback function that is called when negative button is clicked or cancel dialog, default null (no action)
+     * @param positiveCallback function that is called when positive button is clicked, default null (no action)
      */
     private fun showDialog(
         title: String,
