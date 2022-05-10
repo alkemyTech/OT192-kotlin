@@ -39,6 +39,16 @@ class LogInViewModel @Inject constructor(
     var isPasswordValid = false
 
     /**
+     * Set idle
+     * created on 9 May 2022 by Leonel Gomez
+     * To set an idle state to the live data response
+     *
+     */
+    fun setIdle() {
+        _loginState.postValue(Resource.idle())
+    }
+
+    /**
      * Check fields
      * created on 5 May 2022 by Leonel Gomez
      * Check if all parameters are valid
