@@ -6,5 +6,6 @@ import com.google.gson.annotations.SerializedName
 data class GenericResponse<T>(
     @SerializedName("success") val success: Boolean = false,
     @SerializedName("data") val data: T,
-    @SerializedName("message") val message: String = ""
+    @SerializedName("message") val message: String = "",
+    @SerializedName("error") val error: String? = null
 )
