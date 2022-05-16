@@ -56,6 +56,8 @@
     <string name="dialog_error_credentials">Error de credenciales</string>
     <string name="dialog_error_connection">No se puede hacer una conexión</string>
     <string name="dialog_error_register">Error en el registro</string>
+    <string name="dialog_cancel">Cancelado</string>
+    <string name="dialog_cancel_facebook">Inicio de sesión con Facebook cancelado</string>
 
 
     <!-- Image content description in layouts -->

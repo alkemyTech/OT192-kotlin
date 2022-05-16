@@ -265,15 +265,18 @@ class LogInFragment : Fragment() {
             .show()
     }
 
-    // Facebook listener to respond to the click of the button - 15/05/2022 L.Gomez
+    // Facebook listener to respond to the click of the button - 16/05/2022 L.Gomez
     private fun facebookLogInListener() {
-        binding.textViewLoginTitle.setOnClickListener {
+        binding.buttonFacebookLogin.setOnClickListener {
             facebookLogInAction()
         }
     }
 
     // Facebook action to try to log in with Facebook - 15/05/2022 L.Gomez
     private fun facebookLogInAction() {
+        // Show Progress bar
+        enableUI(false)
+
         // Open Facebook Auth window
         LoginManager.getInstance()
             .logInWithReadPermissions(requireActivity(), facebookCallbackManager, listOf("email"))
@@ -282,7 +285,14 @@ class LogInFragment : Fragment() {
         LoginManager.getInstance().registerCallback(
             facebookCallbackManager,
             object : FacebookCallback<LoginResult> {
-                override fun onCancel() {}
+                override fun onCancel() {
+                    showDialog(
+                        getString(R.string.dialog_cancel),
+                        getString(R.string.dialog_cancel_facebook)
+                    )
+                    // Hide Progress bar
+                    enableUI(true)
+                }
 
                 override fun onError(error: FacebookException) {
                     // Show error message
@@ -290,6 +300,8 @@ class LogInFragment : Fragment() {
                         getString(R.string.dialog_error),
                         getString(R.string.dialog_error_credentials)
                     )
+                    // Hide Progress bar
+                    enableUI(true)
                 }
 
                 override fun onSuccess(result: LoginResult) {
