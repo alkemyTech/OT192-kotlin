@@ -55,6 +55,7 @@
     <string name="dialog_error_unknown_error">Error desconocido</string>
     <string name="dialog_error_credentials">Error de credenciales</string>
     <string name="dialog_error_connection">No se puede hacer una conexión</string>
+    <string name="dialog_error_register">Error en el registro</string>
 
 
     <!-- Image content description in layouts -->
