@@ -55,6 +55,7 @@
     <string name="dialog_error_unknown_error">Error desconocido</string>
     <string name="dialog_error_credentials">Error de credenciales</string>
     <string name="dialog_error_connection">No se puede hacer una conexión</string>
+    <string name="dialog_error_register">Error en el registro</string>
 
 
     <!-- Image content description in layouts -->
@@ -93,6 +94,8 @@
     <string name="validation_password">La contraseña es demasiado débil</string>
     <string name="validation_password_match">Las contraseñas no coinciden</string>
     <string name="validation_name">El nombre no es válido</string>
+    <string name="button_google">Google</string>
+    <string name="button_facebook">Facebook</string>
 
     <!-- Splash screen texts -->
     <string name="splash_title">Splash Screen</string>

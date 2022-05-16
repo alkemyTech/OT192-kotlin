@@ -140,7 +140,7 @@ class OngRepository @Inject constructor(private val apiService: OngApiService) {
 
                 if(responseBody != null){
                     if (responseBody.success) emit(Resource.success(response.body()!!))
-                    else emit(Resource.errorApi("Emamil ya utilizado"))
+                    else emit(Resource.errorApi(responseBody.error ?: "Error"))
                 }
                 else emit(Resource.errorApi("Error"))
 
