@@ -85,7 +85,7 @@
 
             <Button
                 android:id="@+id/button_log_in"
-                android:layout_width="250dp"
+                android:layout_width="350dp"
                 android:layout_height="75dp"
                 android:layout_marginBottom="39dp"
                 android:backgroundTint="@color/blue"
@@ -96,16 +96,14 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/button_sign_up_login"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout_password_log_in" />
 
             <Button
                 android:id="@+id/button_sign_up_login"
                 style="@style/Widget.MaterialComponents.Button"
-                android:layout_width="250dp"
+                android:layout_width="350dp"
                 android:layout_height="75dp"
-                android:layout_marginBottom="100dp"
                 android:backgroundTint="#FFF59D"
                 android:elevation="5dp"
                 android:text="@string/sign_up"
@@ -113,11 +111,55 @@
                 android:textColor="#241616"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.502"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_log_in" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="50dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingVertical="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_sign_up_login">
+
+                <Button
+                    android:id="@+id/button_facebook_login"
+                    style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_facebook"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:backgroundTint="#1877f2"
+                    app:elevation="5dp"
+                    app:iconPadding="0dp"
+                    app:icon="@drawable/ic_facebook"
+                    app:iconTint="@color/white"
+                    app:iconSize="30dp" />
+
+                <Button
+                    android:id="@+id/button_google_login"
+                    style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+                    android:layout_marginStart="15dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_google"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:backgroundTint="#F21818"
+                    app:elevation="5dp"
+                    app:icon="@drawable/ic_google"
+                    app:iconTint="@color/white"
+                    app:iconSize="24dp" />
+
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
