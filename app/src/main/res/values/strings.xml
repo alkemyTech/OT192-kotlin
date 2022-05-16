@@ -99,5 +99,6 @@
 
     <!-- Splash screen texts -->
     <string name="splash_title">Splash Screen</string>
+    <string name="splash_timer_message">Timer has finished.\n Welcome to the ONG Application</string>
 
 </resources>
