@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.core.ResourcesProvider
 import com.melvin.ongandroid.model.login.DataUser
+import com.melvin.ongandroid.repository.OngAuthRepository
 import com.melvin.ongandroid.repository.OngRepository
 import com.melvin.ongandroid.utils.Resource
 import com.melvin.ongandroid.utils.isEmailValid
@@ -20,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LogInViewModel @Inject constructor(
     private val resourcesProvider: ResourcesProvider,
-    private val repo: OngRepository
+    private val repo: OngRepository,
+    private val ongAuthRepository: OngAuthRepository
 ) : ViewModel() {
 
     private val _loginState: MutableLiveData<Resource<DataUser>> = MutableLiveData()
@@ -130,6 +132,28 @@ class LogInViewModel @Inject constructor(
                         is Resource.Loading -> _loginState.postValue(Resource.loading())
                     }
                 }
+        }
+    }
+
+    //Log In User with facebook token and save the response in [_loginState] - 15/05/2022 L.Gomez
+    fun logInWithFacebook(token: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = ongAuthRepository.signInWithCredential(token)) {
+                is Resource.Success -> {
+                    result.data.let {
+                        if (it != null)
+                            _loginState.postValue(Resource.success(it))
+                        else
+                            _loginState.postValue(Resource.errorThrowable(Exception("Error")))
+                    }
+                }
+                is Resource.ErrorThrowable -> {
+                    _loginState.postValue(Resource.errorThrowable(Exception("Error")))
+                }
+                is Resource.ErrorApi -> {}
+                is Resource.Idle -> {}
+                is Resource.Loading -> _loginState.postValue(Resource.loading())
+            }
         }
     }
 

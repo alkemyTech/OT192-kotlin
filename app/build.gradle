@@ -65,6 +65,7 @@ dependencies {
     //Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.1'
 
     // Circle Image View
     implementation 'de.hdodenhof:circleimageview:3.0.0'
