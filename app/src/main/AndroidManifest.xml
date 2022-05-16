@@ -5,6 +5,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- To cancel the permission of the advertiser's identifier in the Log in with Facebook -->
+    <uses-permission
+        android:name="com.google.android.gms.permission.AD_ID"
+        tools:node="remove" />
+
     <application
         android:name=".application.SomosMasApp"
         android:allowBackup="true"
@@ -30,6 +35,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- Add an activity for Facebook and an activity and intent filter for Chrome custom tabs inside the application element -->
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".services.firebase.MyFirebaseMessagingService"
@@ -39,6 +61,15 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <!-- Add Facebook meta-data elements to the application element of the app identifier and client token -->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="@string/facebook_client_token" />
+
     </application>
 
 </manifest>
