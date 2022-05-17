@@ -99,4 +99,7 @@
     <!-- Splash screen texts -->
     <string name="splash_title">Splash Screen</string>
 
+    <!-- ServerCLientId Firebase   -->
+    <string name="server_client_id">182394965765-drufb7ip3d98vsq5pktd5nmbdvn9m58p.apps.googleusercontent.com</string>
+
 </resources>
