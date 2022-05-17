@@ -2,18 +2,13 @@ package com.melvin.ongandroid.view.login
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import com.melvin.ongandroid.R
-import com.melvin.ongandroid.databinding.FragmentLogInBinding
-import com.melvin.ongandroid.utils.hideKeyboard
-import com.melvin.ongandroid.viewmodel.login.LogInViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import androidx.navigation.findNavController
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -21,10 +16,16 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.FirebaseAuth
+import com.melvin.ongandroid.R
 import com.melvin.ongandroid.application.SomosMasApp.Companion.prefs
+import com.melvin.ongandroid.databinding.FragmentLogInBinding
 import com.melvin.ongandroid.services.firebase.FirebaseEvent
 import com.melvin.ongandroid.utils.Resource
+import com.melvin.ongandroid.utils.hideKeyboard
 import com.melvin.ongandroid.view.MainActivity
+import com.melvin.ongandroid.viewmodel.login.LogInViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.net.UnknownHostException
@@ -35,6 +36,8 @@ class LogInFragment : Fragment() {
     private lateinit var binding: FragmentLogInBinding
     private val logInViewModel: LogInViewModel by activityViewModels()
     private val facebookCallbackManager = CallbackManager.Factory.create()
+
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,8 +55,12 @@ class LogInFragment : Fragment() {
         setObservers()
         handleFireBaseLogin()
 
+        handleLoginGoogle()
+
         return binding.root
     }
+
+
 
     private fun setListeners() {
         //To hide keyboard when click on screen
@@ -171,7 +178,7 @@ class LogInFragment : Fragment() {
         }
     }
 
-    
+
     // Log In user when user clicks on button Log In.
     private fun loginUser() {
         binding.buttonLogIn.setOnClickListener {
@@ -289,6 +296,13 @@ class LogInFragment : Fragment() {
             .show()
     }
 
+
+    /**
+     * When clicks starts logic for log in with Google.
+     */
+    private fun handleLoginGoogle() = binding.buttonGoogleLogin.setOnClickListener {
+        logInViewModel.startLoginGoogle(requireActivity())
+
     // Facebook listener to respond to the click of the button - 16/05/2022 L.Gomez
     private fun facebookLogInListener() {
         binding.buttonFacebookLogin.setOnClickListener {
@@ -345,6 +359,7 @@ class LogInFragment : Fragment() {
 
         // Pass the activity result back to the Facebook SDK - 15/05/2022 L.Gomez
         facebookCallbackManager.onActivityResult(requestCode, resultCode, data)
+
     }
 
 }
