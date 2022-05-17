@@ -55,6 +55,9 @@
     <string name="dialog_error_unknown_error">Error desconocido</string>
     <string name="dialog_error_credentials">Error de credenciales</string>
     <string name="dialog_error_connection">No se puede hacer una conexión</string>
+    <string name="dialog_error_register">Error en el registro</string>
+    <string name="dialog_cancel">Cancelado</string>
+    <string name="dialog_cancel_facebook">Inicio de sesión con Facebook cancelado</string>
 
 
     <!-- Image content description in layouts -->
@@ -99,7 +102,14 @@
     <!-- Splash screen texts -->
     <string name="splash_title">Splash Screen</string>
 
+
     <!-- ServerCLientId Firebase   -->
     <string name="server_client_id">182394965765-drufb7ip3d98vsq5pktd5nmbdvn9m58p.apps.googleusercontent.com</string>
+
+    <!-- Log In with Facebook - key texts -->
+    <string name="facebook_app_id">386835009851003</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">c842a878548630ebfe655ee32caca660</string>
+
 
 </resources>

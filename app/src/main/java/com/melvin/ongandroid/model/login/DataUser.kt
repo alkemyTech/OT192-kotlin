@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 // data class that represents the user data response from the server
 data class DataUser(
     @SerializedName("user") val user: User,
-    @SerializedName("token") val token: String = ""
+    @SerializedName("token") var token: String = ""
 )

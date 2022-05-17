@@ -46,6 +46,15 @@ class SignUpViewModel @Inject constructor(
         MutableLiveData(Resource.Loading())
     val registerUserState: LiveData<Resource<GenericResponse<DataUser>>> = _registerUserState
 
+    /**
+     * Set idle
+     * created on 10 May 2022 by Leonel Gomez
+     * To set an idle state to the live data response
+     *
+     */
+    fun setIdle() {
+        _registerUserState.postValue(Resource.idle())
+    }
 
     /**
      * Check fields
@@ -154,7 +163,18 @@ class SignUpViewModel @Inject constructor(
                                 _registerUserState.postValue(Resource.success(resourceDataUser.data!!))
 
                             is Resource.ErrorApi ->
-                                _registerUserState.postValue(Resource.errorApi(resourceDataUser.data!!.message))
+                                _registerUserState.postValue(
+                                    Resource.errorApi(
+                                        resourceDataUser.errorMessage ?: ""
+                                    )
+                                )
+
+                            is Resource.ErrorThrowable ->
+                                _registerUserState.postValue(
+                                    Resource.errorThrowable(
+                                        resourceDataUser.errorThrowable ?: Exception("")
+                                    )
+                                )
 
                             else -> Unit
                         }
