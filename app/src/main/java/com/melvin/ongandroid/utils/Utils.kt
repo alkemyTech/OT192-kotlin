@@ -45,9 +45,12 @@ fun String.checkContactMessage(): Boolean = this.isNotEmpty() && this.length >= 
  * Convert HTML to string
  * Return the displayable styled text from the provided HTML string
  * created on 24 April 2022 by Leonel Gomez
+ * modified on 17 May 2022 by Leonel Gomez to manage nullity
  *
  */
-fun String.convertHtmlToString(): String {
+fun String?.convertHtmlToString(): String {
+    if (this == null)
+        return ""
     //As fromHtml is deprecated, whe need to ask for Build version to includes the new int parameter
     return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
         Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY).toString()

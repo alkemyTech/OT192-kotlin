@@ -302,6 +302,7 @@ class LogInFragment : Fragment() {
      */
     private fun handleLoginGoogle() = binding.buttonGoogleLogin.setOnClickListener {
         logInViewModel.startLoginGoogle(requireActivity())
+    }
 
     // Facebook listener to respond to the click of the button - 16/05/2022 L.Gomez
     private fun facebookLogInListener() {
