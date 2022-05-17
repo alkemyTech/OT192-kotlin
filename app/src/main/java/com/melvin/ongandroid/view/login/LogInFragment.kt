@@ -2,23 +2,30 @@ package com.melvin.ongandroid.view.login
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.FirebaseAuth
 import com.melvin.ongandroid.R
+import com.melvin.ongandroid.application.SomosMasApp.Companion.prefs
 import com.melvin.ongandroid.databinding.FragmentLogInBinding
+import com.melvin.ongandroid.services.firebase.FirebaseEvent
+import com.melvin.ongandroid.utils.Resource
 import com.melvin.ongandroid.utils.hideKeyboard
+import com.melvin.ongandroid.view.MainActivity
 import com.melvin.ongandroid.viewmodel.login.LogInViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import androidx.navigation.findNavController
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.melvin.ongandroid.application.SomosMasApp.Companion.prefs
-import com.melvin.ongandroid.utils.Resource
-import com.melvin.ongandroid.view.MainActivity
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.net.UnknownHostException
@@ -28,6 +35,9 @@ class LogInFragment : Fragment() {
 
     private lateinit var binding: FragmentLogInBinding
     private val logInViewModel: LogInViewModel by activityViewModels()
+    private val facebookCallbackManager = CallbackManager.Factory.create()
+
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,9 +53,14 @@ class LogInFragment : Fragment() {
         logInViewModel.checkFields()
         setListeners()
         setObservers()
+        handleFireBaseLogin()
+
+        handleLoginGoogle()
 
         return binding.root
     }
+
+
 
     private fun setListeners() {
         //To hide keyboard when click on screen
@@ -56,6 +71,9 @@ class LogInFragment : Fragment() {
 
         //Navigation to Sign Up fragment
         irASignUp()
+
+        //To log in with Facebook option
+        facebookLogInListener()
     }
 
     private fun setObservers() {
@@ -78,6 +96,7 @@ class LogInFragment : Fragment() {
                     //Navigate to Home fragment
                     startActivity(Intent(requireContext(), MainActivity::class.java))
                     requireActivity().finish()
+                    FirebaseEvent.setEvent(requireContext(), "log_in_success")
                 }
                 is Resource.Loading -> {
                     // Show Progress bar
@@ -90,8 +109,11 @@ class LogInFragment : Fragment() {
                     // Show Dialog with error message when an error occurs
                     handleExceptions(result.errorThrowable)
 
+                    //FireBaseEvent
+                    FirebaseEvent.setEvent(requireContext(), "log_in_error")
                     // Reset error after being displayed
                     logInViewModel.setIdle()
+
 
                 }
                 is Resource.ErrorApi -> {
@@ -100,6 +122,9 @@ class LogInFragment : Fragment() {
 
                     // Show Dialog with error message when an error occurs
                     handleExceptions(result.errorMessage ?: getString(R.string.dialog_error))
+
+                    //FireBaseEvent
+                    FirebaseEvent.setEvent(requireContext(), "log_in_error")
 
                     // Reset error after being displayed
                     logInViewModel.setIdle()
@@ -153,7 +178,7 @@ class LogInFragment : Fragment() {
         }
     }
 
-    
+
     // Log In user when user clicks on button Log In.
     private fun loginUser() {
         binding.buttonLogIn.setOnClickListener {
@@ -232,6 +257,21 @@ class LogInFragment : Fragment() {
     }
 
     /**
+     * Tracks a series of events. Login Button, SignUp, Google and FaceBook
+     */
+
+    private fun handleFireBaseLogin(){
+        binding.apply {
+            buttonLogIn.setOnClickListener { FirebaseEvent.setEvent(requireContext(),"log_in_pressed") }
+            buttonSignUpLogin.setOnClickListener { FirebaseEvent.setEvent(requireContext(),"sign_up_pressed") }
+            buttonGoogleLogin.setOnClickListener { FirebaseEvent.setEvent(requireContext(),"gmail_pressed") }
+            buttonFacebookLogin.setOnClickListener { FirebaseEvent.setEvent(requireContext(),"facebook_pressed") }
+
+
+        }
+    }
+
+    /**
      * Show dialog
      * created on 9 May 2022 by Leonel Gomez
      *
@@ -254,6 +294,72 @@ class LogInFragment : Fragment() {
             .setNegativeButton(negative) { _, _ -> }
             .setPositiveButton(positive) { _, _ -> callback?.invoke() }
             .show()
+    }
+
+
+    /**
+     * When clicks starts logic for log in with Google.
+     */
+    private fun handleLoginGoogle() = binding.buttonGoogleLogin.setOnClickListener {
+        logInViewModel.startLoginGoogle(requireActivity())
+
+    // Facebook listener to respond to the click of the button - 16/05/2022 L.Gomez
+    private fun facebookLogInListener() {
+        binding.buttonFacebookLogin.setOnClickListener {
+            facebookLogInAction()
+        }
+    }
+
+    // Facebook action to try to log in with Facebook - 15/05/2022 L.Gomez
+    private fun facebookLogInAction() {
+        // Show Progress bar
+        enableUI(false)
+
+        // Open Facebook Auth window
+        LoginManager.getInstance()
+            .logInWithReadPermissions(requireActivity(), facebookCallbackManager, listOf("email"))
+
+        // Registers a login callback
+        LoginManager.getInstance().registerCallback(
+            facebookCallbackManager,
+            object : FacebookCallback<LoginResult> {
+                override fun onCancel() {
+                    showDialog(
+                        getString(R.string.dialog_cancel),
+                        getString(R.string.dialog_cancel_facebook)
+                    )
+                    // Hide Progress bar
+                    enableUI(true)
+                }
+
+                override fun onError(error: FacebookException) {
+                    // Show error message
+                    showDialog(
+                        getString(R.string.dialog_error),
+                        getString(R.string.dialog_error_credentials)
+                    )
+                    // Hide Progress bar
+                    enableUI(true)
+                }
+
+                override fun onSuccess(result: LoginResult) {
+                    // Show Progress bar
+                    enableUI(false)
+
+                    // Log token in Firebase Auth
+                    result.accessToken.let { token ->
+                        logInViewModel.logInWithFacebook(token.token)
+                    }
+                }
+            })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // Pass the activity result back to the Facebook SDK - 15/05/2022 L.Gomez
+        facebookCallbackManager.onActivityResult(requestCode, resultCode, data)
+
     }
 
 }
