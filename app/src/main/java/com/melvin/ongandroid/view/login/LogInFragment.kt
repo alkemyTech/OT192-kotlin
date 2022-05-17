@@ -16,7 +16,6 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.auth.FirebaseAuth
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.application.SomosMasApp.Companion.prefs
 import com.melvin.ongandroid.databinding.FragmentLogInBinding
@@ -37,8 +36,6 @@ class LogInFragment : Fragment() {
     private val logInViewModel: LogInViewModel by activityViewModels()
     private val facebookCallbackManager = CallbackManager.Factory.create()
 
-    private lateinit var auth: FirebaseAuth
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,9 +50,6 @@ class LogInFragment : Fragment() {
         logInViewModel.checkFields()
         setListeners()
         setObservers()
-        handleFireBaseLogin()
-
-        handleLoginGoogle()
 
         return binding.root
     }
@@ -74,6 +68,9 @@ class LogInFragment : Fragment() {
 
         //To log in with Facebook option
         facebookLogInListener()
+
+        //To log in with Google option
+        handleLoginGoogle()
     }
 
     private fun setObservers() {
@@ -174,6 +171,9 @@ class LogInFragment : Fragment() {
      */
     private fun irASignUp() {
         binding.buttonSignUpLogin.setOnClickListener { view ->
+            // Tracks a series of events. Login Button, SignUp, Google and FaceBook
+            FirebaseEvent.setEvent(requireContext(),"sign_up_pressed")
+
             view.findNavController().navigate(R.id.action_logInFragment_to_SignUpFragment)
         }
     }
@@ -182,6 +182,9 @@ class LogInFragment : Fragment() {
     // Log In user when user clicks on button Log In.
     private fun loginUser() {
         binding.buttonLogIn.setOnClickListener {
+            // Tracks a series of events. Login Button, SignUp, Google and FaceBook
+            FirebaseEvent.setEvent(requireContext(),"log_in_pressed")
+
             val email = binding.textInputLayoutEmailLogIn.editText?.text.toString()
             val password = binding.textInputLayoutPasswordLogIn.editText?.text.toString()
             logInViewModel.loginUser(email, password)
@@ -257,21 +260,6 @@ class LogInFragment : Fragment() {
     }
 
     /**
-     * Tracks a series of events. Login Button, SignUp, Google and FaceBook
-     */
-
-    private fun handleFireBaseLogin(){
-        binding.apply {
-            buttonLogIn.setOnClickListener { FirebaseEvent.setEvent(requireContext(),"log_in_pressed") }
-            buttonSignUpLogin.setOnClickListener { FirebaseEvent.setEvent(requireContext(),"sign_up_pressed") }
-            buttonGoogleLogin.setOnClickListener { FirebaseEvent.setEvent(requireContext(),"gmail_pressed") }
-            buttonFacebookLogin.setOnClickListener { FirebaseEvent.setEvent(requireContext(),"facebook_pressed") }
-
-
-        }
-    }
-
-    /**
      * Show dialog
      * created on 9 May 2022 by Leonel Gomez
      *
@@ -301,12 +289,18 @@ class LogInFragment : Fragment() {
      * When clicks starts logic for log in with Google.
      */
     private fun handleLoginGoogle() = binding.buttonGoogleLogin.setOnClickListener {
+        // Tracks a series of events. Login Button, SignUp, Google and FaceBook
+        FirebaseEvent.setEvent(requireContext(),"gmail_pressed")
+
         logInViewModel.startLoginGoogle(requireActivity())
     }
 
     // Facebook listener to respond to the click of the button - 16/05/2022 L.Gomez
     private fun facebookLogInListener() {
         binding.buttonFacebookLogin.setOnClickListener {
+            // Tracks a series of events. Login Button, SignUp, Google and FaceBook
+            FirebaseEvent.setEvent(requireContext(),"facebook_pressed")
+
             facebookLogInAction()
         }
     }
