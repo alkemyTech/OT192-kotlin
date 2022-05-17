@@ -17,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import androidx.navigation.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.melvin.ongandroid.application.SomosMasApp.Companion.prefs
+import com.melvin.ongandroid.services.firebase.FirebaseEvent
 import com.melvin.ongandroid.utils.Resource
 import com.melvin.ongandroid.view.MainActivity
 import kotlinx.coroutines.launch
@@ -43,6 +44,7 @@ class LogInFragment : Fragment() {
         logInViewModel.checkFields()
         setListeners()
         setObservers()
+        handleFireBaseLogin()
 
         return binding.root
     }
@@ -78,6 +80,7 @@ class LogInFragment : Fragment() {
                     //Navigate to Home fragment
                     startActivity(Intent(requireContext(), MainActivity::class.java))
                     requireActivity().finish()
+                    FirebaseEvent.setEvent(requireContext(), "log_in_success")
                 }
                 is Resource.Loading -> {
                     // Show Progress bar
@@ -90,8 +93,11 @@ class LogInFragment : Fragment() {
                     // Show Dialog with error message when an error occurs
                     handleExceptions(result.errorThrowable)
 
+                    //FireBaseEvent
+                    FirebaseEvent.setEvent(requireContext(), "log_in_error")
                     // Reset error after being displayed
                     logInViewModel.setIdle()
+
 
                 }
                 is Resource.ErrorApi -> {
@@ -100,6 +106,9 @@ class LogInFragment : Fragment() {
 
                     // Show Dialog with error message when an error occurs
                     handleExceptions(result.errorMessage ?: getString(R.string.dialog_error))
+
+                    //FireBaseEvent
+                    FirebaseEvent.setEvent(requireContext(), "log_in_error")
 
                     // Reset error after being displayed
                     logInViewModel.setIdle()
@@ -228,6 +237,21 @@ class LogInFragment : Fragment() {
                     message = getString(R.string.dialog_error)
                 )
             }
+        }
+    }
+
+    /**
+     * Tracks a series of events. Login Button, SignUp, Google and FaceBook
+     */
+
+    private fun handleFireBaseLogin(){
+        binding.apply {
+            buttonLogIn.setOnClickListener { FirebaseEvent.setEvent(requireContext(),"log_in_pressed") }
+            buttonSignUpLogin.setOnClickListener { FirebaseEvent.setEvent(requireContext(),"sign_up_pressed") }
+            buttonGoogleLogin.setOnClickListener { FirebaseEvent.setEvent(requireContext(),"gmail_pressed") }
+            buttonFacebookLogin.setOnClickListener { FirebaseEvent.setEvent(requireContext(),"facebook_pressed") }
+
+
         }
     }
 
