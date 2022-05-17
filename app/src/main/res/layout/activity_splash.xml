@@ -4,19 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.SplashActivity">
+    tools:context=".view.SplashActivity"
+    android:background="@color/purple_500">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:text="@string/splash_title"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:textSize="30sp"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circle_background"
+        android:layout_width="290dp"
+        android:layout_height="290dp"
+        android:src="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/logo" />
+
+    <ImageView
+        android:id="@+id/splash_image"
+        android:layout_width="290dp"
+        android:layout_height="292dp"
+        android:contentDescription="@string/logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_somos_mas" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
