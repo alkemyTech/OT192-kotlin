@@ -11,6 +11,8 @@
     <string name="testimonios">Testimonios</string>
     <string name="nosotros">Nosotros</string>
     <string name="details">Detalle</string>
+    <string name="close_session">Cerrar sesión</string>
+    <string name="closing_session">Cerrando sesión</string>
 
     <!-- Fragment layout texts - Home -->
     <string name="fragment_home_title_welcome">Bienvenidos</string>
