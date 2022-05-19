@@ -1,5 +1,6 @@
 package com.melvin.ongandroid.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
@@ -10,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import com.melvin.ongandroid.R
+import com.melvin.ongandroid.application.SomosMasApp.Companion.prefs
 import com.melvin.ongandroid.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -102,6 +104,12 @@ class MainActivity : AppCompatActivity() {
                     .show()
                 changeFragment(ContactFragment())
             }
+            // close session - 2022-05-17 L.Gomez
+            R.id.close_session -> {
+                Toast.makeText(applicationContext, getString(R.string.closing_session), Toast.LENGTH_SHORT)
+                    .show()
+                closeSession()
+            }
 
         }
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -111,5 +119,15 @@ class MainActivity : AppCompatActivity() {
     private fun changeFragment(frag: Fragment){
         val fragment = supportFragmentManager.beginTransaction()
         fragment.replace(R.id.fragmentContainerView,frag).commit()
+    }
+
+    // Actions to do when user tries to close session - 2022-05-17 L.Gomez
+    private fun closeSession() {
+        // Delete user token
+        prefs.deleteUserToken()
+
+        // Go to splash Activity
+        startActivity(Intent(this, SplashActivity::class.java))
+        finish()
     }
 }
