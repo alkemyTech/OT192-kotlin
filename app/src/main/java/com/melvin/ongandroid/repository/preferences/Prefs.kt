@@ -16,4 +16,7 @@ class Prefs (val context: Context) {
 
     // Get the user token from the shared preferences
     fun getUserToken():String = storage.getString(SHARED_USER_TOKEN,"")!!
+
+    // Delete user token - 2022-05-17 L.Gomez
+    fun deleteUserToken() = storage.edit().putString(SHARED_USER_TOKEN, "").apply()
 }
