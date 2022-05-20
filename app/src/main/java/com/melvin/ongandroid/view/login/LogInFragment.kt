@@ -175,6 +175,9 @@ class LogInFragment : Fragment() {
             FirebaseEvent.setEvent(requireContext(),"sign_up_pressed")
 
             view.findNavController().navigate(R.id.action_logInFragment_to_SignUpFragment)
+
+            // After going to Sign Up screen, remove all text fields
+            clearLogInFields()
         }
     }
 
@@ -357,4 +360,10 @@ class LogInFragment : Fragment() {
 
     }
 
+    private fun clearLogInFields() {
+        binding.apply {
+            textInputLayoutEmailLogIn.editText?.text?.clear()
+            textInputLayoutPasswordLogIn.editText?.text?.clear()
+        }
+    }
 }
