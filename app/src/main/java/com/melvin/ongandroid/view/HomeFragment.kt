@@ -99,8 +99,10 @@ class HomeFragment : Fragment() {
         setUpRecyclerViewNews()
 
         //Configuration of Testimonials section
-        binding.incSectionTestimonials.tvTitleTestimonials.text =
-            getString(R.string.fragment_home_title_testimonials)
+        binding.incSectionTestimonials.tvTitleTestimonials.apply {
+            text = getString(R.string.fragment_home_title_testimonials)
+            gone()
+        }
         setupRecyclerViewSilderTestimonials()
 
         homeViewModel.massiveFailure.observe(viewLifecycleOwner) {
@@ -209,6 +211,9 @@ class HomeFragment : Fragment() {
             binding.apply {
                 when (!response.data.isNullOrEmpty()) {
                     true -> {
+                        //Show Testimonials title when response is OK
+                        incSectionTestimonials.tvTitleTestimonials.visible()
+
                         // This line, logs the "testimonios_retrieve_success" event when the query to the
                         // "api/testimonials" endpoint is successful.
                         FirebaseEvent.setEvent(requireContext(), "testimonios_retrieve_success")
