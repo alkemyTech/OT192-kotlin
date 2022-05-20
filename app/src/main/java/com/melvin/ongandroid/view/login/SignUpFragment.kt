@@ -187,8 +187,9 @@ class SignUpFragment : Fragment() {
         val dialog = MaterialAlertDialogBuilder(requireContext())
         dialog.setTitle("Usuario Registrado")
         dialog.setMessage("User was succesfully register")
-        dialog.setPositiveButton("Aceptar") { dialogo, wich ->
-            requireView().findNavController().navigate(R.id.action_SignUpFragment_to_logInFragment)
+        dialog.setPositiveButton("Aceptar") { _, _ ->
+            // Navigation to back screen (Log In)
+            requireView().findNavController().popBackStack()
 
             clearRegisterUser()
 
