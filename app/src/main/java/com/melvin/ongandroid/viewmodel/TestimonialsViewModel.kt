@@ -7,11 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.melvin.ongandroid.model.Testimonial
 import com.melvin.ongandroid.repository.OngRepository
 import com.melvin.ongandroid.utils.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class TestimonialsViewModel  @Inject constructor(private val repo: OngRepository) : ViewModel() {
     private val _testimonialState: MutableLiveData<Resource<List<Testimonial>>> =
         MutableLiveData(Resource.loading())
