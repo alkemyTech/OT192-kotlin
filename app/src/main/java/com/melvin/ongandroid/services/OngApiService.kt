@@ -73,6 +73,7 @@ interface OngApiService {
     @POST("register")
     suspend fun postSignUp(@Body registerUser: RegisterUser): Response<GenericResponse<DataUser>>
 
+    @GET("testimonials")
     suspend fun fetchTestimonials(): Response<GenericResponse<List<Testimonial>>>
 
 
