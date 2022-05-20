@@ -90,20 +90,6 @@ class HomeFragment : Fragment() {
                 enableUI(!loading)
         }
 
-        /* Observe changes in the slideError. If there is an error, display a dialog
-        * with a retry button */
-        homeViewModel.slideError.observe(viewLifecycleOwner) { error ->
-            if (error != "") {
-                showDialog(
-                    title = getString(R.string.dialog_error),
-                    message = getString(R.string.dialog_error_getting_info),
-                    positive = getString(R.string.btn_retry),
-                    callback = { homeViewModel.fetchSlides() }
-                )
-            }
-        }
-
-
 
         //Configuration of Welcome section
         binding.incSectionWelcome.tvTitleWelcome.text =
