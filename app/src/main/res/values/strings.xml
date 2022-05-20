@@ -33,7 +33,7 @@
 
     <!-- Fragment layout texts - About Us -->
     <string name="fragment_about_us_title">Sobre Nosotros</string>
-    <string name="fragment_about_us_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</string>
+    <string name="fragment_about_us_description">Este es el grupo de personas que forman parte de la organización.</string>
     <string name="fragment_about_us_members">Miembros</string>
     <string name="item_about_us_default_name">Nombre</string>
     <string name="item_about_us_default_description">Descripción</string>
