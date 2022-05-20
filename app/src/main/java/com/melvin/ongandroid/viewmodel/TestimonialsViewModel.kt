@@ -17,6 +17,10 @@ class TestimonialsViewModel  @Inject constructor(private val repo: OngRepository
         MutableLiveData(Resource.loading())
     val testimonialState: LiveData<Resource<List<Testimonial>>> = _testimonialState
 
+    init {
+        fetchTestiomnial()
+    }
+
     fun fetchTestiomnial(){
         viewModelScope.launch(IO) {
             repo.fetchTestiominals()
