@@ -161,7 +161,7 @@ class OngRepository @Inject constructor(private val apiService: OngApiService) {
             true ->{
                 val responseBody = response.body()
                 if(responseBody != null){
-                    if (responseBody.success) emit(Resource.success(response.body()!!))
+                    if (responseBody.success) emit(Resource.success(response.body()!!.data))
                     else emit(Resource.errorApi(responseBody.error ?: "Error"))
                 }
                 else emit(Resource.errorApi("Error"))
