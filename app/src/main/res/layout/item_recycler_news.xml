@@ -19,7 +19,8 @@
         <ImageView
             android:id="@+id/image_news"
             android:layout_width="match_parent"
-            android:layout_height="194dp"
+            android:layout_height="200dp"
+            android:contentDescription="@string/novedades_titulo_home"
             android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
