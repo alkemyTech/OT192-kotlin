@@ -101,6 +101,9 @@
     <string name="button_google">Google</string>
     <string name="button_facebook">Facebook</string>
 
+    <string name="text_question_sign_up">"¿No tienes una cuenta? "</string>
+    <string name="text_sign_up">Registrate</string>
+
     <!-- Splash screen texts -->
     <string name="splash_title">Splash Screen</string>
     <string name="splash_timer_message">Timer has finished.\n Welcome to the ONG Application</string>
