@@ -40,7 +40,7 @@
 
     <!-- Fragment layout texts - Activities -->
     <string name="fragment_activities_title">Actividades</string>
-    <string name="fragment_activities_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</string>
+    <string name="fragment_activities_description">Aquí podrás encontrar las últimas actividades que realizamos en Somos Mas</string>
     <string name="item_activities_default_name">Actividad</string>
     <string name="item_activities_default_description">Descripción</string>
 
