@@ -100,7 +100,7 @@
     <string name="validation_name">El nombre no es válido</string>
     <string name="button_google">Google</string>
     <string name="button_facebook">Facebook</string>
-
+    <string name="text_other_login">O Ingrese con</string>
     <string name="text_question_sign_up">"¿No tienes una cuenta? "</string>
     <string name="text_sign_up">Registrate</string>
 
