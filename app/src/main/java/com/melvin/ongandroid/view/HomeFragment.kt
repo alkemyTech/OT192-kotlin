@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentHomeBinding
@@ -229,7 +230,12 @@ class HomeFragment : Fragment() {
                         adapterTestimonials.submitList(response.data.take(4).toMutableList())
 
                         // This line, logs the "testimonies_see_more_pressed" event when the arrow to see more testimonials is clicked
-                        adapterTestimonials.onMoreItemClicked = { FirebaseEvent.setEvent(requireContext(), "testimonies_see_more_pressed") }
+                        adapterTestimonials.onMoreItemClicked = {
+                            parentFragmentManager.beginTransaction()
+                                .replace(R.id.fragmentContainerView, TestimonialFragment())
+                                .commit()
+                            FirebaseEvent.setEvent(requireContext(), "testimonies_see_more_pressed")
+                        }
                         val layoutManager =
                             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
