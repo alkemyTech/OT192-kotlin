@@ -60,6 +60,7 @@
     <string name="dialog_error_register">Error en el registro</string>
     <string name="dialog_cancel">Cancelado</string>
     <string name="dialog_cancel_facebook">Inicio de sesión con Facebook cancelado</string>
+    <string name="dialog_error_webpage">Error al intentar abrir la página %1$s. Posiblemente no se encuentre instalado un navegador</string>
 
 
     <!-- Image content description in layouts -->
