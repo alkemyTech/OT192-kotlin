@@ -142,6 +142,7 @@ class LogInFragment : Fragment() {
      * and modify the error field of the respective layouts
      * created on 5 May 2022 by Leonel Gomez
      * updated on 9 May 2022 by Leonel Gomez: reset credential errors
+     * updated on 20 May 2022 by Leonel Gomez: only check field when the other field is written or completed
      *
      */
     private fun setEditTextSettings() {
@@ -151,7 +152,9 @@ class LogInFragment : Fragment() {
                 binding.textInputLayoutPasswordLogIn.apply {
                     if (error == getString(R.string.dialog_error_credentials)) error = ""
                 }
-                error = logInViewModel.checkEmail(text)
+                // Only check field when the other field is written or completed
+                if (binding.textInputLayoutPasswordLogIn.editText?.text.toString() != "" || text.toString() != "")
+                    error = logInViewModel.checkEmail(text)
             }
         }
         with(binding.textInputLayoutPasswordLogIn) {
@@ -160,7 +163,9 @@ class LogInFragment : Fragment() {
                 binding.textInputLayoutEmailLogIn.apply {
                     if (error == getString(R.string.dialog_error_credentials)) error = ""
                 }
-                error = logInViewModel.checkPassword(text)
+                // Only check field when the other field is written or completed
+                if (binding.textInputLayoutEmailLogIn.editText?.text.toString() != "" || text.toString() != "")
+                    error = logInViewModel.checkPassword(text)
             }
         }
     }
@@ -175,6 +180,9 @@ class LogInFragment : Fragment() {
             FirebaseEvent.setEvent(requireContext(),"sign_up_pressed")
 
             view.findNavController().navigate(R.id.action_logInFragment_to_SignUpFragment)
+
+            // After going to Sign Up screen, remove all text fields
+            clearLogInFields()
         }
     }
 
@@ -357,4 +365,16 @@ class LogInFragment : Fragment() {
 
     }
 
+    /**
+     * Clear texts and errors in email and password fields
+     *
+     */
+    private fun clearLogInFields() {
+        binding.apply {
+            textInputLayoutEmailLogIn.editText?.text?.clear()
+            textInputLayoutPasswordLogIn.editText?.text?.clear()
+            textInputLayoutEmailLogIn.error = null
+            textInputLayoutPasswordLogIn.error = null
+        }
+    }
 }
