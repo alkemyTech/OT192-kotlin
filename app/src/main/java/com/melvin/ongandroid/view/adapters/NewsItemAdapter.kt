@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.melvin.ongandroid.databinding.ItemRecyclerNewsBinding
 import com.melvin.ongandroid.model.News
+import com.melvin.ongandroid.utils.convertHtmlToString
 
 class NewsItemAdapter : ListAdapter<News, RecyclerView.ViewHolder>(DiffUtilCallback()) {
     private var onItemClicked: ((News) -> Unit)? = null
@@ -54,7 +55,7 @@ class NewsItemAdapter : ListAdapter<News, RecyclerView.ViewHolder>(DiffUtilCallb
                 // Set the title text
                 titleNews.text = value.name
                 //Load the image url and set it on this ImageView
-                descriptionNews.text = value.content
+                descriptionNews.text = value.content.convertHtmlToString()
 
                 cvNews.setOnClickListener {
                     listener?.invoke(value)
