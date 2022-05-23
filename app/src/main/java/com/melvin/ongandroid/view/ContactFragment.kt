@@ -143,7 +143,7 @@ class ContactFragment : Fragment() {
         contactEditText?.doAfterTextChanged {
             contactViewModel.contactMessage.value = it.toString()
             if (!it.toString().checkContactMessage()){
-                contactEditText.error = "La consulta debe tener al menos 30 carácteres."
+                contactEditText.error = "La consulta debe tener al menos 10 carácteres."
             }
             binding.textViewError.visibility = View.GONE
             contactViewModel.checkContactFormViewModel()
