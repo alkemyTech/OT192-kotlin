@@ -17,6 +17,9 @@ class LogInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Hide the toolbar
+        supportActionBar?.hide()
+
         binding =  ActivityLogInBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
