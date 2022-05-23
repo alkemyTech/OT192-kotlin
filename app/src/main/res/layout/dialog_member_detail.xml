@@ -13,9 +13,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp">
+            android:layout_height="wrap_content">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/member_detail_image"
@@ -24,6 +22,7 @@
                 android:layout_marginTop="40dp"
                 android:adjustViewBounds="false"
                 android:cropToPadding="false"
+                android:elevation="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -32,12 +31,11 @@
 
             <TextView
                 android:id="@+id/member_detail_name"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/member_detail_name"
-                android:textColor="@color/black"
-                android:textSize="25sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -45,12 +43,11 @@
 
             <TextView
                 android:id="@+id/member_detail_description"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/member_detail_description"
-                android:textColor="@color/black"
-                android:textSize="20sp"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -72,9 +69,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:gravity="center"
+                android:gravity="start"
                 android:orientation="horizontal"
-                android:textAlignment="center"
                 app:layout_constraintTop_toBottomOf="@+id/divider"
                 tools:ignore="UseCompoundDrawables"
                 tools:layout_editor_absoluteX="0dp">
@@ -84,26 +80,28 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/logo"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
                     android:src="@drawable/linkedin_icon" />
 
                 <TextView
                     android:id="@+id/member_detail_linkedin"
+                    style="@style/TextAppearance.MaterialComponents.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:autoLink="web"
-                    android:text="@string/member_detail_link"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:text="@string/member_detail_link" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_logo_facebook"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="40dp"
-                android:gravity="center"
+                android:gravity="start"
                 android:orientation="horizontal"
-                android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout_logo_linkedin"
                 tools:ignore="UseCompoundDrawables"
@@ -114,16 +112,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/logo"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
                     android:src="@drawable/facebook_icon" />
 
                 <TextView
                     android:id="@+id/member_detail_facebook"
+                    style="@style/TextAppearance.MaterialComponents.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:autoLink="web"
-                    android:text="@string/member_detail_link"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:text="@string/member_detail_link" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

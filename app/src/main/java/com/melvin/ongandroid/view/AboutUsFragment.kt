@@ -18,10 +18,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentAboutUsBinding
 import com.melvin.ongandroid.utils.convertHtmlToString
-//import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.melvin.ongandroid.model.Members
 import com.melvin.ongandroid.services.firebase.FirebaseEvent
-//import com.melvin.ongandroid.model.Members
 import com.melvin.ongandroid.utils.*
 import com.melvin.ongandroid.view.adapters.MemberListAdapter
 import com.melvin.ongandroid.viewmodel.AboutUsViewModel
@@ -156,13 +154,24 @@ class AboutUsFragment : Fragment() {
 
         val imageViewLnkd = dialog.findViewById<ImageView>(R.id.imageView_linkedin).also {
             it.setOnClickListener {
-                openWebPage(member.linkedinUrl, requireContext())            }
+                // Check for error in the open web operation - 2022-05-21 L.Gomez
+                if (!openWebPage(member.linkedinUrl, requireContext()))
+                    binding.root.showDialog(
+                        title = getString(R.string.dialog_error),
+                        message = getString(R.string.dialog_error_webpage, member.linkedinUrl)
+                    )
+            }
         }
 
         val imageViewFb = dialog.findViewById<ImageView>(R.id.imageView_facebook)
 
         imageViewFb.setOnClickListener {
-            openWebPage(member.facebookUrl, requireContext())
+            // Check for error in the open web operation - 2022-05-21 L.Gomez
+            if (!openWebPage(member.facebookUrl, requireContext()))
+                binding.root.showDialog(
+                    title = getString(R.string.dialog_error),
+                    message = getString(R.string.dialog_error_webpage, member.facebookUrl)
+                )
         }
         dialog.setOnCancelListener{
             // Update title of the previous section
