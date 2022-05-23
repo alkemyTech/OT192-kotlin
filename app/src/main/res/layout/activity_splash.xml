@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.SplashActivity"
-    android:background="@color/purple_500">
+    android:background="@color/backgroundGrayColor">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/circle_background"
