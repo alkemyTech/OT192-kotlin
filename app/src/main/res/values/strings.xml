@@ -25,7 +25,7 @@
     <string name="item_testimonials_default_heading">Epígrafe</string>
 
     <!-- Fragment layout texts - Contact -->
-    <string name="fragment_contact_title">Contactate con nosotros</string>
+    <string name="fragment_contact_title">¡Contactate con nosotros!</string>
     <string name="fragment_contact_firstnameHint">Nombre</string>
     <string name="fragment_contact_lastnameHint">Apellido</string>
     <string name="fragment_contact_emailHint">Email</string>

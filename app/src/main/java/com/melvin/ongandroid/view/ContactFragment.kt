@@ -51,6 +51,7 @@ class ContactFragment : Fragment() {
         /** Observe the state of button given [checkContactFormFragment]*/
         contactViewModel.isButtonEneabled.observe(viewLifecycleOwner){
             binding.filledButton.isEnabled = it
+            binding.filledButton.alpha = if (it) 1.0F else 0.3F
         }
 
         // Observe the state of the contact response
