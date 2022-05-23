@@ -91,20 +91,6 @@ class HomeFragment : Fragment() {
                 enableUI(!loading)
         }
 
-        /* Observe changes in the slideError. If there is an error, display a dialog
-        * with a retry button */
-        homeViewModel.slideError.observe(viewLifecycleOwner) { error ->
-            if (error != "") {
-                showDialog(
-                    title = getString(R.string.dialog_error),
-                    message = getString(R.string.dialog_error_getting_info),
-                    positive = getString(R.string.btn_retry),
-                    callback = { homeViewModel.fetchSlides() }
-                )
-            }
-        }
-
-
 
         //Configuration of Welcome section
         binding.incSectionWelcome.tvTitleWelcome.text =
@@ -114,8 +100,10 @@ class HomeFragment : Fragment() {
         setUpRecyclerViewNews()
 
         //Configuration of Testimonials section
-        binding.incSectionTestimonials.tvTitleTestimonials.text =
-            getString(R.string.fragment_home_title_testimonials)
+        binding.incSectionTestimonials.tvTitleTestimonials.apply {
+            text = getString(R.string.fragment_home_title_testimonials)
+            gone()
+        }
         setupRecyclerViewSilderTestimonials()
 
         homeViewModel.massiveFailure.observe(viewLifecycleOwner) {
@@ -224,6 +212,9 @@ class HomeFragment : Fragment() {
             binding.apply {
                 when (!response.data.isNullOrEmpty()) {
                     true -> {
+                        //Show Testimonials title when response is OK
+                        incSectionTestimonials.tvTitleTestimonials.visible()
+
                         // This line, logs the "testimonios_retrieve_success" event when the query to the
                         // "api/testimonials" endpoint is successful.
                         FirebaseEvent.setEvent(requireContext(), "testimonios_retrieve_success")

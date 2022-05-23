@@ -35,7 +35,7 @@ class OngRepository @Inject constructor(private val apiService: OngApiService) {
 
 
     // Function that emits a GenericResponse, containing a contact response
-    suspend fun sendContact(contact: Contact): Flow<GenericResponse<List<Contact>>> = flow {
+    suspend fun sendContact(contact: Contact): Flow<GenericResponse<Contact>> = flow {
         emit(apiService.sendContact(contact))
     }
 
