@@ -153,4 +153,27 @@ class OngRepository @Inject constructor(private val apiService: OngApiService) {
         emit(Resource.ErrorThrowable(e))
     }
 
+    suspend fun fetchTestiominals() = flow {
+        val response = apiService.fetchTestimonials()
+
+        when(response.isSuccessful){
+
+            true ->{
+                val responseBody = response.body()
+                if(responseBody != null){
+                    if (responseBody.success) emit(Resource.success(response.body()!!.data))
+                    else emit(Resource.errorApi(responseBody.error ?: "Error"))
+                }
+                else emit(Resource.errorApi("Error"))
+            }
+            false ->{
+                emit(Resource.ErrorApi(response.errorBody().toString()))
+            }
+
+
+        }
+    }.catch { e: Throwable ->
+        emit(Resource.ErrorThrowable(e))
+    }
+
 }
