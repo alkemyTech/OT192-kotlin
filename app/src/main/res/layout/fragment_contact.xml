@@ -148,7 +148,7 @@
     <include
         android:id="@+id/progress_loader"
         layout="@layout/view_load_spinner"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
