@@ -92,6 +92,8 @@
     <string name="fragment_signUp_nameHint">Ingrese su nombre</string>
     <string name="fragment_signUp_passwordConfirmHint">Confirme su contraseña</string>
     <string name="fragment_sign_up_button">Registrarme</string>
+    <string name="text_question_login">"¿Ya tienes cuenta? "</string>
+    <string name="text_login_signUp">Ingresa</string>
 
     <!-- Validation texts - LogIn -->
     <string name="validation_empty">Debe completar el campo</string>
