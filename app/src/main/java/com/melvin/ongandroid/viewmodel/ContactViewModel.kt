@@ -20,26 +20,26 @@ import javax.inject.Inject
 class ContactViewModel @Inject constructor(private val repo: OngRepository) : ViewModel() {
 
     // LiveData to disable/enable Button on ContactForm when is correct
-    private val _isButtonEnabled = MutableLiveData<Boolean>(false)
+    private val _isButtonEnabled = MutableLiveData(false)
     val isButtonEneabled: LiveData<Boolean> = _isButtonEnabled
 
     // LiveData that save the contact response
-    private val _contacts = MutableLiveData<GenericResponse<List<Contact>>>()
-    val contacts: LiveData<GenericResponse<List<Contact>>> = _contacts
+    private val _contacts = MutableLiveData<GenericResponse<Contact>>()
+    val contacts: LiveData<GenericResponse<Contact>> = _contacts
 
     // LiveData to show/hide progress bar
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
     // Parameters from the Contact Form. So we can observe changes in ViewModel
-    val firstName = MutableLiveData<String>("")
-    val lastName = MutableLiveData<String>("")
-    val email = MutableLiveData<String>("")
-    val contactMessage = MutableLiveData<String>("")
+    val firstName = MutableLiveData("")
+    val lastName = MutableLiveData("")
+    val email = MutableLiveData("")
+    val contactMessage = MutableLiveData("")
 
-    //Parameter to check State of response Contat post request
-    private val _contactResponseState: MutableLiveData<Resource<MutableList<Contact>>> = MutableLiveData(Resource.loading())
-    val contactResponseState : LiveData<Resource<MutableList<Contact>>> = _contactResponseState
+    //Parameter to check State of response Contact post request
+    private val _contactResponseState: MutableLiveData<Resource<Contact>> = MutableLiveData(Resource.loading())
+    val contactResponseState : LiveData<Resource<Contact>> = _contactResponseState
 
     //Split validation checks in order to facilitate tests
     //created on 26 April 2022 by Leonel Gomez
@@ -73,10 +73,10 @@ class ContactViewModel @Inject constructor(private val repo: OngRepository) : Vi
     fun sendFormContact(contact: Contact){
         viewModelScope.launch(IO) {
             _isLoading.postValue(true)
-            repo.sendContact(contact).collect(){ contactResponse ->
+            repo.sendContact(contact).collect{ contactResponse ->
                 when(contactResponse.success){
                     true ->{
-                        _contactResponseState.postValue(Resource.success(contactResponse.data.toMutableList()))
+                        _contactResponseState.postValue(Resource.success(contactResponse.data))
                         _contacts.postValue(contactResponse)
                         _isLoading.postValue(false)
                     }

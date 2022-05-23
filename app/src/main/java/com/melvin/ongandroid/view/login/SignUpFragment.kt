@@ -47,6 +47,11 @@ class SignUpFragment : Fragment() {
     private fun setListeners() {
         //To hide keyboard when click on screen
         binding.frontLayout.setOnClickListener { it.hideKeyboard() }
+
+        //To navigate to login fragment
+        binding.buttonLoginSignUp.setOnClickListener{
+            it.findNavController().popBackStack()
+        }
     }
 
     private fun setObservers() {
@@ -55,6 +60,11 @@ class SignUpFragment : Fragment() {
             binding.fragmentSignUpButton.isEnabled = enabled
             binding.fragmentSignUpButton.alpha = if (enabled) 1.0F else 0.3F
         }
+    }
+
+    // Enable UI when loading data is finished
+    private fun enableUI(enable: Boolean) {
+        binding.progressLoader.root.visibility = if (enable) View.GONE else View.VISIBLE
     }
 
     /**
@@ -128,19 +138,25 @@ class SignUpFragment : Fragment() {
 
     private fun signUpNewUser() {
         binding.fragmentSignUpButton.setOnClickListener {
+            // Show Progress bar
+            enableUI(false)
 
             FirebaseEvent.setEvent(requireContext(),"register_pressed")
-            
+
             signUpViewModel.signUpUser()
             signUpViewModel.registerUserState.observe(viewLifecycleOwner) {
                 when (it) {
                     is Resource.Success -> {
+                        // Hide Progress bar
+                        enableUI(true)
                         showDialog()
 
                         FirebaseEvent.setEvent(requireContext(),"sign_up_success")
                     }
 
                     is Resource.ErrorApi -> {
+                        // Hide Progress bar
+                        enableUI(true)
                         FirebaseEvent.setEvent(requireContext(),"sign_up_error")
 
                         // Show Dialog with error message when an error occurs
@@ -154,6 +170,8 @@ class SignUpFragment : Fragment() {
                     }
 
                     is Resource.ErrorThrowable -> {
+                        // Hide Progress bar
+                        enableUI(true)
                         FirebaseEvent.setEvent(requireContext(),"sign_up_error")
 
                         // Show Dialog with error message when an error occurs
@@ -167,7 +185,8 @@ class SignUpFragment : Fragment() {
                     }
 
                     is Resource.Loading -> {
-
+                        // Show Progress bar
+                        enableUI(false)
                     }
                     is Resource.Idle -> {
 
@@ -187,8 +206,9 @@ class SignUpFragment : Fragment() {
         val dialog = MaterialAlertDialogBuilder(requireContext())
         dialog.setTitle("Usuario Registrado")
         dialog.setMessage("User was succesfully register")
-        dialog.setPositiveButton("Aceptar") { dialogo, wich ->
-            requireView().findNavController().navigate(R.id.action_SignUpFragment_to_logInFragment)
+        dialog.setPositiveButton("Aceptar") { _, _ ->
+            // Navigation to back screen (Log In)
+            requireView().findNavController().popBackStack()
 
             clearRegisterUser()
 

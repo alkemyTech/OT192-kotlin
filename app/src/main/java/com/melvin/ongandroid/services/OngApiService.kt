@@ -20,7 +20,7 @@ interface OngApiService {
     // Post a new contact to the API
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST("contacts")
-    suspend fun sendContact(@Body contact: Contact): GenericResponse<List<Contact>>
+    suspend fun sendContact(@Body contact: Contact): GenericResponse<Contact>
 
     /**
      * Get slides
@@ -72,6 +72,9 @@ interface OngApiService {
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST("register")
     suspend fun postSignUp(@Body registerUser: RegisterUser): Response<GenericResponse<DataUser>>
+
+    @GET("testimonials")
+    suspend fun fetchTestimonials(): Response<GenericResponse<List<Testimonial>>>
 
 
 }

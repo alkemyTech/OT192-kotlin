@@ -4,10 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.text.Html
-import android.text.Spanned
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.util.PatternsCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 
 /*
 Function that Checks if a String is a valid form of email.
@@ -69,10 +70,23 @@ fun View.gone(): View {
     return this
 }
 
-fun openWebPage(url: String, context: Context) {
-    val webpage: Uri = Uri.parse(url)
-    val intent = Intent(Intent.ACTION_VIEW, webpage)
-    context.startActivity(intent)
+/**
+ * Open web page
+ * updated on 21 May 2022 by Leonel Gomez
+ *
+ * @param url   string url for web page
+ * @param context
+ * @return true if operation is successful, else false if error
+ */
+fun openWebPage(url: String, context: Context): Boolean {
+    val webpage: Uri = Uri.parse(url ?: "")
+    return try {
+        val intent = Intent(Intent.ACTION_VIEW, webpage)
+        context.startActivity(intent)
+        true
+    } catch (e: Exception) {
+        false
+    }
 }
 
 /**
@@ -83,4 +97,42 @@ fun openWebPage(url: String, context: Context) {
 fun View.hideKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(windowToken, 0)
+}
+
+/**
+ * Snack
+ * created on 21 May 2022 by Leonel Gomez
+ *
+ * @param message
+ * @param duration
+ */
+fun View.snack(message: String, duration: Int = Snackbar.LENGTH_LONG) {
+    Snackbar.make(this, message, duration).show()
+}
+
+/**
+ * Show dialog
+ * created on 21 May 2022 by Leonel Gomez
+ *
+ * @param title string title text, default empty
+ * @param message string message text
+ * @param negative string text in the negative button, default null (not showed)
+ * @param positive string text in the positive button, default null (not showed)
+ * @param negativeCallback function that is called when negative button is clicked or cancel dialog, default null (no action)
+ * @param positiveCallback function that is called when positive button is clicked, default null (no action)
+ */
+fun View.showDialog(
+    title: String = "",
+    message: String,
+    negative: String? = null,
+    positive: String? = null,
+    negativeCallback: (() -> Unit)? = null,
+    positiveCallback: (() -> Unit)? = null
+) {
+    MaterialAlertDialogBuilder(this.context)
+        .setTitle(title)
+        .setMessage(message)
+        .setNegativeButton(negative) { _, _ -> negativeCallback?.invoke() }
+        .setPositiveButton(positive) { _, _ -> positiveCallback?.invoke() }
+        .show()
 }

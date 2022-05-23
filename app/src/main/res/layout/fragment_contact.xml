@@ -7,12 +7,6 @@
     tools:context=".view.ContactFragment"
     >
 
-    <include
-        android:id="@+id/progress_loader"
-        layout="@layout/view_load_spinner"
-        android:visibility="visible" />
-
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -151,7 +145,10 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-
+    <include
+        android:id="@+id/progress_loader"
+        layout="@layout/view_load_spinner"
+        android:visibility="visible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

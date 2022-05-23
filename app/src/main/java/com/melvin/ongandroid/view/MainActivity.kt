@@ -86,8 +86,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.testimonios_menu -> {
-                Toast.makeText(applicationContext, getString(R.string.testimonios), Toast.LENGTH_SHORT)
-                    .show()
+                    changeFragment(TestimonialFragment())
             }
 
             // navigate to the "ABOUT" view

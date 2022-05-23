@@ -8,4 +8,18 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#03A9F4</color>
+    <color name="red">#FF0000</color>
+    <color name="gray">#F1F1F1</color>
+    <color name="red80">#CC0000</color>
+    <color name="deepRed">#850101</color>
+    <color name="navyBlue">#0038FF</color>
+    <color name="yellow">#FAFF00</color>
+    <color name="primaryColor">#FF0000</color>
+    <color name="primaryLightColor">#FF0000</color>
+    <color name="primaryDarkColor">#CC0000</color>
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="backgroundLightColor">#F1F1F1</color>
+    <color name="backgroundGrayColor">#C4C4C4</color>
+    <color name="backgroundYellowColor">#FDFFA4</color>
+    <color name="lineGrayColor">#B0B0B0</color>
 </resources>

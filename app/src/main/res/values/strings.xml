@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">ONGAndroid</string>
+
+    <string name="app_name">ONG Somos Mas</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="inicio">Inicio</string>
@@ -40,7 +41,7 @@
 
     <!-- Fragment layout texts - Activities -->
     <string name="fragment_activities_title">Actividades</string>
-    <string name="fragment_activities_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</string>
+    <string name="fragment_activities_description">Aquí podrás encontrar las últimas actividades que realizamos en Somos Mas</string>
     <string name="item_activities_default_name">Actividad</string>
     <string name="item_activities_default_description">Descripción</string>
 
@@ -60,6 +61,7 @@
     <string name="dialog_error_register">Error en el registro</string>
     <string name="dialog_cancel">Cancelado</string>
     <string name="dialog_cancel_facebook">Inicio de sesión con Facebook cancelado</string>
+    <string name="dialog_error_webpage">Error al intentar abrir la página %1$s. Posiblemente no se encuentre instalado un navegador</string>
 
 
     <!-- Image content description in layouts -->
@@ -91,6 +93,8 @@
     <string name="fragment_signUp_nameHint">Ingrese su nombre</string>
     <string name="fragment_signUp_passwordConfirmHint">Confirme su contraseña</string>
     <string name="fragment_sign_up_button">Registrarme</string>
+    <string name="text_question_login">"¿Ya tienes cuenta? "</string>
+    <string name="text_login_signUp">Ingresa</string>
 
     <!-- Validation texts - LogIn -->
     <string name="validation_empty">Debe completar el campo</string>
@@ -100,6 +104,9 @@
     <string name="validation_name">El nombre no es válido</string>
     <string name="button_google">Google</string>
     <string name="button_facebook">Facebook</string>
+    <string name="text_other_login">O Ingrese con</string>
+    <string name="text_question_sign_up">"¿No tienes una cuenta? "</string>
+    <string name="text_sign_up">Registrate</string>
 
     <!-- Splash screen texts -->
     <string name="splash_title">Splash Screen</string>

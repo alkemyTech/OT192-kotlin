@@ -1,5 +1,6 @@
 package com.melvin.ongandroid.view
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -54,13 +55,21 @@ class NewsFragment : Fragment() {
      */
 
     private fun initNewsRecyclerview() {
+        // Choose to show 2 or 1 columns depending on whether the screen was rotated - 2022-05-22 L.Gomez
+        val layoutManager =
+            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                GridLayoutManager(context, 2)
+            } else {
+                GridLayoutManager(context, 1)
+            }
+
         newsViewModel.newsState.observe(viewLifecycleOwner) { resourceNews ->
 
             when (resourceNews) {
                 is Resource.Success -> {
                     binding.apply {
                         rvNews.adapter = newsAdapter
-                        rvNews.layoutManager = GridLayoutManager(context, 2)
+                        rvNews.layoutManager = layoutManager
                         newsAdapter.submitList(resourceNews.data?.novedades?.toMutableList())
                         rvNews.visible()
                         progressLoader.root.gone()

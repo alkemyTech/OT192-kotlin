@@ -35,7 +35,7 @@ class OngRepository @Inject constructor(private val apiService: OngApiService) {
 
 
     // Function that emits a GenericResponse, containing a contact response
-    suspend fun sendContact(contact: Contact): Flow<GenericResponse<List<Contact>>> = flow {
+    suspend fun sendContact(contact: Contact): Flow<GenericResponse<Contact>> = flow {
         emit(apiService.sendContact(contact))
     }
 
@@ -148,6 +148,29 @@ class OngRepository @Inject constructor(private val apiService: OngApiService) {
             false ->{
               emit(Resource.ErrorApi(response.errorBody().toString()))
             }
+        }
+    }.catch { e: Throwable ->
+        emit(Resource.ErrorThrowable(e))
+    }
+
+    suspend fun fetchTestiominals() = flow {
+        val response = apiService.fetchTestimonials()
+
+        when(response.isSuccessful){
+
+            true ->{
+                val responseBody = response.body()
+                if(responseBody != null){
+                    if (responseBody.success) emit(Resource.success(response.body()!!.data))
+                    else emit(Resource.errorApi(responseBody.error ?: "Error"))
+                }
+                else emit(Resource.errorApi("Error"))
+            }
+            false ->{
+                emit(Resource.ErrorApi(response.errorBody().toString()))
+            }
+
+
         }
     }.catch { e: Throwable ->
         emit(Resource.ErrorThrowable(e))
