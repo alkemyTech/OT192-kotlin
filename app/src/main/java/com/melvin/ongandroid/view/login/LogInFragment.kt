@@ -300,6 +300,8 @@ class LogInFragment : Fragment() {
         // Tracks a series of events. Login Button, SignUp, Google and FaceBook
         FirebaseEvent.setEvent(requireContext(),"gmail_pressed")
 
+        // Show Progress bar
+        enableUI(false)
         logInViewModel.startLoginGoogle(requireActivity())
     }
 
