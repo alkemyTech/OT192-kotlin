@@ -20,7 +20,7 @@ interface OngApiService {
     // Post a new contact to the API
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST("contacts")
-    suspend fun sendContact(@Body contact: Contact): GenericResponse<Contact>
+    suspend fun sendContact(@Body contact: Contact): Response<GenericResponse<Contact>>
 
     /**
      * Get slides

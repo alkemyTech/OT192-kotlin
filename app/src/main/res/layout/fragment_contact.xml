@@ -7,9 +7,19 @@
     tools:context=".view.ContactFragment"
     >
 
+    <!-- include heading with logo -->
+    <include
+        android:id="@+id/section_header"
+        layout="@layout/section_header" />
+
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:id="@+id/scv_contact"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/section_header">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -26,7 +36,7 @@
                 android:text="@string/fragment_contact_title"
                 android:textAppearance="@style/TextTitulos24sp"
                 android:textColor="@color/black"
-                android:textStyle="bold"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +45,7 @@
                 android:id="@+id/fragment_contact_firstname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintTop_toBottomOf="@+id/fragment_contact_title"
                 tools:ignore="MissingConstraints"
                 app:startIconDrawable="@drawable/user_icon"
@@ -56,7 +66,7 @@
                 android:id="@+id/fragment_contact_lastname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintTop_toBottomOf="@+id/fragment_contact_firstname"
                 tools:ignore="MissingConstraints"
                 app:startIconDrawable="@drawable/user_icon"
@@ -77,7 +87,7 @@
                 android:id="@+id/fragment_contact_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintTop_toBottomOf="@+id/fragment_contact_lastname"
                 tools:ignore="MissingConstraints"
                 app:startIconDrawable="@drawable/mail_icon"
@@ -114,6 +124,7 @@
                     android:hint="@string/fragment_contact_messageHint"
                     android:inputType="textMultiLine"
                     android:textAppearance="@style/TextDescripcion12sp" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -145,7 +156,9 @@
                 android:textAppearance="@style/TextButtonsMuli16sp"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                app:cornerRadius="8dp"
                 app:icon="@drawable/send_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fragment_contact_message" />
@@ -156,7 +169,7 @@
     <include
         android:id="@+id/progress_loader"
         layout="@layout/view_load_spinner"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -40,7 +40,7 @@ fun String.checkFirstOrLastName() =
  * Check if the contact Message is greater to 30 char.
  */
 
-fun String.checkContactMessage(): Boolean = this.isNotEmpty() && this.length >= 30
+fun String.checkContactMessage(): Boolean = this.isNotEmpty() && this.length >= 10
 
 /**
  * Convert HTML to string
