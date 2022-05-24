@@ -7,14 +7,12 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.FragmentHomeBinding
 import com.melvin.ongandroid.view.adapters.HomeWelcomeItemAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import com.melvin.ongandroid.model.toUI
 import com.melvin.ongandroid.services.firebase.FirebaseEvent
 import com.melvin.ongandroid.utils.Resource
@@ -135,7 +133,7 @@ class HomeFragment : Fragment() {
         homeViewModel.slideList.observe(viewLifecycleOwner) { result ->
             if (!result.isNullOrEmpty()) {
                 // This line, logs the "slider_retrieve_success" event when the query to the
-                    // "api/slides" endpoint is successful.
+                // "api/slides" endpoint is successful.
                 FirebaseEvent.setEvent(requireContext(),"slider_retrieve_success")
                 //If data is obtained, it is loaded into the recycler adapter
                 //There is a conversion (mapping) of Slide object to HomeWelcome object
@@ -218,10 +216,10 @@ class HomeFragment : Fragment() {
                         // This line, logs the "testimonios_retrieve_success" event when the query to the
                         // "api/testimonials" endpoint is successful.
                         FirebaseEvent.setEvent(requireContext(), "testimonios_retrieve_success")
-                        adapterTestimonials.submitList(response.data.take(4).toMutableList())
+                        adapterTestimonials.submitList(response.data.take(5).toMutableList())
 
                         // This line, logs the "testimonies_see_more_pressed" event when the arrow to see more testimonials is clicked
-                        adapterTestimonials.onMoreItemClicked = {
+                        adapterTestimonials.onClickArrow = {
                             parentFragmentManager.beginTransaction()
                                 .replace(R.id.fragmentContainerView, TestimonialFragment())
                                 .commit()
@@ -243,20 +241,6 @@ class HomeFragment : Fragment() {
         }
 
 
-    }
-
-    /**
-     * Show snackbar with message and button "Reintentar" to retry to query.
-     */
-    private fun showSnackbar(message: String) {
-        Snackbar.make(binding.root, message, Snackbar.LENGTH_INDEFINITE)
-            .setAction("Reintentar") {
-                homeViewModel.getTestimonials()
-                if (homeViewModel.errorTestimonials.value != "") {
-                    showSnackbar("Ha ocurrido un error obteniendo la información")
-                }
-            }
-            .show()
     }
 
     /*
