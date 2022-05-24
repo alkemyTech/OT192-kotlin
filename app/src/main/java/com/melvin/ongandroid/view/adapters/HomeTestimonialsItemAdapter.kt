@@ -3,173 +3,101 @@ package com.melvin.ongandroid.view.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
+import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.melvin.ongandroid.R
 import com.melvin.ongandroid.databinding.ItemRecyclerHomeTestimonialsBinding
 import com.melvin.ongandroid.model.HomeTestimonials
 
-class HomeTestimonialsItemAdapter :
-    ListAdapter<HomeTestimonials, RecyclerView.ViewHolder>(DiffUtilCallback()) {
-    var onItemClicked: ((HomeTestimonials) -> Unit)? = null
-    var onMoreItemClicked: ((HomeTestimonials) -> Unit)? = null
-
-    /**
-     * On create view holder
-     *
-     * @param parent
-     * @param viewType
-     * @return constructor of ViewHolder referencing inflated layout
-     */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val binding = ItemRecyclerHomeTestimonialsBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return when (viewType) {
-            -1 -> ViewHolderPlus(binding)
-            else -> ViewHolder(binding)
-        }
+class HomeTestimonialsItemAdapter : ListAdapter<HomeTestimonials, HomeTestimonialsHolder>(ComparadorHomeTestimonials()) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeTestimonialsHolder {
+        return HomeTestimonialsHolder.create(parent)
     }
+    var onClickArrow: (() -> Unit)? = null
 
-    /**
-     * On bind view holder
-     * Connect the item in the position of the list with the Holder
-     *
-     * @param holder
-     * @param position of the item in the list
-     */
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder.itemViewType) {
-            -1 -> {
-                val viewHolder: ViewHolderPlus = holder as ViewHolderPlus
-                viewHolder.bind(getItem(position), onMoreItemClicked)
-            }
-            else -> {
-                val viewHolder: ViewHolder = holder as ViewHolder
-                viewHolder.bind(getItem(position), onItemClicked)
-            }
-        }
-    }
+    override fun onBindViewHolder(holder: HomeTestimonialsHolder, position: Int) {
+        val testimonials = getItem(position)
 
-    /**
-     * Get item view type
-     *
-     * @param position
-     * @return
-     */
-    override fun getItemViewType(position: Int): Int {
-        return if (position == itemCount - 1)
-            -1
-        else
-            0
-    }
+        // si es el últmo elemento, esconder la cardview, y crear un nuevo imageView con
+        // la flecha para mas contenido.
+        // para mejorar la visibilidad, cambiamos las dimensiones del layout
+        if (position == itemCount - 1) {
+            holder.binding.apply {
 
-    /**
-     * Submit list
-     *
-     * @param list
-     */
-    override fun submitList(list: MutableList<HomeTestimonials>?) {
-        val copy: MutableList<HomeTestimonials> = mutableListOf()
-        if (list != null) {
-            copy.addAll(list)
-        }
-        //Agrego un elemento (el último será distinto) para la flecha
-        copy.add(HomeTestimonials())
-        super.submitList(copy)
-    }
+                cvTestimonials.visibility = View.GONE
+
+                val backImage = ImageView(holder.itemView.context)
+                backImage.id = View.generateViewId()
 
 
-    /**
-     * View holder
-     *
-     * @property binding reference to item layout
-     * @constructor Create empty View holder
-     */
-    class ViewHolder(private val binding: ItemRecyclerHomeTestimonialsBinding) :
-        RecyclerView.ViewHolder(binding.cvTestimonials) {
+                constraintItemTestimonials.layoutParams =
+                    ConstraintLayout.LayoutParams(
+                        ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                        ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                    )
+                        .apply {
+                            circleConstraint = backImage.id
+                            topMargin = 300
+                        }
 
-        /**
-         * Bind
-         * Used to connect items to layout
-         *
-         * @param value the item
-         * @param listener a function to invoke when the item in clicked
-         */
-        internal fun bind(
-            value: HomeTestimonials,
-            listener: ((HomeTestimonials) -> Unit)?,
-        ) {
-            with(binding) {
-                //Set Name
-                tvTestimonialsName.text = value.name
-                //Set texts
-                tvTestimonialsHeading.text = value.description
-                //Load the image url and set it on this ImageView
-                imgTestimonials.load(value.imgUrl)
-                //Hide Arrow Resource
-                imgMoreTestimonials.visibility = View.GONE
+                backImage.setImageResource(R.drawable.ic_arrow)
 
-                cvTestimonials.setOnClickListener {
-                    listener?.invoke(value)
+                backImage.layoutParams = ConstraintLayout.LayoutParams(
+                    200,
+                    200,
+                )
+
+                // add setOnClickListener to the arrow image
+                backImage.setOnClickListener{
+                    onClickArrow?.invoke()
                 }
+                constraintItemTestimonials.addView(backImage)
+
+
             }
+        } else {
+
+            holder.binding.apply {
+                // Set Name
+                tvTestimonialsName.text = testimonials.name
+                // Set Description
+                tvTestimonialsHeading.text = testimonials.description
+                // Load the image url and set it on this ImageView
+                imgTestimonials.load(testimonials.imgUrl)
+
+            }
+        }
+
+
+    }
+}
+
+class HomeTestimonialsHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    val binding: ItemRecyclerHomeTestimonialsBinding = ItemRecyclerHomeTestimonialsBinding.bind(itemView)
+
+    companion object {
+        fun create(parent: ViewGroup): HomeTestimonialsHolder {
+            val layoutInflater = LayoutInflater.from(parent.context)
+            val binding = ItemRecyclerHomeTestimonialsBinding.inflate(layoutInflater, parent, false)
+
+            return HomeTestimonialsHolder(binding.root)
+
         }
     }
 
-    /**
-     * View holder plus
-     *
-     * @property binding
-     * @constructor Create empty View holder plus
-     */
-    class ViewHolderPlus(private val binding: ItemRecyclerHomeTestimonialsBinding) :
-        RecyclerView.ViewHolder(binding.cvTestimonials) {
+}
 
-        /**
-         * Bind
-         *
-         * @param value
-         * @param listener
-         */
-        internal fun bind(
-            value: HomeTestimonials,
-            listener: ((HomeTestimonials) -> Unit)?
-        ) {
-            with(binding) {
-                //Hide RecyclerView fields
-                lytCardView.visibility = View.GONE
-                //Show Arrow resource
-                imgMoreTestimonials.isVisible = true
-
-                cvTestimonials.setOnClickListener {
-                    listener?.invoke(value)
-                }
-            }
-        }
+class ComparadorHomeTestimonials : DiffUtil.ItemCallback<HomeTestimonials>() {
+    override fun areItemsTheSame(oldItem: HomeTestimonials, newItem: HomeTestimonials): Boolean {
+        return oldItem == newItem
     }
 
-    /**
-     * Diff util callback
-     *
-     * @constructor Create empty Diff util callback
-     */
-    class DiffUtilCallback : DiffUtil.ItemCallback<HomeTestimonials>() {
-        override fun areItemsTheSame(
-            oldItem: HomeTestimonials,
-            newItem: HomeTestimonials
-        ): Boolean =
-            oldItem.description == newItem.description
-
-        override fun areContentsTheSame(
-            oldItem: HomeTestimonials,
-            newItem: HomeTestimonials
-        ): Boolean =
-            oldItem == newItem
-
+    override fun areContentsTheSame(oldItem: HomeTestimonials, newItem: HomeTestimonials): Boolean {
+        return oldItem.imgUrl == newItem.imgUrl
     }
+
 }

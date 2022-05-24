@@ -45,11 +45,11 @@ class NovedadesAdapter : ListAdapter<News, NovedadesHolder>(ComparadorNovedades(
                             topMargin = 200
                         }
 
-                backImage.setImageResource(R.drawable.ic_baseline_arrow_forward_24)
+                backImage.setImageResource(R.drawable.ic_arrow)
 
                 backImage.layoutParams = ConstraintLayout.LayoutParams(
-                    250,
-                    250
+                    200,
+                    200
                 )
 
                 // add setOnClickListener to the arrow image
