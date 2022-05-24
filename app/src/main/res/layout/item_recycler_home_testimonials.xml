@@ -42,19 +42,21 @@
 
                 <TextView
                     android:id="@+id/tv_testimonials_name"
+                    style="@style/TextButtonsPoppin16sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="top|center"
                     android:padding="12dp"
                     android:text="@string/item_testimonials_default_name"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textAppearance="@style/TextSubTitulosBold16sp"
                     android:textColor="@android:color/black"
                     android:textSize="23sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_testimonials_heading"
+                    style="@style/TextDescripcion12sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -62,8 +64,7 @@
                     android:padding="8dp"
                     android:text="@string/item_testimonials_default_heading"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp" />
+                    android:textColor="@android:color/black" />
 
             </LinearLayout>
 
