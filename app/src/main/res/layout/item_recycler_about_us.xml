@@ -30,16 +30,18 @@ Card view to show the section of about us  -->
 
         <TextView
             android:id="@+id/tv_name"
+            style="@style/TextSubTitulosBold16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:text="@string/item_about_us_default_name"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textSize="18sp"
             android:textStyle="normal|bold" />
 
         <TextView
             android:id="@+id/tv_description"
+            style="@style/TextDescripcion12sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -48,7 +50,7 @@ Card view to show the section of about us  -->
             android:layout_marginBottom="10dp"
             android:gravity="top|center"
             android:text="@string/item_about_us_default_description"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     </LinearLayout>
 

@@ -30,13 +30,12 @@
             <!-- some descriptive texts -->
             <TextView
                 android:id="@+id/tv_about_us_title"
+                style="@style/TextTitulos24sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
                 android:gravity="center"
                 android:text="@string/fragment_about_us_title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/tv_about_us_description"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -45,12 +44,12 @@
 
             <TextView
                 android:id="@+id/tv_about_us_description"
+                style="@style/TextDescripcion12sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
                 android:gravity="center"
                 android:text="@string/fragment_about_us_description"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/section_about_us"
                 app:layout_constraintEnd_toEndOf="parent"

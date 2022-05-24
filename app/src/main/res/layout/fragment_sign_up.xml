@@ -20,7 +20,7 @@
                 android:id="@+id/imageView_signup_logo"
                 android:layout_width="218dp"
                 android:layout_height="145dp"
-                android:layout_marginTop="110dp"
+                android:layout_marginTop="85dp"
                 android:contentDescription="@string/logo"
                 android:src="@drawable/ic_logo_somos_mas"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -44,12 +44,12 @@
                 app:startIconDrawable="@drawable/user_icon">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    style="@style/TextDescripcion12sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:hint="@string/fragment_signUp_nameHint"
-                    android:inputType="text"
-                    android:textSize="20sp" />
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -68,12 +68,12 @@
                 app:startIconDrawable="@drawable/ic_baseline_mail_outline_24">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    style="@style/TextDescripcion12sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:hint="@string/fragment_signUp_emailHint"
-                    android:inputType="text"
-                    android:textSize="20sp" />
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -92,12 +92,12 @@
                 app:startIconDrawable="@drawable/ic_baseline_password_24">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    style="@style/TextDescripcion12sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:hint="@string/fragment_signUp_passwordHint"
-                    android:inputType="text|textPassword"
-                    android:textSize="20sp" />
+                    android:inputType="text|textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -116,16 +116,17 @@
                 app:startIconDrawable="@drawable/ic_baseline_password_24">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    style="@style/TextDescripcion12sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:hint="@string/fragment_signUp_passwordConfirmHint"
-                    android:inputType="text|textPassword"
-                    android:textSize="20sp" />
+                    android:inputType="text|textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/fragment_signUp_button"
+                style="@style/TextButtonsPoppin16sp"
                 android:layout_width="350dp"
                 android:layout_height="75dp"
                 android:layout_marginTop="20dp"
@@ -133,7 +134,6 @@
                 android:elevation="5dp"
                 android:text="@string/fragment_sign_up_button"
                 android:textAlignment="center"
-                android:textSize="20sp"
                 android:textStyle="bold"
                 app:cornerRadius="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -154,13 +154,15 @@
                 tools:ignore="MissingConstraints">
 
                 <TextView
+                    style="@style/TextDescripcion12sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/text_question_login"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
                 <TextView
+                    style="@style/TextDescripcion12sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/text_login_signUp"

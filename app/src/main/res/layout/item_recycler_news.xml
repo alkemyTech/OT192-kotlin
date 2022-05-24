@@ -36,6 +36,7 @@
 
             <TextView
                 android:id="@+id/title_news"
+                style="@style/TextSubTitulosBold16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -63,13 +64,12 @@
 
             <TextView
                 android:id="@+id/description_news"
+                style="@style/TextDescripcion12sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="@string/fragment_news_description"
-                android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="?android:attr/textColorSecondary"
-                android:textSize="15sp"
+                android:textAppearance="@style/TextDescripcion12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.018"
                 app:layout_constraintStart_toStartOf="parent"
