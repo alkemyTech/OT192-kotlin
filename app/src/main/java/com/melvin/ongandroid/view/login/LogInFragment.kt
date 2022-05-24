@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -90,6 +91,18 @@ class LogInFragment : Fragment() {
                     lifecycleScope.launch {
                         prefs.saveUserToken(result.data?.token ?: "")
                     }
+
+                    // Show welcome message of user logged - 2022-05-24 L.Gomez
+                    if (result.data != null) {
+                        result.data.user.also {
+                            Toast.makeText(
+                                requireActivity(),
+                                getString(R.string.dialog_welcome, it.name),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
                     //Navigate to Home fragment
                     startActivity(Intent(requireContext(), MainActivity::class.java))
                     requireActivity().finish()
