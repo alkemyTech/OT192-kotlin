@@ -13,6 +13,7 @@ import com.melvin.ongandroid.utils.checkFirstOrLastName
 import com.melvin.ongandroid.utils.isEmailValid
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,14 +24,6 @@ class ContactViewModel @Inject constructor(private val repo: OngRepository) : Vi
     private val _isButtonEnabled = MutableLiveData(false)
     val isButtonEneabled: LiveData<Boolean> = _isButtonEnabled
 
-    // LiveData that save the contact response
-    private val _contacts = MutableLiveData<GenericResponse<Contact>>()
-    val contacts: LiveData<GenericResponse<Contact>> = _contacts
-
-    // LiveData to show/hide progress bar
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
-
     // Parameters from the Contact Form. So we can observe changes in ViewModel
     val firstName = MutableLiveData("")
     val lastName = MutableLiveData("")
@@ -38,7 +31,7 @@ class ContactViewModel @Inject constructor(private val repo: OngRepository) : Vi
     val contactMessage = MutableLiveData("")
 
     //Parameter to check State of response Contact post request
-    private val _contactResponseState: MutableLiveData<Resource<Contact>> = MutableLiveData(Resource.loading())
+    private val _contactResponseState: MutableLiveData<Resource<Contact>> = MutableLiveData()
     val contactResponseState : LiveData<Resource<Contact>> = _contactResponseState
 
     //Split validation checks in order to facilitate tests
@@ -72,22 +65,54 @@ class ContactViewModel @Inject constructor(private val repo: OngRepository) : Vi
      */
     fun sendFormContact(contact: Contact){
         viewModelScope.launch(IO) {
-            _isLoading.postValue(true)
-            repo.sendContact(contact).collect{ contactResponse ->
-                when(contactResponse.success){
-                    true ->{
-                        _contactResponseState.postValue(Resource.success(contactResponse.data))
-                        _contacts.postValue(contactResponse)
-                        _isLoading.postValue(false)
+            repo.sendContact(contact)
+                .catch { throwable ->
+                    _contactResponseState.postValue(
+                        Resource.errorThrowable(Exception(throwable.message))
+                    ) }
+                .collect{ resource ->
+                    when (resource) {
+                        is Resource.Success -> try {
+                            if (resource.data != null) {
+                                val values = resource.data.data
+                                _contactResponseState.postValue(Resource.success(values))
+                            }
+                        } catch (e: Exception) {
+                            _contactResponseState.postValue(Resource.errorThrowable(e))
+                        }
+                        is Resource.ErrorApi -> _contactResponseState.postValue(
+                            Resource.errorApi(resource.errorMessage ?: "")
+                        )
+                        is Resource.ErrorThrowable -> _contactResponseState.postValue(
+                            Resource.errorThrowable(resource.errorThrowable ?: Exception(""))
+                        )
+                        is Resource.Loading -> _contactResponseState.postValue(Resource.loading())
                     }
-                    false -> _contactResponseState.postValue(Resource.errorApi("Error Api"))
-                }
             }
 /*
                 _contacts.postValue(contactResponse)
                 _isLoading.postValue(false)
  */
         }
+    }
+
+    /**
+     * Set idle
+     * created on 9 May 2022 by Leonel Gomez
+     * To set an idle state to the live data response
+     *
+     */
+    fun setIdle() {
+        _contactResponseState.postValue(Resource.idle())
+    }
+
+    // reset live data to default values
+    fun resetContactForm() {
+        firstName.value = ""
+        lastName.value = ""
+        email.value = ""
+        contactMessage.value = ""
+        _isButtonEnabled.value = false
     }
 
 }

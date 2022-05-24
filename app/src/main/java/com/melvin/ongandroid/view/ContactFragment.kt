@@ -41,39 +41,65 @@ class ContactFragment : Fragment() {
         binding.progressLoader.root.visibility = View.GONE
         checkContactFormFragment()
         setupOnClickListener()
-        showErrorMesage()
-
-        /** Observe the state of button given [checkContactFormFragment]*/
-        contactViewModel.isButtonEneabled.observe(viewLifecycleOwner){
-            binding.filledButton.isEnabled = it
-        }
-
-        /* Observe the state of progress loader, if it's true, show the progress loader
-        * If it's false, hide the progress loader, show dialog and clean contact fields
-        * */
-        contactViewModel.isLoading.observe(viewLifecycleOwner){
-            binding.progressLoader.root.visibility = if(it) View.VISIBLE else View.GONE
-            if (it == false){
-                showDialog()
-                cleanContactForm()
-            }
-        }
-
-
+        setObservers()
 
         return binding.root
     }
 
-    /**
-     * Function that shows error textView if API call fails.
-     */
-    private fun showErrorMesage(){
+
+    private fun setObservers(){
+        /** Observe the state of button given [checkContactFormFragment]*/
+        contactViewModel.isButtonEneabled.observe(viewLifecycleOwner){
+            binding.filledButton.isEnabled = it
+            binding.filledButton.alpha = if (it) 1.0F else 0.3F
+        }
+
+        // Observe the state of the contact response
         contactViewModel.contactResponseState.observe(viewLifecycleOwner){resource->
             when(resource){
-                is Resource.ErrorApi -> binding.textViewError.visibility = View.VISIBLE
-                else ->Unit
+                is Resource.Success -> {
+                    // Hide Progress bar
+                    enableUI(true)
+                    // Show dialog
+                    showDialog()
+
+                    // Reset error after being displayed
+                    contactViewModel.setIdle()
+                }
+                is Resource.Loading -> {
+                    // Show Progress bar
+                    enableUI(false)
+                }
+                is Resource.ErrorThrowable -> {
+                    // Hide Progress bar
+                    enableUI(true)
+
+                    binding.textViewError.visibility = View.VISIBLE
+
+                    // Reset error after being displayed
+                    contactViewModel.setIdle()
+
+                }
+                is Resource.ErrorApi -> {
+                    // Hide Progress bar
+                    enableUI(true)
+
+                    binding.textViewError.visibility = View.VISIBLE
+
+                    // Reset error after being displayed
+                    contactViewModel.setIdle()
+                }
+                is Resource.Idle -> {
+                    // Hide Progress bar
+                    enableUI(true)
+                }
         }
         }
+    }
+
+    // Enable UI when loading data is finished
+    private fun enableUI(enable: Boolean) {
+        binding.progressLoader.root.visibility = if (enable) View.GONE else View.VISIBLE
     }
 
     /**
@@ -117,7 +143,7 @@ class ContactFragment : Fragment() {
         contactEditText?.doAfterTextChanged {
             contactViewModel.contactMessage.value = it.toString()
             if (!it.toString().checkContactMessage()){
-                contactEditText.error = "La consulta debe tener al menos 30 carácteres."
+                contactEditText.error = "La consulta debe tener al menos 10 carácteres."
             }
             binding.textViewError.visibility = View.GONE
             contactViewModel.checkContactFormViewModel()
@@ -139,16 +165,8 @@ class ContactFragment : Fragment() {
             contactViewModel.sendFormContact(
                 Contact(0, "$firstName $lastName", email, "", message)
             )
-        }
-    }
-
-    // Function that clean all the edit text
-    private fun cleanContactForm(){
-        with (binding){
-            fragmentContactFirstname.editText?.text?.clear()
-            fragmentContactLastname.editText?.text?.clear()
-            fragmentContactEmail.editText?.text?.clear()
-            fragmentContactMessage.editText?.text?.clear()
+            // Show Progress bar
+            enableUI(false)
         }
     }
 
@@ -157,6 +175,12 @@ class ContactFragment : Fragment() {
         val dialog = MaterialAlertDialogBuilder(requireContext())
             dialog.setTitle("Enviado")
             dialog.setMessage("Tu mensaje ha sido enviado con éxito.")
+            dialog.setOnCancelListener {
+
+                // remove the fragment and replace with the new ContactFragment
+                parentFragmentManager.beginTransaction().remove(this).replace(R.id.fragmentContainerView, ContactFragment()).commit()
+                contactViewModel.resetContactForm()
+            }
             dialog.show()
     }
 
