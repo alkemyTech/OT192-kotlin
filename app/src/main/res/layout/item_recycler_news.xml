@@ -44,7 +44,6 @@
                 android:text="@string/fragment_news_name"
                 android:textAppearance="?attr/textAppearanceTitleMedium"
                 android:textColor="@color/black"
-                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"

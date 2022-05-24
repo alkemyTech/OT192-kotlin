@@ -30,7 +30,6 @@ In a view add the following lines (inside a Constraint Layout):
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/fragment_about_us_members"
-        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/rv_about_us"
         app:layout_constraintEnd_toEndOf="parent"

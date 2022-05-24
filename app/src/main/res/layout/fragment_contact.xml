@@ -36,7 +36,6 @@
                 android:text="@string/fragment_contact_title"
                 android:textAppearance="@style/TextTitulos24sp"
                 android:textColor="@color/black"
-                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -145,16 +144,15 @@
 
             <Button
                 android:id="@+id/filledButton"
-                android:layout_width="146dp"
-                android:layout_height="60dp"
+                android:layout_width="350dp"
+                android:layout_height="55dp"
                 android:layout_marginTop="24dp"
-                android:backgroundTint="@color/navyBlue"
+                android:backgroundTint="@color/red"
                 android:elevation="5dp"
                 android:fontFamily="@font/muli"
                 android:text="@string/fragment_contact_button"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextButtonsMuli16sp"
-                android:textSize="20sp"
                 android:textStyle="bold"
                 app:cornerRadius="8dp"
                 app:icon="@drawable/send_icon"

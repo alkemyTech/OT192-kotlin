@@ -31,10 +31,9 @@
 
             <TextView
                 android:id="@+id/member_detail_name"
-                style="@style/TextAppearance.MaterialComponents.Headline5"
+                style="@style/TextTitulos24sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:text="@string/member_detail_name"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -43,7 +42,7 @@
 
             <TextView
                 android:id="@+id/member_detail_description"
-                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                style="@style/TextSubTituloslight16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -86,7 +85,7 @@
 
                 <TextView
                     android:id="@+id/member_detail_linkedin"
-                    style="@style/TextAppearance.MaterialComponents.Body1"
+                    style="@style/TextDescripcion12sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -118,7 +117,7 @@
 
                 <TextView
                     android:id="@+id/member_detail_facebook"
-                    style="@style/TextAppearance.MaterialComponents.Body1"
+                    style="@style/TextSubTituloslight16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

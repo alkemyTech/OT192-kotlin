@@ -82,7 +82,7 @@
                 android:id="@+id/button_log_in"
                 style="@style/TextButtonsPoppin16sp"
                 android:layout_width="350dp"
-                android:layout_height="75dp"
+                android:layout_height="55dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="39dp"
                 android:backgroundTint="@color/red"
@@ -116,7 +116,6 @@
                 android:background="@color/gray"
                 android:text="@string/text_other_login"
                 android:textColor="@color/black"
-                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_log_in" />
@@ -205,7 +204,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/text_sign_up"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
 

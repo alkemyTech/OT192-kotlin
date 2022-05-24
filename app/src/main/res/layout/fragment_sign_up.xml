@@ -128,7 +128,7 @@
                 android:id="@+id/fragment_signUp_button"
                 style="@style/TextButtonsPoppin16sp"
                 android:layout_width="350dp"
-                android:layout_height="75dp"
+                android:layout_height="55dp"
                 android:layout_marginTop="20dp"
                 android:backgroundTint="@color/red"
                 android:elevation="5dp"

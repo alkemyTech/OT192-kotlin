@@ -19,10 +19,9 @@
 
     <ScrollView
         android:id="@+id/scrollView_testimonials"
-        android:layout_width="410dp"
-        android:layout_height="684dp"
-        android:layout_marginTop="42dp"
-        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

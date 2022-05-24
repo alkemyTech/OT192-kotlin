@@ -46,8 +46,7 @@
             android:singleLine="false"
             android:text="@string/item_welcome_default_description"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textColor="@android:color/black"/>
 
     </LinearLayout>
 

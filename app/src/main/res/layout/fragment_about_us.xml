@@ -50,7 +50,6 @@
                 android:layout_margin="12dp"
                 android:gravity="center"
                 android:text="@string/fragment_about_us_description"
-                android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/section_about_us"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
