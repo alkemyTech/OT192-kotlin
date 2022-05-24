@@ -1,87 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?><!--Card view to show the section of testimonials  -->
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cv_testimonials"
+    android:id="@+id/constraint_item_testimonials"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="15dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginEnd="15dp"
-    android:layout_marginBottom="10dp"
-    app:cardCornerRadius="6dp"
-    app:cardElevation="6dp">
-
-    <TableLayout
-        android:id="@+id/tly_card"
+    android:layout_height="wrap_content">
+    <!--Card view to show the section of testimonials  -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_testimonials"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="10dp"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
 
-        <TableRow
-            android:id="@+id/trw_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:shrinkColumns="1"
-            android:stretchColumns="0"
-            android:weightSum="0">
+        <TableLayout
+            android:id="@+id/tly_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:id="@+id/lyt_card_view"
+            <TableRow
+                android:id="@+id/trw_card"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:shrinkColumns="1"
+                android:stretchColumns="0"
+                android:weightSum="0"
+                tools:ignore="UselessParent">
 
-                <ImageView
-                    android:id="@+id/img_testimonials"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                <LinearLayout
+                    android:id="@+id/lyt_card_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/img_testimonials"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:contentDescription="@string/fragment_home_title_testimonials"
+                        android:scaleType="centerCrop"
+                        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+                    <TextView
+                        android:id="@+id/tv_testimonials_name"
+                        style="@style/TextButtonsPoppin16sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="top|center"
+                        android:padding="12dp"
+                        android:text="@string/item_testimonials_default_name"
+                        android:textAppearance="@style/TextSubTitulosBold16sp"
+                        android:textColor="@android:color/black"
+                        android:textSize="23sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_testimonials_heading"
+                        style="@style/TextDescripcion12sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="top|center"
+                        android:padding="8dp"
+                        android:text="@string/item_testimonials_default_heading"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/img_more_testimonials"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@null"
                     android:contentDescription="@string/fragment_home_title_testimonials"
-                    android:scaleType="centerCrop"
-                    tools:srcCompat="@tools:sample/backgrounds/scenic" />
+                    android:scaleType="fitXY"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/ic_baseline_arrow_forward_24" />
 
-                <TextView
-                    android:id="@+id/tv_testimonials_name"
-                    style="@style/TextButtonsPoppin16sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="top|center"
-                    android:padding="12dp"
-                    android:text="@string/item_testimonials_default_name"
-                    android:textAppearance="@style/TextSubTitulosBold16sp"
-                    android:textColor="@android:color/black"
-                    android:textSize="23sp"
-                    android:textStyle="bold" />
+            </TableRow>
 
-                <TextView
-                    android:id="@+id/tv_testimonials_heading"
-                    style="@style/TextDescripcion12sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="top|center"
-                    android:padding="8dp"
-                    android:text="@string/item_testimonials_default_heading"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@android:color/black" />
+        </TableLayout>
 
-            </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-            <ImageButton
-                android:id="@+id/img_more_testimonials"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@null"
-                android:contentDescription="@string/fragment_home_title_testimonials"
-                android:scaleType="fitXY"
-                android:visibility="gone"
-                app:srcCompat="@drawable/ic_baseline_arrow_forward_24" />
-
-        </TableRow>
-
-    </TableLayout>
-
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
