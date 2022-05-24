@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.content.res.Configuration
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -177,6 +178,13 @@ class AboutUsFragment : Fragment() {
             // Update title of the previous section
             actionBar?.title = getString(R.string.nosotros)
         }
+
+        // Hide views if Social Networks is not found - 2022-05-24 L.Gomez
+        if (linkFacebook.text.isNullOrEmpty()) dialog.findViewById<LinearLayout>(R.id.layout_logo_facebook)
+            .apply { gone() }
+        if (linkLinkedin.text.isNullOrEmpty()) dialog.findViewById<LinearLayout>(R.id.layout_logo_linkedin)
+            .apply { gone() }
+
         dialog.show()
     }
 

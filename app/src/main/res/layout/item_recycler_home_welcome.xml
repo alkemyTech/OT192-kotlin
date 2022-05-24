@@ -18,14 +18,14 @@
 
         <TextView
             android:id="@+id/tv_title"
+            style="@style/TextSubTitulosBold16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="12dp"
             android:text="@string/item_welcome_default_title"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@color/black"
-            android:textStyle="normal|bold" />
+            android:textAppearance="@style/TextButtonsPoppin16sp"
+            android:textColor="@color/black" />
 
         <ImageView
             android:id="@+id/img_welcome"
@@ -37,6 +37,7 @@
 
         <TextView
             android:id="@+id/tv_description"
+            style="@style/TextDescripcion12sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
