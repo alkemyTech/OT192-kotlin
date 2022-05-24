@@ -29,6 +29,7 @@
             <!-- some descriptive texts -->
             <TextView
                 android:id="@+id/tv_activities_title"
+                style="@style/TextTitulos24sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
@@ -44,13 +45,13 @@
 
             <TextView
                 android:id="@+id/tv_activities_description"
+                style="@style/TextDescripcion12sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
                 android:gravity="center"
                 android:text="@string/fragment_activities_description"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/section_activities"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
