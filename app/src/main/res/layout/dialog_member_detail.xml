@@ -89,6 +89,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:textSize="14sp"
                     android:autoLink="web"
                     android:text="@string/member_detail_link" />
             </LinearLayout>
@@ -117,10 +118,11 @@
 
                 <TextView
                     android:id="@+id/member_detail_facebook"
-                    style="@style/TextSubTituloslight16sp"
+                    style="@style/TextDescripcion12sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:textSize="14sp"
                     android:autoLink="web"
                     android:text="@string/member_detail_link" />
             </LinearLayout>

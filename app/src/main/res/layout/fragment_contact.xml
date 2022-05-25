@@ -57,6 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/fragment_contact_firstnameHint"
+                    android:textSize="14sp"
                     android:inputType="text"
                     android:textAppearance="@style/TextDescripcion12sp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -78,6 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/fragment_contact_lastnameHint"
+                    android:textSize="14sp"
                     android:inputType="text"
                     android:textAppearance="@style/TextDescripcion12sp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -96,6 +98,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextDescripcion12sp"
+                    android:textSize="14sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/fragment_contact_emailHint"
@@ -110,6 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:gravity="start"
+                app:startIconDrawable="@drawable/edit_icon"
                 app:endIconMode="clear_text"
                 app:layout_constraintTop_toBottomOf="@+id/fragment_contact_email"
                 app:startIconContentDescription="@string/fragment_contact_messageHint"
@@ -119,9 +123,10 @@
                     style="@style/TextDescripcion12sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/edit_icon"
+                    android:textSize="14sp"
                     android:hint="@string/fragment_contact_messageHint"
                     android:inputType="textMultiLine"
+                    android:minLines="2"
                     android:textAppearance="@style/TextDescripcion12sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -149,10 +154,9 @@
                 android:layout_marginTop="24dp"
                 android:backgroundTint="@color/red"
                 android:elevation="5dp"
-                android:fontFamily="@font/muli"
                 android:text="@string/fragment_contact_button"
                 android:textAlignment="center"
-                android:textAppearance="@style/TextButtonsMuli16sp"
+                style="@style/TextButtonsPoppin16sp"
                 android:textStyle="bold"
                 app:cornerRadius="8dp"
                 app:icon="@drawable/send_icon"
