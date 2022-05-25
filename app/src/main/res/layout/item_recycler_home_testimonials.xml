@@ -62,7 +62,6 @@
                         android:text="@string/item_testimonials_default_name"
                         android:textAppearance="@style/TextSubTitulosBold16sp"
                         android:textColor="@android:color/black"
-                        android:textSize="23sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -75,8 +74,7 @@
                         android:padding="8dp"
                         android:text="@string/item_testimonials_default_heading"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp" />
+                        android:textColor="@android:color/black"/>
 
                 </LinearLayout>
 
