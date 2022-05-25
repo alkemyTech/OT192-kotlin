@@ -41,14 +41,14 @@ class HomeTestimonialsItemAdapter : ListAdapter<HomeTestimonials, HomeTestimonia
                     )
                         .apply {
                             circleConstraint = backImage.id
-                            topMargin = 300
+                            topMargin = 220
                         }
 
                 backImage.setImageResource(R.drawable.ic_arrow)
 
                 backImage.layoutParams = ConstraintLayout.LayoutParams(
-                    200,
-                    200,
+                    120,
+                    120,
                 )
 
                 // add setOnClickListener to the arrow image
