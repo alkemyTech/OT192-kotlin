@@ -31,14 +31,18 @@ class OngAuthDataSource @Inject constructor(
             // Firebase function to log in
             val result = auth.signInWithCredential(credential)
                 .await()
+            val myUser = auth.currentUser
 
             result.user.let {
-                if (it != null) {
+                return if (it != null) {
                     fbUser.token = it.uid
                     fbUser.user.email = it.email.toString()
-                    return Resource.Success(fbUser)
+                    if (myUser != null) {
+                        fbUser.user.name = myUser.displayName ?: ""
+                    }
+                    Resource.Success(fbUser)
                 } else
-                    return Resource.ErrorThrowable(Throwable("Error"))
+                    Resource.ErrorThrowable(Throwable("Error"))
 
             }
         } catch (e: Exception) {
