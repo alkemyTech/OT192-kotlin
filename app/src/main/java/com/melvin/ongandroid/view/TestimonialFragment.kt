@@ -42,9 +42,6 @@ class TestimonialFragment : Fragment() {
         recycler = binding.recyclerViewTestimonials
 
         setUpRecycler()
-        // Change toolbar title
-        val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
-        actionBar?.title = getString(R.string.testimonios)
 
         return binding.root
     }
