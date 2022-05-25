@@ -206,6 +206,9 @@ class HomeFragment : Fragment() {
      */
     private fun setupRecyclerViewSilderTestimonials() {
 
+        // Set the adapter
+        binding.incSectionTestimonials.rvSliderTestimonials.adapter = adapterTestimonials
+
         homeViewModel.testimonials.observe(viewLifecycleOwner) { response ->
             binding.apply {
                 when (!response.data.isNullOrEmpty()) {

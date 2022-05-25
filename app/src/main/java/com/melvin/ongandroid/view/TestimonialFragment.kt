@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,10 +34,17 @@ class TestimonialFragment : Fragment() {
     ): View {
         binding = FragmentTestimonialBinding.inflate(layoutInflater, container, false)
 
+        // Change toolbar title
+        val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        actionBar?.title = getString(R.string.testimonios)
+       
+
         recycler = binding.recyclerViewTestimonials
 
         setUpRecycler()
-
+        // Change toolbar title
+        val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        actionBar?.title = getString(R.string.testimonios)
 
         return binding.root
     }
