@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">ONGAndroid</string>
+
+    <string name="app_name">ONG Somos Mas</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="inicio">Inicio</string>
@@ -10,6 +11,9 @@
     <string name="actividades">Actividades</string>
     <string name="testimonios">Testimonios</string>
     <string name="nosotros">Nosotros</string>
+    <string name="details">Detalle</string>
+    <string name="close_session">Cerrar sesión</string>
+    <string name="closing_session">Cerrando sesión</string>
 
     <!-- Fragment layout texts - Home -->
     <string name="fragment_home_title_welcome">Bienvenidos</string>
@@ -17,9 +21,105 @@
     <string name="item_welcome_default_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean diam felis, aliquet ut lectus at, mollis ultricies elit. Proin consequat magna non lacinia viverra. Vivamus nec ligula eu massa ullamcorper tempor.</string>
     <string name="novedades_titulo_home">Últimas Novedades</string>
     <string name="fragment_home_title_testimonials">Testimonios</string>
+    <string name="item_testimonials_default_name">Nombre</string>
     <string name="item_testimonials_default_heading">Epígrafe</string>
+
+    <!-- Fragment layout texts - Contact -->
+    <string name="fragment_contact_title">¡Contactate con nosotros!</string>
+    <string name="fragment_contact_firstnameHint">Nombre</string>
+    <string name="fragment_contact_lastnameHint">Apellido</string>
+    <string name="fragment_contact_emailHint">Email</string>
+    <string name="fragment_contact_messageHint">Escribe tu consulta</string>
+    <string name="fragment_contact_button">Enviar</string>
+
+    <!-- Fragment layout texts - About Us -->
+    <string name="fragment_about_us_title">Sobre Nosotros</string>
+    <string name="fragment_about_us_description">Este es el grupo de personas que forman parte de la organización.</string>
+    <string name="fragment_about_us_members">Miembros</string>
+    <string name="item_about_us_default_name">Nombre</string>
+    <string name="item_about_us_default_description">Descripción</string>
+
+    <!-- Fragment layout texts - Activities -->
+    <string name="fragment_activities_title">Actividades</string>
+    <string name="fragment_activities_description">Aquí podrás encontrar las últimas actividades que realizamos en Somos Mas</string>
+    <string name="item_activities_default_name">Actividad</string>
+    <string name="item_activities_default_description">Descripción</string>
+
+    <!-- Button texts -->
+    <string name="btn_retry">Reintentar</string>
+
+    <!-- Dialog texts -->
+    <string name="dialog_error">Error</string>
+    <string name="dialog_error_getting_info">Ha ocurrido un error obteniendo la información</string>
+    <string name="dialog_error_bad_request">El servidor no pudo interpretar la solicitud</string>
+    <string name="dialog_error_resource_not_found">El servidor no pudo encontrar el contenido solicitado</string>
+    <string name="dialog_error_client_error">Error del cliente</string>
+    <string name="dialog_error_server_error">Error en servidor</string>
+    <string name="dialog_error_unknown_error">Error desconocido</string>
+    <string name="dialog_error_credentials">Error de credenciales</string>
+    <string name="dialog_error_connection">No se puede hacer una conexión</string>
+    <string name="dialog_error_register">Error en el registro</string>
+    <string name="dialog_cancel">Cancelado</string>
+    <string name="dialog_cancel_facebook">Inicio de sesión con Facebook cancelado</string>
+    <string name="dialog_error_webpage">Error al intentar abrir la página %1$s. Posiblemente no se encuentre instalado un navegador</string>
+
 
     <!-- Image content description in layouts -->
     <string name="content_description_loading">Cargando</string>
+    <string name="content_description_activity">Actividad</string>
+
+    <string name="error_message_contact">Ha ocurrido un error. Intente nuevamente mas tarde</string>
+    <string name="massive_error">Error General</string>
+
+
+    <!-- Fragment layout texts - News -->
+    <string name="fragment_news_name">Titulo Novedad</string>
+    <string name="fragment_news_description">Descripción</string>
+    <string name="error_description_failure">Ha ocurrido un error obteniendo la información</string>
+    <string name="retry_button">Reintentar</string>
+
+    <!-- Dialog layout text - Member Detail -->
+    <string name="member_detail_name">Nombre Detalle</string>
+    <string name="member_detail_description">Descripción Detalle</string>
+    <string name="logo">Logo</string>
+    <string name="member_detail_link">Link a la red social</string>
+    <string name="password_log_in">Contraseña</string>
+    <string name="log_in">Iniciar Sesión</string>
+    <string name="sign_up">Registrarse</string>
+
+    <!-- Fragment layout texts - SignUp -->
+    <string name="fragment_signUp_emailHint">Ingrese su email</string>
+    <string name="fragment_signUp_passwordHint">Ingrese su contraseña</string>
+    <string name="fragment_signUp_nameHint">Ingrese su nombre</string>
+    <string name="fragment_signUp_passwordConfirmHint">Confirme su contraseña</string>
+    <string name="fragment_sign_up_button">Registrarme</string>
+    <string name="text_question_login">"¿Ya tienes cuenta? "</string>
+    <string name="text_login_signUp">Ingresa</string>
+
+    <!-- Validation texts - LogIn -->
+    <string name="validation_empty">Debe completar el campo</string>
+    <string name="validation_email">Debe completar un email válido</string>
+    <string name="validation_password">La contraseña es demasiado débil</string>
+    <string name="validation_password_match">Las contraseñas no coinciden</string>
+    <string name="validation_name">El nombre no es válido</string>
+    <string name="button_google">Google</string>
+    <string name="button_facebook">Facebook</string>
+    <string name="text_other_login">O Ingrese con</string>
+    <string name="text_question_sign_up">"¿No tienes una cuenta? "</string>
+    <string name="text_sign_up">Registrate</string>
+
+    <!-- Splash screen texts -->
+    <string name="splash_title">Splash Screen</string>
+    <string name="splash_timer_message">Timer has finished.\n Welcome to the ONG Application</string>
+
+
+    <!-- ServerCLientId Firebase   -->
+    <string name="server_client_id">182394965765-drufb7ip3d98vsq5pktd5nmbdvn9m58p.apps.googleusercontent.com</string>
+
+    <!-- Log In with Facebook - key texts -->
+    <string name="facebook_app_id">386835009851003</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">c842a878548630ebfe655ee32caca660</string>
+
 
 </resources>

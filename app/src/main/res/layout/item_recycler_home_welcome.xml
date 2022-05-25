@@ -18,30 +18,32 @@
 
         <TextView
             android:id="@+id/tv_title"
+            style="@style/TextSubTitulosBold16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="12dp"
             android:text="@string/item_welcome_default_title"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@color/black"
-            android:textStyle="normal|bold" />
+            android:textAppearance="@style/TextButtonsPoppin16sp"
+            android:textColor="@color/black" />
 
         <ImageView
             android:id="@+id/img_welcome"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:contentDescription="@string/fragment_home_title_welcome"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <TextView
             android:id="@+id/tv_description"
+            style="@style/TextDescripcion12sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="top|center"
             android:padding="8dp"
+            android:singleLine="false"
             android:text="@string/item_welcome_default_description"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@android:color/black"
